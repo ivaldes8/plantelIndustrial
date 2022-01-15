@@ -1,0 +1,144 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\entidad;
+use App\Models\organismo;
+use App\Models\osde;
+use Illuminate\Http\Request;
+
+class EntidadController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $entidad = entidad::paginate(10);
+        return view('entidad.index',compact('entidad'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $entidad = 'none';
+        $osde = osde::all();
+        $organismo = organismo::all();
+        return view('entidad.edit', compact('entidad','osde','organismo'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'dpa' => 'required',
+            'codREU' => 'required',
+            'org_id' => 'required',
+            'osde_id' => 'required'
+        ], [
+            'name.required' => 'Este campo es requerido',
+            'dpa.required' => 'Este campo es requerido',
+            'codREU.required' => 'Este campo es requerido',
+            'org_id.required' => 'Este campo es requerido',
+            'osde_id.required' => 'Este campo es requerido'
+        ]);
+
+        $entidad = new entidad();
+        $entidad->name = $request->input('name');
+        $entidad->dpa = $request->input('dpa');
+        $entidad->codREU = $request->input('codREU');
+        $entidad->org_id = $request->input('org_id');
+        $entidad->osde_id = $request->input('osde_id');
+        $entidad->save($validatedData);
+        return redirect('/entidad')->with('status','Entidad creada satisfactoriamente');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $entidad = entidad::find($id);
+        $osde = osde::all();
+        $organismo = organismo::all();
+        return view('entidad.edit', compact('entidad','osde','organismo'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'dpa' => 'required',
+            'codREU' => 'required',
+            'org_id' => 'required',
+            'osde_id' => 'required'
+        ], [
+            'name.required' => 'Este campo es requerido',
+            'dpa.required' => 'Este campo es requerido',
+            'codREU.required' => 'Este campo es requerido',
+            'org_id.required' => 'Este campo es requerido',
+            'osde_id.required' => 'Este campo es requerido'
+        ]);
+
+        $entidad = entidad::find($id);
+        $entidad->name = $request->input('name');
+        $entidad->dpa = $request->input('dpa');
+        $entidad->codREU = $request->input('codREU');
+        $entidad->org_id = $request->input('org_id');
+        $entidad->osde_id = $request->input('osde_id');
+        $entidad->update($validatedData);
+        return redirect('/entidad')->with('status','Entidad Editada satisfactoriamente');
+    }
+
+    public function delete($id)
+    {
+        $entidad = entidad::find($id);
+        return view('entidad.delete', compact('entidad'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $entidad = entidad::find($id);
+        $entidad->delete();
+        return redirect()->back()->with('status','Entidad eliminada Satisfactoriamente');
+    }
+}
