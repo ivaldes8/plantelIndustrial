@@ -16,10 +16,10 @@ class CreateEntidadProductosTable extends Migration
         Schema::create('entidad_productos', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->unsignedBigInteger('ent_id')->unsigned()->nullable();
-            $table->foreign('ent_id')->references('id')->on('entidads')->onDelete('cascade');
-            $table->unsignedBigInteger('prod_id')->unsigned()->nullable();
-            $table->foreign('prod_id')->references('id')->on('productos')->onDelete('cascade');
+            $table->unsignedBigInteger('entidad_id')->unsigned()->nullable();
+            $table->foreign('entidad_id')->references('id')->on('entidads')->onDelete('cascade');
+            $table->unsignedBigInteger('producto_id')->unsigned()->nullable();
+            $table->foreign('producto_id')->references('id')->on('productos')->onDelete('cascade');
         });
     }
 

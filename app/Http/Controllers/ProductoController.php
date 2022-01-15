@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\cpcu;
+use App\Models\entidad;
 use App\Models\nae;
 use App\Models\producto;
 use App\Models\saclap;
@@ -29,10 +30,11 @@ class ProductoController extends Controller
     public function create()
     {
         $producto = 'none';
+        $entidad = entidad::all();
         $cpcu = cpcu::all();
         $saclap = saclap::all();
         $nae = nae::all();
-        return view('producto.edit', compact('producto', 'cpcu', 'saclap', 'nae'));
+        return view('producto.edit', compact('producto', 'entidad', 'cpcu', 'saclap', 'nae'));
     }
 
     /**
@@ -45,16 +47,18 @@ class ProductoController extends Controller
     {
         $validatedData = $request->validate([
             'desc' => 'required',
+            'entidades' => 'required'
         ], [
-            'desc.required' => 'Este campo es requerido'
+            'desc.required' => 'Este campo es requerido',
+            'entidades.required' => 'Este campo es requerido'
         ]);
-
         $producto = new producto();
         $producto->desc = $request->input('desc');
         $producto->cpcu_id = $request->input('cpcu_id');
         $producto->saclap_id = $request->input('saclap_id');
         $producto->nae_id = $request->input('nae_id');
         $producto->save($validatedData);
+        $producto->entidades()->attach($request->input('entidades'));
         return redirect('/producto')->with('status','Producto creado satisfactoriamente');
     }
 
@@ -78,10 +82,19 @@ class ProductoController extends Controller
     public function edit($id)
     {
         $producto = producto::find($id);
+        $entidad = entidad::all();
         $cpcu = cpcu::all();
         $saclap = saclap::all();
         $nae = nae::all();
-        return view('producto.edit', compact('producto', 'cpcu', 'saclap', 'nae'));
+
+        for ($i=0; $i < count($entidad); $i++) {
+            for ($j=0; $j < count($producto->entidades->toArray()); $j++) {
+                if($entidad[$i]['id']=== $producto->entidades->toArray()[$j]['id']){
+                   $entidad[$i]->org_id = 'checked';
+                }
+            }
+        }
+        return view('producto.edit', compact('producto', 'entidad', 'cpcu', 'saclap', 'nae'));
     }
 
     /**
@@ -95,8 +108,10 @@ class ProductoController extends Controller
     {
         $validatedData = $request->validate([
             'desc' => 'required',
+            'entidades' => 'required'
         ], [
-            'desc.required' => 'Este campo es requerido'
+            'desc.required' => 'Este campo es requerido',
+            'entidades.required' => 'Este campo es requerido'
         ]);
 
         $producto = producto::find($id);
@@ -105,6 +120,8 @@ class ProductoController extends Controller
         $producto->saclap_id = $request->input('saclap_id');
         $producto->nae_id = $request->input('nae_id');
         $producto->update($validatedData);
+        // dd($request->input('entidades'));
+        $producto->entidades()->sync($request->input('entidades'));
         return redirect('/producto')->with('status','Producto editado satisfactoriamente');
     }
 

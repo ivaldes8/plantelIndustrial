@@ -37,6 +37,18 @@
                     </div>
 
                     <div class="form-group mb-3">
+                        <label for="">Entidades:</label>
+                        <select name="entidades[]" multiple="multiple" class="form-select entSelect">
+                            @foreach ($entidad as $item)
+                                <option {{ $producto !== 'none' && $item->org_id === 'checked' ? 'selected' : '' }} value="{{$item->id}}">{{$item->name}}</option>
+                            @endforeach
+                        </select>
+                        @if ($errors->has('entidades'))
+                            <span class="text-danger">{{ $errors->first('entidades') }}</span>
+                        @endif
+                    </div>
+
+                    <div class="form-group mb-3">
                         <label for="">CPCU:</label>
                         <select name="cpcu_id" class="form-select cpcuSelect">
                             @foreach ($cpcu as $item)
@@ -91,6 +103,9 @@
         });
         $(document).ready(function() {
             $('.cnaeSelect').select2();
+        });
+        $(document).ready(function() {
+            $('.entSelect').select2();
         });
     </script>
 @endsection
