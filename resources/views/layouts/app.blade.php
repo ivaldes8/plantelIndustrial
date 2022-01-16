@@ -94,6 +94,10 @@
                                     {{ (request()->is('organismo*')) ||
                                         (request()->is('osde*')) ||
                                         (request()->is('entidad*')) ||
+                                        (request()->is('cpcu*')) ||
+                                        (request()->is('saclap*')) ||
+                                        (request()->is('cnae*')) ||
+                                        (request()->is('actividad*')) ||
                                         (request()->is('indicador*')) ||
                                         (request()->is('user*'))
                                         ? 'active' : '' }}"
@@ -118,6 +122,26 @@
                                         </a>
                                     </li>
                                     <li>
+                                        <a class="dropdown-item {{ (request()->is('cpcu*')) ? 'active' : '' }}" href="{{url('cpcu')}}">
+                                            CPCU
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item {{ (request()->is('saclap*')) ? 'active' : '' }}" href="{{url('saclap')}}">
+                                            SACLAP
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item {{ (request()->is('cnae*')) ? 'active' : '' }}" href="{{url('cnae')}}">
+                                            CNAE
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item {{ (request()->is('actividad*')) ? 'active' : '' }}" href="{{url('actividad')}}">
+                                            Actividades Industriales
+                                        </a>
+                                    </li>
+                                    <li>
                                         <a class="dropdown-item {{ (request()->is('indicador*')) ? 'active' : '' }}" href="{{url('indicador')}}">
                                             Indicadores
                                         </a>
@@ -133,19 +157,7 @@
                                 </ul>
                             </li>
                             <li class="nav-item mx-1">
-                                <a class="nav-link {{ (request()->is('cpcu*')) ? 'active' : '' }}" href="{{url('cpcu')}}">CPCU</a>
-                            </li>
-                            <li class="nav-item mx-1">
-                                <a class="nav-link {{ (request()->is('saclap*')) ? 'active' : '' }}" href="{{url('saclap')}}">SACLAP</a>
-                            </li>
-                            <li class="nav-item mx-1">
-                                <a class="nav-link {{ (request()->is('cnae*')) ? 'active' : '' }}" href="{{url('cnae')}}">CNAE</a>
-                            </li>
-                            <li class="nav-item mx-1">
                                 <a class="nav-link {{ (request()->is('producto*')) ? 'active' : '' }}" href="{{url('producto')}}">Productos</a>
-                            </li>
-                            <li class="nav-item mx-1">
-                                <a class="nav-link {{ (request()->is('actividad*')) ? 'active' : '' }}" href="{{url('actividad')}}">Actividades Industriales</a>
                             </li>
                             <li class="nav-item dropdown mx-1">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
