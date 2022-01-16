@@ -30,4 +30,9 @@ class producto extends Model
     {
         return $this->belongsToMany(entidad::class, 'entidad_productos');
     }
+
+    public function actividades()
+    {
+        return $this->belongsToMany(actividad::class, 'actividad_productos');
+    }
 }

@@ -138,6 +138,9 @@
                             <li class="nav-item mx-1">
                                 <a class="nav-link {{ (request()->is('producto*')) ? 'active' : '' }}" href="{{url('producto')}}">Productos</a>
                             </li>
+                            <li class="nav-item mx-1">
+                                <a class="nav-link {{ (request()->is('actividad*')) ? 'active' : '' }}" href="{{url('actividad')}}">Actividades Industriales</a>
+                            </li>
                             <li class="nav-item dropdown mx-1">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}

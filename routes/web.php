@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActividadController;
 use App\Http\Controllers\CPCUController;
 use App\Http\Controllers\EntidadController;
 use App\Http\Controllers\NAEController;
@@ -51,6 +52,9 @@ Route::middleware(['auth','admin'])->group(function () {
 
     Route::resource('producto',ProductoController::class);
     Route::get('producto/delete/{id}', [ProductoController::class, 'delete'])->name('delete');
+
+    Route::resource('actividad',ActividadController::class);
+    Route::get('actividad/delete/{id}', [ActividadController::class, 'delete'])->name('delete');
 });
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

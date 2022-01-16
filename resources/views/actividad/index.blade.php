@@ -13,10 +13,10 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-6 mt-1 d-flex justify-content-start">
-                       Productos
+                       Actividad Industrial
                     </div>
                     <div class="col-6 d-flex justify-content-end">
-                        <a href="{{url('producto/create')}}" class="btn btn-primary">Crear Producto</a>
+                        <a href="{{url('actividad/create')}}" class="btn btn-primary">Crear Actividad Industrial</a>
                     </div>
                 </div>
             </div>
@@ -27,60 +27,35 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Descripción</th>
-                                <th>Entidades</th>
-                                <th>CPCU</th>
-                                <th>SACLAP</th>
-                                <th>CNAE</th>
-                                <th>Actividad Industrial</th>
-                                <th>Editar</th>
+                                <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
-                        @if (count($producto) < 1)
+                        @if (count($actividad) < 1)
                             <tr>
-                                <td class="text-center" colspan="7">No se encontraron productos</td>
+                                <td class="text-center" colspan="7">No se encontraron actividades industriales</td>
                             </tr>
                         @else
-                            @foreach ($producto as $item)
+                            @foreach ($actividad as $item)
                                 <tr>
                                     <td>{{$item->id}}</td>
                                     <td>{{$item->desc}}</td>
-                                    <td>@if (count($item->entidades) > 0)
-                                            @foreach ($item->entidades as $entidad)
-                                               / {{$entidad->name}}
-                                            @endforeach
-                                        @else
-                                           ---
-                                        @endif
-                                    </td>
-                                    <td>{{$item->cpcu ? $item->cpcu->codigo : '---'}}</td>
-                                    <td>{{$item->saclap ? $item->saclap->codigo : '---'}}</td>
-                                    <td>{{$item->cnae ? $item->cnae->codigo : '---'}}</td>
-                                    <td>@if (count($item->actividades) > 0)
-                                            @foreach ($item->actividades as $actividad)
-                                               / {{$actividad->desc}}
-                                            @endforeach
-                                        @else
-                                           ---
-                                        @endif
+                                    <td>
+                                        <a href="{{url('actividad/'.$item->id.'/edit')}}" class="btn-sm btn-primary">Editar</a>
                                     </td>
                                     <td>
-                                        <a href="{{url('producto/'.$item->id.'/edit')}}" class="btn-sm btn-primary">Editar</a>
-                                    </td>
-                                    <td>
-                                        <button class="btn-sm btn-danger" data-toggle="modal" id="smallButton" data-target="#smallModal" data-attr="{{ url('producto/delete', $item->id) }}" title="Delete Project">
+                                        <button class="btn-sm btn-danger" data-toggle="modal" id="smallButton" data-target="#smallModal" data-attr="{{ url('actividad/delete', $item->id) }}" title="Delete Project">
                                             Eliminar
                                         </button>
                                     </td>
                                 </tr>
                             @endforeach
                         @endif
-
                         </tbody>
                     </table>
                     <div class="d-flex">
-                        {{ $producto->links() }}
+                        {{ $actividad->links() }}
                     </div>
                 </div>
             </div>
@@ -91,7 +66,7 @@
         <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Eliminar Producto</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Eliminar Actividad Industrial</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="smallBody">

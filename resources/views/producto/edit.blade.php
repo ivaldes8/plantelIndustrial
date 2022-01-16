@@ -49,6 +49,18 @@
                     </div>
 
                     <div class="form-group mb-3">
+                        <label for="">Actividades Industriales:</label>
+                        <select name="actividades[]" multiple="multiple" class="form-select entSelect">
+                            @foreach ($actividad as $item)
+                                <option {{ $producto !== 'none' && $item->osde_id === 'checked' ? 'selected' : '' }} value="{{$item->id}}">{{$item->desc}}</option>
+                            @endforeach
+                        </select>
+                        @if ($errors->has('actividades'))
+                            <span class="text-danger">{{ $errors->first('actividades') }}</span>
+                        @endif
+                    </div>
+
+                    <div class="form-group mb-3">
                         <label for="">CPCU:</label>
                         <select name="cpcu_id" class="form-select cpcuSelect">
                             @foreach ($cpcu as $item)
