@@ -3,6 +3,7 @@
 use App\Http\Controllers\ActividadController;
 use App\Http\Controllers\CPCUController;
 use App\Http\Controllers\EntidadController;
+use App\Http\Controllers\IndicadorController;
 use App\Http\Controllers\NAEController;
 use App\Http\Controllers\OrganismoController;
 use App\Http\Controllers\OSDEController;
@@ -55,6 +56,9 @@ Route::middleware(['auth','admin'])->group(function () {
 
     Route::resource('actividad',ActividadController::class);
     Route::get('actividad/delete/{id}', [ActividadController::class, 'delete'])->name('delete');
+
+    Route::resource('indicador',IndicadorController::class);
+    Route::get('indicador/delete/{id}', [IndicadorController::class, 'delete'])->name('delete');
 });
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

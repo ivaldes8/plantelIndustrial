@@ -35,4 +35,9 @@ class producto extends Model
     {
         return $this->belongsToMany(actividad::class, 'actividad_productos');
     }
+
+    public function indicadores()
+    {
+        return $this->belongsToMany(indicador::class, 'indicador_productos');
+    }
 }

@@ -94,6 +94,7 @@
                                     {{ (request()->is('organismo*')) ||
                                         (request()->is('osde*')) ||
                                         (request()->is('entidad*')) ||
+                                        (request()->is('indicador*')) ||
                                         (request()->is('user*'))
                                         ? 'active' : '' }}"
                                     id="navbarDropdown"
@@ -114,6 +115,11 @@
                                     <li>
                                         <a class="dropdown-item {{ (request()->is('entidad*')) ? 'active' : '' }}" href="{{url('entidad')}}">
                                             Entidades
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item {{ (request()->is('indicador*')) ? 'active' : '' }}" href="{{url('indicador')}}">
+                                            Indicadores
                                         </a>
                                     </li>
                                     @if (Auth::user()->role === 'Administrador')

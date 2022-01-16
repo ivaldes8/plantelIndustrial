@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\actividad;
+use App\Models\indicador;
 use Illuminate\Http\Request;
 
-class ActividadController extends Controller
+class IndicadorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,8 @@ class ActividadController extends Controller
      */
     public function index()
     {
-        $actividad = actividad::paginate(10);
-        return view('actividad.index',compact('actividad'));
+        $indicador = indicador::paginate(10);
+        return view('indicador.index',compact('indicador'));
     }
 
     /**
@@ -25,8 +25,8 @@ class ActividadController extends Controller
      */
     public function create()
     {
-        $actividad = 'none';
-        return view('actividad.edit', compact('actividad'));
+        $indicador = 'none';
+        return view('indicador.edit', compact('indicador'));
     }
 
     /**
@@ -43,10 +43,10 @@ class ActividadController extends Controller
             'desc.required' => 'Este campo es requerido'
         ]);
 
-        $actividad = new actividad();
-        $actividad->desc = $request->input('desc');
-        $actividad->save($validatedData);
-        return redirect('/actividad')->with('status','Actividad Industrial creada satisfactoriamente');
+        $indicador = new indicador();
+        $indicador->desc = $request->input('desc');
+        $indicador->save($validatedData);
+        return redirect('/indicador')->with('status','Indicador creado satisfactoriamente');
     }
 
     /**
@@ -68,8 +68,8 @@ class ActividadController extends Controller
      */
     public function edit($id)
     {
-        $actividad = actividad::find($id);
-        return view('actividad.edit', compact('actividad'));
+        $indicador = indicador::find($id);
+        return view('indicador.edit', compact('indicador'));
     }
 
     /**
@@ -87,17 +87,18 @@ class ActividadController extends Controller
             'desc.required' => 'Este campo es requerido'
         ]);
 
-        $actividad = actividad::find($id);
-        $actividad->desc = $request->input('actividad');
-        $actividad->update($validatedData);
-        return redirect('/actividad')->with('status','Actividad Industrial Editada satisfactoriamente');
+        $indicador = indicador::find($id);
+        $indicador->desc = $request->input('indicador');
+        $indicador->update($validatedData);
+        return redirect('/indicador')->with('status','Indicador editado satisfactoriamente');
     }
 
     public function delete($id)
     {
-        $actividad = actividad::find($id);
-        return view('actividad.delete', compact('actividad'));
+        $indicador = indicador::find($id);
+        return view('indicador.delete', compact('indicador'));
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -107,8 +108,8 @@ class ActividadController extends Controller
      */
     public function destroy($id)
     {
-        $actividad = actividad::find($id);
-        $actividad->delete();
-        return redirect()->back()->with('status','Actividad Industrial eliminada Satisfactoriamente');
+        $indicador = indicador::find($id);
+        $indicador->delete();
+        return redirect()->back()->with('status','Indicador eliminado Satisfactoriamente');
     }
 }
