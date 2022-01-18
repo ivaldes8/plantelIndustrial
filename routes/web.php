@@ -4,6 +4,7 @@ use App\Http\Controllers\ActividadController;
 use App\Http\Controllers\CPCUController;
 use App\Http\Controllers\EntidadController;
 use App\Http\Controllers\IndicadorController;
+use App\Http\Controllers\IndicadorProductoController;
 use App\Http\Controllers\NAEController;
 use App\Http\Controllers\OrganismoController;
 use App\Http\Controllers\OSDEController;
@@ -59,6 +60,14 @@ Route::middleware(['auth','admin'])->group(function () {
 
     Route::resource('indicador',IndicadorController::class);
     Route::get('indicador/delete/{id}', [IndicadorController::class, 'delete'])->name('delete');
+
+    Route::get('indicador-producto/create/{id}', [IndicadorProductoController::class, 'create'])->name('create');
+    Route::post('indicador-producto/create/{id}', [IndicadorProductoController::class, 'store'])->name('store');
+    Route::get('indicador-producto/{indicador}/edit/{producto}', [IndicadorProductoController::class, 'edit'])->name('edit');
+    Route::put('indicador-producto/{indicador}/update/{producto}', [IndicadorProductoController::class, 'update'])->name('update');
+    Route::get('indicador-producto/delete/{id}', [IndicadorProductoController::class, 'delete'])->name('delete');
+    Route::delete('indicador-producto/delete/{id}', [IndicadorProductoController::class, 'destroy'])->name('destroy');
+
 });
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

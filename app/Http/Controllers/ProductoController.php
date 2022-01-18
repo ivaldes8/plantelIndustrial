@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\actividad;
 use App\Models\cpcu;
 use App\Models\entidad;
+use App\Models\indicadorProducto;
 use App\Models\nae;
 use App\Models\producto;
 use App\Models\saclap;
@@ -75,7 +76,9 @@ class ProductoController extends Controller
      */
     public function show($id)
     {
-        //
+        $producto = producto::find($id);
+        $indicador = indicadorProducto::where('producto_id',$producto->id)->get();
+        return view('indicadorProducto.index',compact('indicador', 'producto'));
     }
 
     /**

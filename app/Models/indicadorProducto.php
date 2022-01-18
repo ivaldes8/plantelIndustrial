@@ -9,5 +9,10 @@ class indicadorProducto extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['value', 'date'];
+    protected $fillable = ['producto_id','indicador_id','value', 'date'];
+
+    public function indicador()
+    {
+        return $this->hasOne(indicador::class, 'id', 'indicador_id');
+    }
 }

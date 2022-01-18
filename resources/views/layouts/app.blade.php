@@ -16,6 +16,15 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custoButton.css') }}" rel="stylesheet">
     <script src="{{ asset('js/jquery-3.5.1.js') }}"></script>
+
+
+
+    <!-- datepicker -->
+    <link href="{{ asset('css/bootstrap-datepicker.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/jquery.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-datepicker.js') }}"></script>
+
+    <!-- select -->
     <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet" />
     <script src="{{ asset('js/select2.min.js') }}"></script>
 </head>
