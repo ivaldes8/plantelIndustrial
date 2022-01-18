@@ -42,7 +42,7 @@
 
                     <div class="form-group mb-3">
                         <label for="">Valor:</label>
-                        <input type="number" name="value" class="form-control" value="{{ $indicador !== 'none' ? $indicador->value : '' }}">
+                        <input type="float" name="value" class="form-control" value="{{ $indicador !== 'none' ? $indicador->value : '' }}">
                         @if ($errors->has('value'))
                             <span class="text-danger">{{ $errors->first('value') }}</span>
                         @endif

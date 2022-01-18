@@ -8,6 +8,7 @@ use App\Http\Controllers\IndicadorProductoController;
 use App\Http\Controllers\NAEController;
 use App\Http\Controllers\OrganismoController;
 use App\Http\Controllers\OSDEController;
+use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\SACLAPController;
 use Illuminate\Support\Facades\Route;
@@ -68,6 +69,8 @@ Route::middleware(['auth','admin'])->group(function () {
     Route::get('indicador-producto/delete/{id}', [IndicadorProductoController::class, 'delete'])->name('delete');
     Route::delete('indicador-producto/delete/{id}', [IndicadorProductoController::class, 'destroy'])->name('destroy');
 
+    Route::resource('plan',PlanController::class);
+    Route::get('plan/delete/{id}', [PlanController::class, 'delete'])->name('delete');
 });
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

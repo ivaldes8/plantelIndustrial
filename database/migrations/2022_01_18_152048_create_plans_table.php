@@ -16,6 +16,14 @@ class CreatePlansTable extends Migration
         Schema::create('plans', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->double('plan')->required();
+            $table->string('year')->required();
+            $table->unsignedBigInteger('entidad_id')->unsigned()->nullable();
+            $table->foreign('entidad_id')->references('id')->on('entidads')->onDelete('cascade');
+            $table->unsignedBigInteger('indicador_id')->unsigned()->nullable();
+            $table->foreign('indicador_id')->references('id')->on('indicadors')->onDelete('cascade');
+            $table->unsignedBigInteger('producto_id')->unsigned()->nullable();
+            $table->foreign('producto_id')->references('id')->on('productos')->onDelete('cascade');
         });
     }
 
