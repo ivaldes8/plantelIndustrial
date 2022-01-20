@@ -50,7 +50,7 @@
 
                     <div class="form-group mb-3">
                         <label for="">Actividades Industriales:</label>
-                        <select name="actividades[]" multiple="multiple" class="form-select entSelect">
+                        <select name="actividades[]" multiple="multiple" class="form-select actSelect">
                             @foreach ($actividad as $item)
                                 <option {{ $producto !== 'none' && $item->osde_id === 'checked' ? 'selected' : '' }} value="{{$item->id}}">{{$item->desc}}</option>
                             @endforeach
@@ -115,6 +115,9 @@
         });
         $(document).ready(function() {
             $('.cnaeSelect').select2();
+        });
+        $(document).ready(function() {
+            $('.actSelect').select2();
         });
         $(document).ready(function() {
             $('.entSelect').select2();

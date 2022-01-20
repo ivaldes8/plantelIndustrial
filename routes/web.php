@@ -55,6 +55,7 @@ Route::middleware(['auth','admin'])->group(function () {
 
     Route::resource('producto',ProductoController::class);
     Route::get('producto/delete/{id}', [ProductoController::class, 'delete'])->name('delete');
+    Route::get('filteringProd', [ProductoController::class, 'filter'])->name('producto-filtering');
 
     Route::resource('actividad',ActividadController::class);
     Route::get('actividad/delete/{id}', [ActividadController::class, 'delete'])->name('delete');
@@ -71,6 +72,7 @@ Route::middleware(['auth','admin'])->group(function () {
 
     Route::resource('plan',PlanController::class);
     Route::get('plan/delete/{id}', [PlanController::class, 'delete'])->name('delete');
+    Route::get('filteringPlan', [PlanController::class, 'filter'])->name('plan-filtering');
 });
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

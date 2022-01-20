@@ -34,7 +34,7 @@
         <a class="col-12 card disaicBrand" href = "http://www.disaic.cu">
         <img class="disaicLogo" src="{{ asset('logotipo disaic2.png') }}" alt="">
         </a>
-        <nav class="navbar navbar-expand-md navbar-light bg-white main-nav shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light bg-white main-nav shadow-sm sticky-top">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     Plantel Industrial
@@ -166,12 +166,65 @@
 
                                 </ul>
                             </li>
-                            <li class="nav-item mx-1">
-                                <a class="nav-link {{ (request()->is('producto*')) ? 'active' : '' }}" href="{{url('producto')}}">Productos</a>
+                            <li class="nav-item dropdown mx-1">
+                                <a class="nav-link dropdown-toggle
+                                    {{ (request()->is('producto*')) ||
+                                        (request()->is('producto-import*')) ||
+                                        (request()->is('filteringProd*'))
+                                        ? 'active' : '' }}"
+                                    id="navbarDropdown"
+                                    role="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false">Productos</a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item {{ (request()->is('producto*')) ? 'active' : '' }}" href="{{url('producto')}}">
+                                            Gestionar Productos
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item {{ (request()->is('osde*')) ? 'active' : '' }}" href="{{url('osde')}}">
+                                            Importar Productos
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item {{ (request()->is('filteringProd*')) ? 'active' : '' }}" href="{{url('filteringProd')}}">
+                                            Filtrar Productos
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
-                            <li class="nav-item mx-1">
-                                <a class="nav-link {{ (request()->is('plan*')) ? 'active' : '' }}" href="{{url('plan')}}">Planes</a>
+                            <li class="nav-item dropdown mx-1">
+                                <a class="nav-link dropdown-toggle
+                                    {{ (request()->is('plan*')) ||
+                                        (request()->is('importP*')) ||
+                                        (request()->is('filteringPlan*'))
+                                        ? 'active' : '' }}"
+                                    id="navbarDropdown"
+                                    role="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false">Planes Anuales</a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item {{ (request()->is('plan*')) ? 'active' : '' }}" href="{{url('plan')}}">
+                                            Gestionar Planes Anuales
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item {{ (request()->is('osde*')) ? 'active' : '' }}" href="{{url('osde')}}">
+                                            Importar Planes Anuales
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item {{ (request()->is('filteringPlan*')) ? 'active' : '' }}" href="{{url('filteringPlan')}}">
+                                            Filtrar Planes Anuales
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
+                            <!-- <li class="nav-item mx-1">
+                                <a class="nav-link {{ (request()->is('plan*')) ? 'active' : '' }}" href="{{url('plan')}}">Planes Anuales</a>
+                            </li> -->
                             <li class="nav-item dropdown mx-1">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}

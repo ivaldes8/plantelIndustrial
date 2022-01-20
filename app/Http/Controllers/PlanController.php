@@ -138,4 +138,52 @@ class PlanController extends Controller
         $plan->delete();
         return redirect()->back()->with('status','Plan eliminado Satisfactoriamente');
     }
+
+    public function filter(Request $request)
+    {
+        $query = plan::query();
+
+        $query->when(request()->input('planIni'), function($q) {
+            return $q->where('plan', '>=',request()->input('planIni'));
+        });
+        $query->when(request()->input('planEnd'), function($q) {
+            return $q->where('plan', '<=',request()->input('planEnd'));
+        });
+        $query->when(request()->input('yearIni'), function($q) {
+            return $q->where('year', '>=',request()->input('yearIni'));
+        });
+        $query->when(request()->input('yearEnd'), function($q) {
+            return $q->where('year', '<=',request()->input('yearEnd'));
+        });
+
+        $query->when(request()->input('entidades'), function($q) {
+
+            return $q->whereHas('entidad', function($q)
+            {
+                $q->whereIn('entidad_id', request()->input('entidades'));
+            });
+        });
+
+        $query->when(request()->input('productos'), function($q) {
+
+            return $q->whereHas('producto', function($q)
+            {
+                $q->whereIn('producto_id', request()->input('productos'));
+            });
+        });
+
+        $query->when(request()->input('indicadores'), function($q) {
+
+            return $q->whereHas('indicador', function($q)
+            {
+                $q->whereIn('indicador_id', request()->input('indicadores'));
+            });
+        });
+
+        $plan = $query->paginate(10);
+        $entidad = entidad::all();
+        $producto = producto::all();
+        $indicador = indicador::all();
+        return view('plan.filter',compact('producto', 'entidad', 'indicador', 'plan'));
+    }
 }

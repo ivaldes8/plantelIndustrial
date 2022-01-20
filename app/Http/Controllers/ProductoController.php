@@ -162,4 +162,54 @@ class ProductoController extends Controller
         $producto->delete();
         return redirect()->back()->with('status','Producto eliminado Satisfactoriamente');
     }
+
+    public function filter(Request $request)
+    {
+        $query = producto::query();
+        $query->when(request()->input('descP'), function($q) {
+            return $q->where('desc', 'like', '%'.request()->input('descP').'%');
+        });
+
+        $query->when(request()->input('cpcu'), function($q) {
+            return $q->whereHas('cpcu', function($q)
+            {
+                $q->where('codigo', 'like', '%'.request()->input('cpcu').'%');
+            });
+        });
+
+        $query->when(request()->input('saclap'), function($q) {
+            return $q->whereHas('saclap', function($q)
+            {
+                $q->where('codigo', 'like', '%'.request()->input('saclap').'%');
+            });
+        });
+
+        $query->when(request()->input('cnae'), function($q) {
+            return $q->whereHas('cnae', function($q)
+            {
+                $q->where('codigo', 'like', '%'.request()->input('cnae').'%');
+            });
+        });
+
+        $query->when(request()->input('entidades'), function($q) {
+
+            return $q->whereHas('entidades', function($q)
+            {
+                $q->whereIn('entidad_id', request()->input('entidades'));
+            });
+        });
+
+        $query->when(request()->input('actividades'), function($q) {
+
+            return $q->whereHas('actividades', function($q)
+            {
+                $q->whereIn('actividad_id', request()->input('actividades'));
+            });
+        });
+
+        $producto = $query->paginate(10);
+        $entidad = entidad::all();
+        $actividad = actividad::all();
+        return view('producto.filter',compact('producto', 'entidad', 'actividad'));
+    }
 }
