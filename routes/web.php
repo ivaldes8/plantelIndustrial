@@ -46,6 +46,9 @@ Route::middleware(['auth','admin'])->group(function () {
 
     Route::resource('cpcu',CPCUController::class);
     Route::get('cpcu/delete/{id}', [CPCUController::class, 'delete'])->name('delete');
+    Route::get('cpcu-file-import', [CPCUController::class, 'fileImportExport']);
+    Route::post('cpcu-file-import', [CPCUController::class, 'fileImport']);
+    Route::get('cpcu-file-export', [CPCUController::class, 'export']);
 
     Route::resource('saclap',SACLAPController::class);
     Route::get('saclap/delete/{id}', [SACLAPController::class, 'delete'])->name('delete');

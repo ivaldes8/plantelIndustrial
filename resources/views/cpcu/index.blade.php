@@ -13,9 +13,12 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-6 mt-1 d-flex justify-content-start">
-                       Códigos CPCU
+                        Códigos CPCU
                     </div>
-                    <div class="col-6 d-flex justify-content-end">
+                    <div class="col-3 d-flex justify-content-end">
+                        <a href="{{url('cpcu-file-import')}}" class="btn btn-primary">Importar CPCU</a>
+                    </div>
+                    <div class="col-3 d-flex justify-content-end">
                         <a href="{{url('cpcu/create')}}" class="btn btn-primary">Crear CPCU</a>
                     </div>
                 </div>

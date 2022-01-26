@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\cpcu;
 use Illuminate\Http\Request;
+use App\Imports\CPCUImport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\CPCUExport;
 
 class CPCUController extends Controller
 {
@@ -116,5 +119,28 @@ class CPCUController extends Controller
         $cpcu = cpcu::find($id);
         $cpcu->delete();
         return redirect()->back()->with('status','CPCU eliminado Satisfactoriamente');
+    }
+
+    /**
+    * @return \Illuminate\Support\Collection
+    */
+    public function fileImportExport()
+    {
+        return view('cpcu.file-import');
+    }
+   
+    /**
+    * @return \Illuminate\Support\Collection
+    */
+    public function fileImport(Request $request) 
+    {
+        Excel::import(new CPCUImport,request()->file('file'));
+             
+        return back()->with('success', 'User Imported Successfully.');
+    }
+
+    public function export() 
+    {
+        return Excel::download(new CPCUExport, 'cpcu.xlsx');
     }
 }
