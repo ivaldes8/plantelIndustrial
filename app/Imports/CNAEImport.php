@@ -1,15 +1,15 @@
 <?php
-  
+
 namespace App\Imports;
 
-use App\Models\cpcu;
+use App\Models\nae;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Illuminate\Support\LazyCollection;
 use Illuminate\Support\Facades\Validator;
-  
-class CPCUImport implements ToCollection, WithHeadingRow
+
+class CNAEImport implements ToCollection, WithHeadingRow
 {
     /**
     * @param array $row
@@ -23,7 +23,7 @@ class CPCUImport implements ToCollection, WithHeadingRow
         
 
         Validator::make($collection->toArray(), [
-            '*.codigo' => 'required|unique:cpcus',
+            '*.codigo' => 'required|unique:naes',
             '*.desc' => 'required'
         ],
         [
@@ -33,11 +33,10 @@ class CPCUImport implements ToCollection, WithHeadingRow
         ])->validate();
 
         foreach ($collection as $row) {
-            cpcu::create([
+            nae::create([
                 'codigo' => $row['codigo'],
                 'desc' => $row['desc']
             ]);
         }
     }
-  
 }

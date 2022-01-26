@@ -13,9 +13,12 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-6 mt-1 d-flex justify-content-start">
-                       Códigos SACLAP
+                        Códigos SACLAP
                     </div>
-                    <div class="col-6 d-flex justify-content-end">
+                    <div class="col-3 d-flex justify-content-end">
+                        <a href="{{url('saclap-file-import')}}" class="btn btn-primary">Importar SACLAP</a>
+                    </div>
+                    <div class="col-3 d-flex justify-content-end">
                         <a href="{{url('saclap/create')}}" class="btn btn-primary">Crear SACLAP</a>
                     </div>
                 </div>

@@ -1,21 +1,16 @@
 <?php
-  
+
 namespace App\Imports;
 
-use App\Models\cpcu;
+use App\Models\saclap;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Illuminate\Support\LazyCollection;
 use Illuminate\Support\Facades\Validator;
-  
-class CPCUImport implements ToCollection, WithHeadingRow
+
+class SACLAPImport implements ToCollection, WithHeadingRow
 {
-    /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
     public function collection(Collection $rows)
     {
         // dd($rows);
@@ -23,7 +18,7 @@ class CPCUImport implements ToCollection, WithHeadingRow
         
 
         Validator::make($collection->toArray(), [
-            '*.codigo' => 'required|unique:cpcus',
+            '*.codigo' => 'required|unique:saclaps',
             '*.desc' => 'required'
         ],
         [
@@ -33,11 +28,10 @@ class CPCUImport implements ToCollection, WithHeadingRow
         ])->validate();
 
         foreach ($collection as $row) {
-            cpcu::create([
+            saclap::create([
                 'codigo' => $row['codigo'],
                 'desc' => $row['desc']
             ]);
         }
     }
-  
 }

@@ -13,9 +13,12 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-6 mt-1 d-flex justify-content-start">
-                       Códigos CNAE
+                        Códigos CNAE
                     </div>
-                    <div class="col-6 d-flex justify-content-end">
+                    <div class="col-3 d-flex justify-content-end">
+                        <a href="{{url('cnae-file-import')}}" class="btn btn-primary">Importar CNAE</a>
+                    </div>
+                    <div class="col-3 d-flex justify-content-end">
                         <a href="{{url('cnae/create')}}" class="btn btn-primary">Crear CNAE</a>
                     </div>
                 </div>

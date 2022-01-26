@@ -52,9 +52,15 @@ Route::middleware(['auth','admin'])->group(function () {
 
     Route::resource('saclap',SACLAPController::class);
     Route::get('saclap/delete/{id}', [SACLAPController::class, 'delete'])->name('delete');
+    Route::get('saclap-file-import', [SACLAPController::class, 'fileImportExport']);
+    Route::post('saclap-file-import', [SACLAPController::class, 'fileImport']);
+    Route::get('saclap-file-export', [SACLAPController::class, 'export']);
 
     Route::resource('cnae',NAEController::class);
     Route::get('cnae/delete/{id}', [NAEController::class, 'delete'])->name('delete');
+    Route::get('cnae-file-import', [NAEController::class, 'fileImportExport']);
+    Route::post('cnae-file-import', [NAEController::class, 'fileImport']);
+    Route::get('cnae-file-export', [NAEController::class, 'export']);
 
     Route::resource('producto',ProductoController::class);
     Route::get('producto/delete/{id}', [ProductoController::class, 'delete'])->name('delete');

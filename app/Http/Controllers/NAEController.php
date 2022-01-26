@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\nae;
 use Illuminate\Http\Request;
+use App\Imports\CNAEImport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\CNAEExport;
 
 class NAEController extends Controller
 {
@@ -116,5 +119,25 @@ class NAEController extends Controller
         $cnae = nae::find($id);
         $cnae->delete();
         return redirect()->back()->with('status','CNAE eliminado Satisfactoriamente');
+    }
+
+    public function fileImportExport()
+    {
+        return view('cnae.file-import');
+    }
+   
+    /**
+    * @return \Illuminate\Support\Collection
+    */
+    public function fileImport(Request $request) 
+    {
+        Excel::import(new CNAEImport,request()->file('file'));
+             
+        return back()->with('success', 'User Imported Successfully.');
+    }
+
+    public function export() 
+    {
+        return Excel::download(new CNAEExport, 'saclap.xlsx');
     }
 }

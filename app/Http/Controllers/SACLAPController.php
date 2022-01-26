@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\saclap;
 use Illuminate\Http\Request;
+use App\Imports\SACLAPImport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\SACLAPExport;
 
 class SACLAPController extends Controller
 {
@@ -116,5 +119,25 @@ class SACLAPController extends Controller
         $saclap = saclap::find($id);
         $saclap->delete();
         return redirect()->back()->with('status','SACLAP eliminado Satisfactoriamente');
+    }
+
+    public function fileImportExport()
+    {
+        return view('saclap.file-import');
+    }
+   
+    /**
+    * @return \Illuminate\Support\Collection
+    */
+    public function fileImport(Request $request) 
+    {
+        Excel::import(new SACLAPImport,request()->file('file'));
+             
+        return back()->with('success', 'User Imported Successfully.');
+    }
+
+    public function export() 
+    {
+        return Excel::download(new SACLAPExport, 'saclap.xlsx');
     }
 }
