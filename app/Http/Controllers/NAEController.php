@@ -138,6 +138,6 @@ class NAEController extends Controller
 
     public function export() 
     {
-        return Excel::download(new CNAEExport, 'saclap.xlsx');
+        return Excel::download(new CNAEExport, 'cnae.xlsx');
     }
 }

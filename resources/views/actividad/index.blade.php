@@ -13,9 +13,12 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-6 mt-1 d-flex justify-content-start">
-                       Actividad Industrial
+                        Actividades Industriales
                     </div>
-                    <div class="col-6 d-flex justify-content-end">
+                    <div class="col-3 d-flex justify-content-end">
+                        <a href="{{url('actividad-file-import')}}" class="btn btn-primary">Importar Actividad</a>
+                    </div>
+                    <div class="col-3 d-flex justify-content-end">
                         <a href="{{url('actividad/create')}}" class="btn btn-primary">Crear Actividad Industrial</a>
                     </div>
                 </div>

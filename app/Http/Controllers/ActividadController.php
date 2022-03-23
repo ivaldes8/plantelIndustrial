@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\actividad;
 use Illuminate\Http\Request;
+use App\Imports\ActividadIndustrialImport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ActividadIndustrialExport;
+
 
 class ActividadController extends Controller
 {
@@ -110,5 +114,25 @@ class ActividadController extends Controller
         $actividad = actividad::find($id);
         $actividad->delete();
         return redirect()->back()->with('status','Actividad Industrial eliminada Satisfactoriamente');
+    }
+
+    public function fileImportExport()
+    {
+        return view('actividad.file-import');
+    }
+   
+    /**
+    * @return \Illuminate\Support\Collection
+    */
+    public function fileImport(Request $request) 
+    {
+        Excel::import(new ActividadIndustrialImport,request()->file('file'));
+             
+        return back()->with('success', 'User Imported Successfully.');
+    }
+
+    public function export() 
+    {
+        return Excel::download(new ActividadIndustrialExport, 'actividades_industriales.xlsx');
     }
 }

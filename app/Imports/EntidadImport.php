@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Models\entidad;
+use App\Models\organismo;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -39,11 +40,12 @@ class EntidadImport implements ToCollection, WithHeadingRow
         ])->validate();
 
         foreach ($collection as $row) {
-
+            dd(organismo::where('codigo', $row['codOrganismo'])->get()->id);
             entidad::create([
                 'codREU' => $row['codigo'],
                 'name' => $row['nombre'],
-                'siglas' => $row['siglas']
+                'siglas' => $row['siglas'],
+                'org_id' => organismo::where('codigo', $row['codOrganismo'])->get()->id
             ]);
         }
     }

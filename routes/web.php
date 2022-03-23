@@ -68,6 +68,9 @@ Route::middleware(['auth','admin'])->group(function () {
 
     Route::resource('actividad',ActividadController::class);
     Route::get('actividad/delete/{id}', [ActividadController::class, 'delete'])->name('delete');
+    Route::get('actividad-file-import', [ActividadController::class, 'fileImportExport']);
+    Route::post('actividad-file-import', [ActividadController::class, 'fileImport']);
+    Route::get('actividad-file-export', [ActividadController::class, 'export']);
 
     Route::resource('indicador',IndicadorController::class);
     Route::get('indicador/delete/{id}', [IndicadorController::class, 'delete'])->name('delete');
