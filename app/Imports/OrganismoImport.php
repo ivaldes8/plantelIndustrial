@@ -1,5 +1,5 @@
 <?php
-  
+
 namespace App\Imports;
 
 use App\Models\organismo;
@@ -8,7 +8,7 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Illuminate\Support\LazyCollection;
 use Illuminate\Support\Facades\Validator;
-  
+
 class OrganismoImport implements ToCollection, WithHeadingRow
 {
     /**
@@ -20,15 +20,17 @@ class OrganismoImport implements ToCollection, WithHeadingRow
     {
         // dd($rows);
         $collection = LazyCollection::make($rows);
-        
+
 
         Validator::make($collection->toArray(), [
-            '*.codigo' => 'required',
+            '*.codigo' => 'required|unique:organismos',
             '*.nombre' => 'required',
             '*.siglas' => 'required'
-            
+
         ],
         [
+            '*.codigo.unique' => 'El código :input ya se encuentra en la base de datos',
+            '*.codigo.required' => 'Hay códigos vacíos cerca de: :attribute',
             '*.codigo.required' => 'Hay códigos vacíos cerca de: :attribute',
             '*.nombre.required' => 'Hay nombres vacíos cerca de: :attribute',
             '*.siglas.required' => 'Hay siglas vacías cerca de: :attribute'

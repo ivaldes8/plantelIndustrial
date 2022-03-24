@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\organismo;
 use Illuminate\Http\Request;
+use App\Imports\OrganismoImport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\OrganismoExport;
 
 class OrganismoController extends Controller
 {
@@ -122,5 +125,25 @@ class OrganismoController extends Controller
         $organismo = organismo::find($id);
         $organismo->delete();
         return redirect()->back()->with('status','Organismo eliminado Satisfactoriamente');
+    }
+
+    public function fileImportExport()
+    {
+        return view('organismo.file-import');
+    }
+
+    /**
+    * @return \Illuminate\Support\Collection
+    */
+    public function fileImport(Request $request)
+    {
+        Excel::import(new OrganismoImport,request()->file('file'));
+
+        return back()->with('success', 'User Imported Successfully.');
+    }
+
+    public function export()
+    {
+        return Excel::download(new OrganismoExport, 'organismos.xlsx');
     }
 }

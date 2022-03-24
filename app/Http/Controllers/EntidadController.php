@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\EntidadExport;
 use App\Models\entidad;
 use App\Models\organismo;
 use App\Models\osde;
 use Illuminate\Http\Request;
+use App\Imports\EntidadImport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\OrganismoExport;
 
 class EntidadController extends Controller
 {
@@ -140,5 +144,25 @@ class EntidadController extends Controller
         $entidad = entidad::find($id);
         $entidad->delete();
         return redirect()->back()->with('status','Entidad eliminada Satisfactoriamente');
+    }
+
+    public function fileImportExport()
+    {
+        return view('entidad.file-import');
+    }
+
+    /**
+    * @return \Illuminate\Support\Collection
+    */
+    public function fileImport(Request $request)
+    {
+        Excel::import(new EntidadImport,request()->file('file'));
+
+        return back()->with('success', 'User Imported Successfully.');
+    }
+
+    public function export()
+    {
+        return Excel::download(new EntidadExport, 'entidades.xlsx');
     }
 }

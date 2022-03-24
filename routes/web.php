@@ -37,12 +37,21 @@ Route::middleware(['auth','admin'])->group(function () {
 
     Route::resource('organismo', OrganismoController::class);
     Route::get('organismo/delete/{id}', [OrganismoController::class, 'delete'])->name('delete');
+    Route::get('organismo-file-import', [OrganismoController::class, 'fileImportExport']);
+    Route::post('organismo-file-import', [OrganismoController::class, 'fileImport']);
+    Route::get('organismo-file-export', [OrganismoController::class, 'export']);
 
     Route::resource('osde',OSDEController::class);
     Route::get('osde/delete/{id}', [OSDEController::class, 'delete'])->name('delete');
+    Route::get('osde-file-import', [OSDEController::class, 'fileImportExport']);
+    Route::post('osde-file-import', [OSDEController::class, 'fileImport']);
+    Route::get('osde-file-export', [OSDEController::class, 'export']);
 
     Route::resource('entidad',EntidadController::class);
     Route::get('entidad/delete/{id}', [EntidadController::class, 'delete'])->name('delete');
+    Route::get('entidad-file-import', [EntidadController::class, 'fileImportExport']);
+    Route::post('entidad-file-import', [EntidadController::class, 'fileImport']);
+    Route::get('entidad-file-export', [EntidadController::class, 'export']);
 
     Route::resource('cpcu',CPCUController::class);
     Route::get('cpcu/delete/{id}', [CPCUController::class, 'delete'])->name('delete');

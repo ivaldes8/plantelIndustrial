@@ -15,7 +15,10 @@
                     <div class="col-6 mt-1 d-flex justify-content-start">
                        OSDEs
                     </div>
-                    <div class="col-6 d-flex justify-content-end">
+                    <div class="col-3 d-flex justify-content-end">
+                        <a href="{{url('osde-file-import')}}" class="btn btn-primary">Importar OSDEs</a>
+                    </div>
+                    <div class="col-3 d-flex justify-content-end">
                         <a href="{{url('osde/create')}}" class="btn btn-primary">Crear OSDE</a>
                     </div>
                 </div>

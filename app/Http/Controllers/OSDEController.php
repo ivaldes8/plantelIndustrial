@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\osde;
 use Illuminate\Http\Request;
+use App\Imports\OSDEImport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\OSDEExport;
 
 class OSDEController extends Controller
 {
@@ -122,5 +125,25 @@ class OSDEController extends Controller
         $osde = osde::find($id);
         $osde->delete();
         return redirect()->back()->with('status','OSDE eliminada Satisfactoriamente');
+    }
+
+    public function fileImportExport()
+    {
+        return view('osde.file-import');
+    }
+
+    /**
+    * @return \Illuminate\Support\Collection
+    */
+    public function fileImport(Request $request)
+    {
+        Excel::import(new OSDEImport,request()->file('file'));
+
+        return back()->with('success', 'User Imported Successfully.');
+    }
+
+    public function export()
+    {
+        return Excel::download(new OSDEExport, 'osdes.xlsx');
     }
 }

@@ -15,7 +15,10 @@
                     <div class="col-6 mt-1 d-flex justify-content-start">
                        Organismos
                     </div>
-                    <div class="col-6 d-flex justify-content-end">
+                    <div class="col-3 d-flex justify-content-end">
+                        <a href="{{url('organismo-file-import')}}" class="btn btn-primary">Importar Organismo</a>
+                    </div>
+                    <div class="col-3 d-flex justify-content-end">
                         <a href="{{url('organismo/create')}}" class="btn btn-primary">Crear Organismo</a>
                     </div>
                 </div>

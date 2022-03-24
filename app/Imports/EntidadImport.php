@@ -1,15 +1,16 @@
 <?php
-  
+
 namespace App\Imports;
 
 use App\Models\entidad;
 use App\Models\organismo;
+use App\Models\osde;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Illuminate\Support\LazyCollection;
 use Illuminate\Support\Facades\Validator;
-  
+
 class EntidadImport implements ToCollection, WithHeadingRow
 {
     /**
@@ -19,35 +20,36 @@ class EntidadImport implements ToCollection, WithHeadingRow
     */
     public function collection(Collection $rows)
     {
-        // dd($rows);
         $collection = LazyCollection::make($rows);
-        
 
         Validator::make($collection->toArray(), [
-            '*.codREU' => 'required',
+            '*.codreu' => 'required|unique:entidads',
             '*.nombre' => 'required',
-            '*.codOrganismo' => 'required',
-            '*.codOSDE' => 'required',
+            '*.codorganismo' => 'required|exists:organismos,codigo',
+            '*.codosde' => 'required|exists:osdes,codigo',
             '*.dpa' => 'required',
-            
+
         ],
         [
-            '*.codREU.required' => 'Hay códigos REU vacíos cerca de: :attribute',
+            '*.codreu.required' => 'Hay códigos REU vacíos cerca de: :attribute',
+            '*.codreu.unique' => 'El código reu :input ya se encuentra en la base de datos',
             '*.nombre.required' => 'Hay nombres vacíos cerca de: :attribute',
-            '*.codOrganismo.required' => 'Hay organismos vacíos cerca de: :attribute',
-            '*.codOSDE.required' => 'Hay osdes vacías cerca de: :attribute',
+            '*.codorganismo.required' => 'Hay organismos vacíos cerca de: :attribute',
+            '*.codorganismo.exists' => 'No existen organismos con el código: :input cerca de: :attribute ',
+            '*.codosde.required' => 'Hay osdes vacías cerca de: :attribute',
+            '*.codosde.exists' => 'No existen osdes con el código: :input cerca de: :attribute ',
             '*.dpa.required' => 'Hay dpa vacías cerca de: :attribute'
         ])->validate();
 
         foreach ($collection as $row) {
-            dd(organismo::where('codigo', $row['codOrganismo'])->get()->id);
             entidad::create([
-                'codREU' => $row['codigo'],
+                'codREU' => $row['codreu'],
                 'name' => $row['nombre'],
-                'siglas' => $row['siglas'],
-                'org_id' => organismo::where('codigo', $row['codOrganismo'])->get()->id
+                'dpa' => $row['dpa'],
+                'org_id' => organismo::where('codigo', $row['codorganismo'])->get()[0]->id,
+                'osde_id' => osde::where('codigo', $row['codosde'])->get()[0]->id
             ]);
         }
     }
-  
+
 }
