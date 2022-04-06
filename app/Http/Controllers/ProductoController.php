@@ -50,12 +50,11 @@ class ProductoController extends Controller
     {
         $validatedData = $request->validate([
             'desc' => 'required',
-            'entidades' => 'required',
-            'actividades' => 'required'
+            'cpcu_id' => 'required',
+            'saclap_id' => 'required',
+            'nae_id' => 'required'
         ], [
-            'desc.required' => 'Este campo es requerido',
-            'entidades.required' => 'Este campo es requerido',
-            'actividades.required' => 'Este campo es requerido'
+            'required' => 'Este campo es requerido'
         ]);
         $producto = new producto();
         $producto->desc = $request->input('desc');
@@ -63,8 +62,14 @@ class ProductoController extends Controller
         $producto->saclap_id = $request->input('saclap_id');
         $producto->nae_id = $request->input('nae_id');
         $producto->save($validatedData);
-        $producto->entidades()->attach($request->input('entidades'));
-        $producto->actividades()->attach($request->input('actividades'));
+        if($request->input('entidades') !== null){
+            $producto->entidades()->attach($request->input('entidades'));
+        }
+
+        if($request->input('actividades') !== null){
+            $producto->actividades()->attach($request->input('actividades'));
+        }
+
         return redirect('/producto')->with('status','Producto creado satisfactoriamente');
     }
 
@@ -125,12 +130,11 @@ class ProductoController extends Controller
     {
         $validatedData = $request->validate([
             'desc' => 'required',
-            'entidades' => 'required',
-            'actividades' => 'required'
+            'cpcu_id' => 'required',
+            'saclap_id' => 'required',
+            'nae_id' => 'required'
         ], [
-            'desc.required' => 'Este campo es requerido',
-            'entidades.required' => 'Este campo es requerido',
-            'actividades.required' => 'Este campo es requerido'
+            'required' => 'Este campo es requerido'
         ]);
 
         $producto = producto::find($id);
@@ -139,8 +143,14 @@ class ProductoController extends Controller
         $producto->saclap_id = $request->input('saclap_id');
         $producto->nae_id = $request->input('nae_id');
         $producto->update($validatedData);
-        $producto->entidades()->sync($request->input('entidades'));
-        $producto->actividades()->sync($request->input('actividades'));
+        if($request->input('entidades') !== null) {
+            $producto->entidades()->sync($request->input('entidades'));
+        }
+
+        if($request->input('actividades') !== null) {
+            $producto->actividades()->sync($request->input('actividades'));
+        }
+
         return redirect('/producto')->with('status','Producto editado satisfactoriamente');
     }
 

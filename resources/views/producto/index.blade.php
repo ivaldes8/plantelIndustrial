@@ -40,7 +40,7 @@
                         <tbody>
                         @if (count($producto) < 1)
                             <tr>
-                                <td class="text-center" colspan="7">No se encontraron productos</td>
+                                <td class="text-center" colspan="10">No se encontraron productos</td>
                             </tr>
                         @else
                             @foreach ($producto as $item)
