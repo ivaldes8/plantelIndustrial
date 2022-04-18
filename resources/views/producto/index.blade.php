@@ -34,7 +34,7 @@
                                 <th>CPCU</th>
                                 <th>SACLAP</th>
                                 <th>CNAE</th>
-                                <th>Actividad Industrial</th>
+                                <th>Actividades Industriales</th>
                                 <th>Indicadores</th>
                                 <th>Editar</th>
                                 <th>Delete</th>
