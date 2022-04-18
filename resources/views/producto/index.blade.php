@@ -15,7 +15,10 @@
                     <div class="col-6 mt-1 d-flex justify-content-start">
                        Productos
                     </div>
-                    <div class="col-6 d-flex justify-content-end">
+                    <div class="col-3 d-flex justify-content-end">
+                        <a href="{{url('producto-file-import')}}" class="btn btn-primary">Importar Productos</a>
+                    </div>
+                    <div class="col-3 d-flex justify-content-end">
                         <a href="{{url('producto/create')}}" class="btn btn-primary">Crear Producto</a>
                     </div>
                 </div>

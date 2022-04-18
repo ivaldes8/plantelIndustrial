@@ -17,7 +17,17 @@ class SACLAPController extends Controller
      */
     public function index()
     {
-        $saclap = saclap::paginate(10);
+        $query = saclap::query();
+
+        $query->when(request()->input('codigo'), function($q) {
+            return $q->where('codigo', 'like', '%'.request()->input('codigo').'%');
+        });
+
+        $query->when(request()->input('desc'), function($q) {
+            return $q->where('desc', 'like', '%'.request()->input('desc').'%');
+        });
+
+        $saclap = $query->paginate(50);
         return view('saclap.index',compact('saclap'));
     }
 
@@ -125,18 +135,18 @@ class SACLAPController extends Controller
     {
         return view('saclap.file-import');
     }
-   
+
     /**
     * @return \Illuminate\Support\Collection
     */
-    public function fileImport(Request $request) 
+    public function fileImport(Request $request)
     {
         Excel::import(new SACLAPImport,request()->file('file'));
-             
+
         return back()->with('success', 'User Imported Successfully.');
     }
 
-    public function export() 
+    public function export()
     {
         return Excel::download(new SACLAPExport, 'saclap.xlsx');
     }

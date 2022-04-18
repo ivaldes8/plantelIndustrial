@@ -2,17 +2,19 @@
 
 namespace App\Exports;
 
-use App\Models\entidad;
+use App\Models\producto;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithCustomStartCell;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class EntidadExport implements FromCollection, WithHeadings
+class ProductoExport implements FromCollection, WithHeadings
 {
     public function headings(): array
     {
         return [
             'id',
+            'creando en',
+            'última actualización',
             'nombre',
             'codreu',
             'dpa',
@@ -26,8 +28,6 @@ class EntidadExport implements FromCollection, WithHeadings
     */
     public function collection()
     {
-        $entidades = entidad::first()->organismo()->select('*')->get();
-        dd($entidades);
-        return entidad::all();
+        return producto::all();
     }
 }

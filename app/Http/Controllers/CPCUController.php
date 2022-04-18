@@ -15,9 +15,19 @@ class CPCUController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $cpcu = cpcu::paginate(10);
+        $query = cpcu::query();
+
+        $query->when(request()->input('codigo'), function($q) {
+            return $q->where('codigo', 'like', '%'.request()->input('codigo').'%');
+        });
+
+        $query->when(request()->input('desc'), function($q) {
+            return $q->where('desc', 'like', '%'.request()->input('desc').'%');
+        });
+
+        $cpcu = $query->paginate(50);
         return view('cpcu.index',compact('cpcu'));
     }
 
@@ -128,18 +138,18 @@ class CPCUController extends Controller
     {
         return view('cpcu.file-import');
     }
-   
+
     /**
     * @return \Illuminate\Support\Collection
     */
-    public function fileImport(Request $request) 
+    public function fileImport(Request $request)
     {
         Excel::import(new CPCUImport,request()->file('file'));
-             
+
         return back()->with('success', 'User Imported Successfully.');
     }
 
-    public function export() 
+    public function export()
     {
         return Excel::download(new CPCUExport, 'cpcu.xlsx');
     }

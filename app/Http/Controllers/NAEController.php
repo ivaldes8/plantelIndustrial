@@ -17,7 +17,17 @@ class NAEController extends Controller
      */
     public function index()
     {
-        $cnae = nae::paginate(10);
+        $query = nae::query();
+
+        $query->when(request()->input('codigo'), function($q) {
+            return $q->where('codigo', 'like', '%'.request()->input('codigo').'%');
+        });
+
+        $query->when(request()->input('desc'), function($q) {
+            return $q->where('desc', 'like', '%'.request()->input('desc').'%');
+        });
+
+        $cnae = $query->paginate(50);
         return view('cnae.index',compact('cnae'));
     }
 
@@ -125,18 +135,18 @@ class NAEController extends Controller
     {
         return view('cnae.file-import');
     }
-   
+
     /**
     * @return \Illuminate\Support\Collection
     */
-    public function fileImport(Request $request) 
+    public function fileImport(Request $request)
     {
         Excel::import(new CNAEImport,request()->file('file'));
-             
+
         return back()->with('success', 'User Imported Successfully.');
     }
 
-    public function export() 
+    public function export()
     {
         return Excel::download(new CNAEExport, 'cnae.xlsx');
     }

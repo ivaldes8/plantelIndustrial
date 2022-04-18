@@ -74,6 +74,9 @@ Route::middleware(['auth','admin'])->group(function () {
     Route::resource('producto',ProductoController::class);
     Route::get('producto/delete/{id}', [ProductoController::class, 'delete'])->name('delete');
     Route::get('filteringProd', [ProductoController::class, 'filter'])->name('producto-filtering');
+    Route::get('producto-file-import', [ProductoController::class, 'fileImportExport']);
+    Route::post('producto-file-import', [ProductoController::class, 'fileImport']);
+    Route::get('producto-file-export', [ProductoController::class, 'export']);
 
     Route::resource('actividad',ActividadController::class);
     Route::get('actividad/delete/{id}', [ActividadController::class, 'delete'])->name('delete');

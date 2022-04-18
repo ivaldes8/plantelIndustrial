@@ -7,20 +7,19 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-6 mt-1 d-flex justify-content-start">
-                    Importar Entidad
+                    Importar Producto
                 </div>
                 <div class="col-3 d-flex justify-content-end">
-                    <a class="btn btn-primary disabled" href="{{url('entidad-file-export')}}">Descargar Plantilla</a>
+                    <a class="btn btn-primary disabled" href="{{url('producto-file-export')}}">Descargar Plantilla</a>
                 </div>
                 <div class="col-3 d-flex justify-content-end">
-                    <a href="{{url('entidad')}}" class="btn btn-success">Atrás</a>
+                    <a href="{{url('producto')}}" class="btn btn-success">Atrás</a>
                 </div>
             </div>
         </div>
         <div class="card-body">
-            <form action="{{ url('entidad-file-import') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ url('producto-file-import') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-
 
                 @if (count($errors) > 0)
                 <div class="row">
@@ -38,10 +37,10 @@
                     <div class="col-12">
                         <div class="alert alert-primary" role="alert">
                             <h4><i class="bi-exclamation-circle"></i> Atención:</h4>
-                            <p>1-Cada fila del excel será tomada como una entidad a agregar</p>
-                            <p>2-Toda fila del excel debe tener un nombre, código reu, dpa, código de Osde y código de Organismo</p>
-                            <p>3-Los código de Osde y código de Organismo deben pertenecer a Osdes y Organismos existentes en la aplicación</p>
-                            <p>4-Las entidades a importar no deben existir en la base de datos</p>
+                            <p>1-Cada fila del excel será tomada como un producto a agregar</p>
+                            <p>2-Toda fila del excel debe tener una descripcion, un cpcu, un saclap y un cnae</p>
+                            <p>3-Los código de cpcu, saclap y cnae deben existir en la aplicación</p>
+                            <p>4-Los productos a importar no deben existir en la base de datos</p>
                         </div>
                     </div>
                 </div>

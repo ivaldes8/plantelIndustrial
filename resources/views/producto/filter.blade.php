@@ -131,7 +131,7 @@
                         </tbody>
                     </table>
                     <div class="d-flex">
-                        {{ $producto->links() }}
+                        {{ $producto->withQueryString()->links() }}
                     </div>
                 </div>
             </div>

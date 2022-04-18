@@ -3,8 +3,12 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
+use App\Models\producto;
+use App\Models\cpcu;
+use App\Models\saclap;
+use App\Models\nae;
 
-class organismoEntidad implements Rule
+class RepeatCNAEProducto implements Rule
 {
     /**
      * Create a new rule instance.
@@ -25,7 +29,14 @@ class organismoEntidad implements Rule
      */
     public function passes($attribute, $value)
     {
-        //
+
+        $nae = nae::where('codigo', $value)->get();
+        if(count($nae) > 0){
+            $producto = producto::where('nae_id',$nae[0]->id)->get();
+        }
+        if(count($nae) > 0 && count($producto) === 0){
+            return true;
+        }
     }
 
     /**
@@ -35,6 +46,6 @@ class organismoEntidad implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return 'Ya existen productos con el código cnae :input en la base de datos ';
     }
 }

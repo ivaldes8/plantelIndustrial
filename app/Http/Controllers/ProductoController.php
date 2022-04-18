@@ -10,6 +10,8 @@ use App\Models\nae;
 use App\Models\producto;
 use App\Models\saclap;
 use Illuminate\Http\Request;
+use App\Imports\ProductoImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductoController extends Controller
 {
@@ -221,5 +223,25 @@ class ProductoController extends Controller
         $entidad = entidad::all();
         $actividad = actividad::all();
         return view('producto.filter',compact('producto', 'entidad', 'actividad'));
+    }
+
+    public function fileImportExport()
+    {
+        return view('producto.file-import');
+    }
+
+    /**
+    * @return \Illuminate\Support\Collection
+    */
+    public function fileImport(Request $request)
+    {
+        Excel::import(new ProductoImport,request()->file('file'));
+
+        return back()->with('success', 'User Imported Successfully.');
+    }
+
+    public function export()
+    {
+        return Excel::download(new EntidadExport, 'entidades.xlsx');
     }
 }

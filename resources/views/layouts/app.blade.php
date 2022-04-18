@@ -169,7 +169,6 @@
                             <li class="nav-item dropdown mx-1">
                                 <a class="nav-link dropdown-toggle
                                     {{ (request()->is('producto*')) ||
-                                        (request()->is('producto-import*')) ||
                                         (request()->is('filteringProd*'))
                                         ? 'active' : '' }}"
                                     id="navbarDropdown"
@@ -180,11 +179,6 @@
                                     <li>
                                         <a class="dropdown-item {{ (request()->is('producto*')) ? 'active' : '' }}" href="{{url('producto')}}">
                                             Gestionar Productos
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item {{ (request()->is('osde*')) ? 'active' : '' }}" href="{{url('osde')}}">
-                                            Importar Productos
                                         </a>
                                     </li>
                                     <li>

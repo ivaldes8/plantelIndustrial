@@ -3,6 +3,12 @@
 namespace App\Imports;
 
 use App\Models\producto;
+use App\Models\cpcu;
+use App\Models\saclap;
+use App\Models\nae;
+use App\Rules\RepeatCPCUProducto;
+use App\Rules\RepeatSACLAPProducto;
+use App\Rules\RepeatCNAEProducto;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -11,26 +17,39 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductoImport implements ToCollection, WithHeadingRow
 {
+    /**
+    * @param array $row
+    *
+    * @return \Illuminate\Database\Eloquent\Model|null
+    */
     public function collection(Collection $rows)
     {
         $collection = LazyCollection::make($rows);
-        
 
         Validator::make($collection->toArray(), [
-            '*.codigo' => 'required|unique:saclaps',
-            '*.desc' => 'required'
+            '*.descripcion' => 'required',
+            '*.cpcu' => ['required','exists:cpcus,codigo',new RepeatCPCUProducto()],
+            '*.saclap' => ['required','exists:saclaps,codigo',new RepeatSACLAPProducto()],
+            '*.cnae' => ['required','exists:naes,codigo']
         ],
         [
-            '*.codigo.unique' => 'El código :input ya se encuentra en la base de datos',
-            '*.codigo.required' => 'El códigos vacíos en el excel cerca de: :attribute',
-            '*.desc.required' => 'Hay descripciones vacías cerca de: :attribute'
+            '*.descripcion.required' => 'Hay descripciones vacías cerca de: :attribute',
+            '*.cpcu.required' => 'Hay cpcus vacíos cerca de: :attribute',
+            '*.cpcu.exists' => 'No existen cpcus con el código: :input cerca de: :attribute ',
+            '*.saclap.required' => 'Hay saclaps vacíos cerca de: :attribute',
+            '*.saclap.exists' => 'No existen saclaps con el código: :input cerca de: :attribute ',
+            '*.cnae.required' => 'Hay cnaes vacíos cerca de: :attribute',
+            '*.cnae.exists' => 'No existen cnaes con el código: :input cerca de: :attribute '
         ])->validate();
 
         foreach ($collection as $row) {
-            saclap::create([
-                'codigo' => $row['codigo'],
-                'desc' => $row['desc']
+            producto::create([
+                'desc' => $row['descripcion'],
+                'cpcu_id' => cpcu::where('codigo', $row['cpcu'])->get()[0]->id,
+                'saclap_id' => saclap::where('codigo', $row['saclap'])->get()[0]->id,
+                'nae_id' => nae::where('codigo', $row['cnae'])->get()[0]->id
             ]);
         }
     }
+
 }

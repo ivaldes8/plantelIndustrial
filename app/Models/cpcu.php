@@ -9,7 +9,7 @@ class cpcu extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['codigo', 'desc'];
+    protected $fillable = ['id', 'codigo', 'desc'];
 
     public function producto()
     {
