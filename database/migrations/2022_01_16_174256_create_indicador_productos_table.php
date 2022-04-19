@@ -18,6 +18,7 @@ class CreateIndicadorProductosTable extends Migration
             $table->timestamps();
             $table->double('value')->required();
             $table->date('date')->required();
+            $table->string('unidad')->required();
             $table->unsignedBigInteger('indicador_id')->unsigned()->nullable();
             $table->foreign('indicador_id')->references('id')->on('indicadors')->onDelete('cascade');
             $table->unsignedBigInteger('producto_id')->unsigned()->nullable();

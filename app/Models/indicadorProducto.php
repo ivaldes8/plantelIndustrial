@@ -9,7 +9,7 @@ class indicadorProducto extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['producto_id','indicador_id','value', 'date'];
+    protected $fillable = ['producto_id','indicador_id','value', 'unidad', 'date'];
 
     public function indicador()
     {
