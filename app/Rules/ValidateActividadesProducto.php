@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use App\Models\actividad;
 use Illuminate\Contracts\Validation\Rule;
 use App\Models\producto;
 use App\Models\cpcu;
@@ -9,7 +10,7 @@ use App\Models\entidad;
 use App\Models\saclap;
 use App\Models\nae;
 
-class ValidateActividadesIndustrialesProducto  implements Rule
+class ValidateActividadesProducto implements Rule
 {
     /**
      * Create a new rule instance.
@@ -31,14 +32,17 @@ class ValidateActividadesIndustrialesProducto  implements Rule
     public function passes($attribute, $value)
     {
         // dd(explode( '/', $value ));
-        $reusArray = explode( '/', $value );
-        if(count($reusArray) === 0){
+        if(!$value){
+            return true;
+        }
+        $codsArray = explode( '/', $value );
+        if(count($codsArray) === 0){
             return true;
         }
         $findAll = true;
-        for ($i=0; $i < count($reusArray); $i++) {
-           $entidad = entidad::where('codREU', $reusArray[$i])->get();
-           if(count($entidad) === 0){
+        for ($i=0; $i < count($codsArray); $i++) {
+           $actividad = actividad::where('codigo', $codsArray[$i])->get();
+           if(count($actividad) === 0){
                $findAll = false;
            }
         }
@@ -54,6 +58,6 @@ class ValidateActividadesIndustrialesProducto  implements Rule
      */
     public function message()
     {
-        return 'Uno de estos códigos REU de las entidades :input no se encuentran registrados en la base de datos cerca de :attribute.';
+        return 'Uno de estos códigos de las actividades :input no se encuentran registrados en la base de datos cerca de :attribute.';
     }
 }

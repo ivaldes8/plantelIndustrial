@@ -2,6 +2,7 @@
 
 namespace App\Imports;
 
+use App\Models\actividad;
 use App\Models\producto;
 use App\Models\cpcu;
 use App\Models\entidad;
@@ -10,6 +11,7 @@ use App\Models\nae;
 use App\Rules\RepeatCPCUProducto;
 use App\Rules\RepeatSACLAPProducto;
 use App\Rules\RepeatCNAEProducto;
+use App\Rules\ValidateActividadesProducto;
 use App\Rules\ValidateEntidadesProducto;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
@@ -33,7 +35,8 @@ class ProductoImport implements ToCollection, WithHeadingRow
             '*.cpcu' => ['required','exists:cpcus,codigo',new RepeatCPCUProducto()],
             '*.saclap' => ['required','exists:saclaps,codigo',new RepeatSACLAPProducto()],
             '*.cnae' => ['required','exists:naes,codigo'],
-            '*.entidades' => ['required', new ValidateEntidadesProducto()]
+            '*.entidades' => [new ValidateEntidadesProducto()],
+            '*.actividadesindustriales' => [new ValidateActividadesProducto()]
         ],
         [
             '*.descripcion.required' => 'Hay descripciones vacías cerca de: :attribute',
@@ -53,12 +56,24 @@ class ProductoImport implements ToCollection, WithHeadingRow
             $producto->saclap_id = saclap::where('codigo', $row['saclap'])->get()[0]->id;
             $producto->nae_id = nae::where('codigo', $row['cnae'])->get()[0]->id;
             $producto->save();
-            $entidades = explode( '/', $row['entidades'] );
-            $entidadesId = [];
-            for ($i=0; $i < count($entidades); $i++) {
-                array_push($entidadesId,entidad::where('codREU', $entidades[$i])->get()[0]->id);
+
+            if($row['entidades']){
+                $entidades = explode( '/', $row['entidades'] );
+                $entidadesId = [];
+                for ($i=0; $i < count($entidades); $i++) {
+                    array_push($entidadesId,entidad::where('codREU', $entidades[$i])->get()[0]->id);
+                }
+                $producto->entidades()->attach($entidadesId);
             }
-            $producto->entidades()->attach($entidadesId);
+            if($row['actividadesindustriales']){
+                $actividades = explode( '/', $row['actividadesindustriales'] );
+                $actividadesId = [];
+                for ($i=0; $i < count($actividades); $i++) {
+                    array_push($actividadesId,actividad::where('codigo', $actividades[$i])->get()[0]->id);
+                }
+                $producto->actividades()->attach($actividadesId);
+            }
+
         }
     }
 

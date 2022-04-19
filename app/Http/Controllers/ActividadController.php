@@ -18,7 +18,16 @@ class ActividadController extends Controller
      */
     public function index()
     {
-        $actividad = actividad::paginate(10);
+        $query = actividad::query();
+
+        $query->when(request()->input('codigo'), function($q) {
+            return $q->where('codigo', 'like', '%'.request()->input('codigo').'%');
+        });
+
+        $query->when(request()->input('desc'), function($q) {
+            return $q->where('desc', 'like', '%'.request()->input('desc').'%');
+        });
+        $actividad = $query->paginate(50);
         return view('actividad.index',compact('actividad'));
     }
 
@@ -42,12 +51,14 @@ class ActividadController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
+            'codigo' => 'required',
             'desc' => 'required'
         ], [
-            'desc.required' => 'Este campo es requerido'
+            'required' => 'Este campo es requerido'
         ]);
 
         $actividad = new actividad();
+        $actividad->codigo = $request->input('codigo');
         $actividad->desc = $request->input('desc');
         $actividad->save($validatedData);
         return redirect('/actividad')->with('status','Actividad Industrial creada satisfactoriamente');
@@ -86,12 +97,14 @@ class ActividadController extends Controller
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
+            'codigo' => 'required',
             'desc' => 'required'
         ], [
-            'desc.required' => 'Este campo es requerido'
+            'required' => 'Este campo es requerido'
         ]);
 
         $actividad = actividad::find($id);
+        $actividad->codigo = $request->input('codigo');
         $actividad->desc = $request->input('actividad');
         $actividad->update($validatedData);
         return redirect('/actividad')->with('status','Actividad Industrial Editada satisfactoriamente');
@@ -120,18 +133,18 @@ class ActividadController extends Controller
     {
         return view('actividad.file-import');
     }
-   
+
     /**
     * @return \Illuminate\Support\Collection
     */
-    public function fileImport(Request $request) 
+    public function fileImport(Request $request)
     {
         Excel::import(new ActividadIndustrialImport,request()->file('file'));
-             
+
         return back()->with('success', 'User Imported Successfully.');
     }
 
-    public function export() 
+    public function export()
     {
         return Excel::download(new ActividadIndustrialExport, 'actividades_industriales.xlsx');
     }

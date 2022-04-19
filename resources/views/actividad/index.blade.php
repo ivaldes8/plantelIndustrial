@@ -24,11 +24,32 @@
                 </div>
             </div>
             <div class="card-body">
+                <form action="{{ url('actividad') }}" method="get">
+                    <div class="row">
+                        <div class="col-3 mt-1 d-flex justify-content-start">
+                            <div class="input-group">
+                                <span class="btn bi-journal-text" id="basic-addon1"></span>
+                                <input id="codigo" name="codigo" type="text" class="form-control" placeholder="Código" aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+                        <div class="col-3 d-flex justify-content-start">
+                            <div class="input-group ">
+                                <span class="btn bi bi-file-earmark-text" id="basic-addon1"></span>
+                                <input type="text" name="desc" class="form-control" id="desc" placeholder="Descripción">
+                            </div>
+                        </div>
+                        <div class="col-6 d-flex justify-content-end">
+                            <button class="btn btn-primary mx-1" type="submit">Buscar</button>
+                        </div>
+                    </div>
+                </form>
+                <hr>
                 <div class="table-responsive">
                     <table class="table table-primary table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Código</th>
                                 <th>Descripción</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
@@ -43,6 +64,7 @@
                             @foreach ($actividad as $item)
                                 <tr>
                                     <td>{{$item->id}}</td>
+                                    <td>{{$item->codigo}}</td>
                                     <td>{{$item->desc}}</td>
                                     <td>
                                         <a href="{{url('actividad/'.$item->id.'/edit')}}" class="btn-sm btn-primary">Editar</a>
@@ -58,7 +80,7 @@
                         </tbody>
                     </table>
                     <div class="d-flex">
-                        {{ $actividad->links() }}
+                        {{ $actividad->withQueryString()->links() }}
                     </div>
                 </div>
             </div>

@@ -29,6 +29,13 @@
             @endif
                     @csrf
                     <div class="form-group mb-3">
+                        <label for="">Código</label>
+                        <input type="text" name="codigo" class="form-control" value="{{ $actividad !== 'none' ? $actividad->codigo : '' }}">
+                        @if ($errors->has('codigo'))
+                            <span class="text-danger">{{ $errors->first('codigo') }}</span>
+                        @endif
+                    </div>
+                    <div class="form-group mb-3">
                         <label for="">Descripción:</label>
                         <input type="text" name="desc" class="form-control" value="{{ $actividad !== 'none' ? $actividad->desc : '' }}">
                         @if ($errors->has('desc'))

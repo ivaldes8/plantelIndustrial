@@ -31,6 +31,9 @@ class ValidateEntidadesProducto implements Rule
     public function passes($attribute, $value)
     {
         // dd(explode( '/', $value ));
+        if(!$value){
+            return true;
+        }
         $reusArray = explode( '/', $value );
         if(count($reusArray) === 0){
             return true;

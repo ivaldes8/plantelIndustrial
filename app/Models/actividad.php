@@ -9,7 +9,7 @@ class actividad extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['desc'];
+    protected $fillable = ['codigo','desc'];
 
     public function productos()
     {
