@@ -13,6 +13,6 @@ class indicador extends Model
 
     public function productos()
     {
-        return $this->belongsToMany(producto::class, 'indicador_productos');
+        return $this->belongsToMany(producto::class, 'indicador_entidad_plan_productos');
     }
 }

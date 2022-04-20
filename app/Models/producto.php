@@ -26,11 +26,6 @@ class producto extends Model
         return $this->hasOne(nae::class, 'id', 'nae_id');
     }
 
-    public function entidades()
-    {
-        return $this->belongsToMany(entidad::class, 'entidad_productos');
-    }
-
     public function actividades()
     {
         return $this->belongsToMany(actividad::class, 'actividad_productos');
@@ -38,6 +33,11 @@ class producto extends Model
 
     public function indicadores()
     {
-        return $this->belongsToMany(indicador::class, 'indicador_productos');
+        return $this->belongsToMany(indicador::class, 'indicador_entidad_plan_productos');
+    }
+
+    public function entidades()
+    {
+        return $this->belongsToMany(entidad::class, 'indicador_entidad_plan_productos');
     }
 }

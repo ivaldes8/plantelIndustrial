@@ -30,6 +30,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Indicador</th>
+                                <th>Unidad de medida</th>
                                 <th>Valor</th>
                                 <th>Fecha</th>
                                 <th>Editar</th>
@@ -39,13 +40,14 @@
                         <tbody>
                         @if (count($indicador) < 1)
                             <tr>
-                                <td class="text-center" colspan="7">No se encontraron indicadores asociados a este producto</td>
+                                <td class="text-center" colspan="8">No se encontraron indicadores asociados a este producto</td>
                             </tr>
                         @else
                             @foreach ($indicador as $item)
                                 <tr>
                                     <td>{{$item->id}}</td>
                                     <td>{{$item->indicador->desc}}</td>
+                                    <td>{{$item->unidad}}</td>
                                     <td>{{$item->value}}</td>
                                     <td>{{$item->date}}</td>
                                     <td>

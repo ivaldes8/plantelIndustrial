@@ -23,7 +23,7 @@ class entidad extends Model
 
     public function productos()
     {
-        return $this->belongsToMany(producto::class, 'entidad_productos');
+        return $this->belongsToMany(producto::class, 'indicador_entidad_plan_productos');
     }
 }
 
