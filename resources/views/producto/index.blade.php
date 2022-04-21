@@ -12,8 +12,11 @@
         <div class="card">
             <div class="card-header">
                 <div class="row">
-                    <div class="col-6 mt-1 d-flex justify-content-start">
+                    <div class="col-3 mt-1 d-flex justify-content-start">
                        Productos
+                    </div>
+                    <div class="col-3 d-flex justify-content-end">
+                        <a href="{{url('indicador-file-import')}}" class="btn btn-primary">Importar Indicadores</a>
                     </div>
                     <div class="col-3 d-flex justify-content-end">
                         <a href="{{url('producto-file-import')}}" class="btn btn-primary">Importar Productos</a>
@@ -30,7 +33,6 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Descripción</th>
-                                <th>Entidades</th>
                                 <th>CPCU</th>
                                 <th>SACLAP</th>
                                 <th>CNAE</th>
@@ -43,21 +45,13 @@
                         <tbody>
                         @if (count($producto) < 1)
                             <tr>
-                                <td class="text-center" colspan="10">No se encontraron productos</td>
+                                <td class="text-center" colspan="9">No se encontraron productos</td>
                             </tr>
                         @else
                             @foreach ($producto as $item)
                                 <tr>
                                     <td>{{$item->id}}</td>
                                     <td>{{$item->desc}}</td>
-                                    <td>@if (count($item->entidades) > 0)
-                                            @foreach ($item->entidades as $entidad)
-                                               / {{$entidad->name}}
-                                            @endforeach
-                                        @else
-                                           ---
-                                        @endif
-                                    </td>
                                     <td>{{$item->cpcu ? $item->cpcu->codigo : '---'}}</td>
                                     <td>{{$item->saclap ? $item->saclap->codigo : '---'}}</td>
                                     <td>{{$item->cnae ? $item->cnae->codigo : '---'}}</td>

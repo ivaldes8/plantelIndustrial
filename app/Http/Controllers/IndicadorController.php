@@ -38,12 +38,14 @@ class IndicadorController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
+            'codigo' => 'required',
             'desc' => 'required'
         ], [
-            'desc.required' => 'Este campo es requerido'
+            'required' => 'Este campo es requerido'
         ]);
 
         $indicador = new indicador();
+        $indicador->codigo = $request->input('codigo');
         $indicador->desc = $request->input('desc');
         $indicador->save($validatedData);
         return redirect('/indicador')->with('status','Indicador creado satisfactoriamente');
@@ -82,12 +84,14 @@ class IndicadorController extends Controller
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
+            'codigo' => 'required',
             'desc' => 'required'
         ], [
-            'desc.required' => 'Este campo es requerido'
+            'required' => 'Este campo es requerido'
         ]);
 
         $indicador = indicador::find($id);
+        $indicador->codigo = $request->input('codigo');
         $indicador->desc = $request->input('indicador');
         $indicador->update($validatedData);
         return redirect('/indicador')->with('status','Indicador editado satisfactoriamente');

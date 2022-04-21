@@ -37,18 +37,6 @@
                     </div>
 
                     <div class="form-group mb-3">
-                        <label for="">Entidades:</label>
-                        <select name="entidades[]" multiple="multiple" class="form-select entSelect">
-                            @foreach ($entidad as $item)
-                                <option {{ $producto !== 'none' && $item->org_id === 'checked' ? 'selected' : '' }} value="{{$item->id}}">{{$item->name}}</option>
-                            @endforeach
-                        </select>
-                        @if ($errors->has('entidades'))
-                            <span class="text-danger">{{ $errors->first('entidades') }}</span>
-                        @endif
-                    </div>
-
-                    <div class="form-group mb-3">
                         <label for="">Actividades Industriales:</label>
                         <select name="actividades[]" multiple="multiple" class="form-select actSelect">
                             @foreach ($actividad as $item)
