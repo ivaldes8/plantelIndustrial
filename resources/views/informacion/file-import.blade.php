@@ -7,18 +7,18 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-6 mt-1 d-flex justify-content-start">
-                        Importar Indicadores
+                        Importar Información
                     </div>
                     <div class="col-3 d-flex justify-content-end">
-                        <a class="btn btn-primary disabled" href="{{ url('producto-file-export') }}">Descargar Plantilla</a>
+                        <a class="btn btn-primary disabled" href="{{ url('informacion-file-export') }}">Descargar Plantilla</a>
                     </div>
                     <div class="col-3 d-flex justify-content-end">
-                        <a href="{{ url('producto') }}" class="btn btn-success">Atrás</a>
+                        <a href="{{ url('informacion') }}" class="btn btn-success">Atrás</a>
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                <form action="{{ url('indicador-file-import') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ url('informacion-file-import') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     @if (count($errors) > 0)
@@ -37,10 +37,10 @@
                             <div class="col-12">
                                 <div class="alert alert-primary" role="alert">
                                     <h4><i class="bi-exclamation-circle"></i> Atención:</h4>
-                                    <p>1-Cada fila del excel será tomada como un producto a agregar</p>
-                                    <p>2-Toda fila del excel debe tener una descripcion, un cpcu, un saclap y un cnae</p>
-                                    <p>3-Los código de cpcu, saclap y cnae deben existir en la aplicación</p>
-                                    <p>4-Los productos a importar no deben existir en la base de datos</p>
+                                    <p>1-En la columna indicador del excel debe estar el indicador y la unidad de medida en el siguite formato: (código del indicador/unidad de medida)</p>
+                                    <p>2-Los productos con sus códigos cpcu deben existir en la aplicación, y en el excel para poner un producto, se pone su código cpcu</p>
+                                    <p>3-Para introducir entidades, se deben poner el código REU de estas, y también deben de existir en la aplicación</p>
+                                    <p>4-Las columnas de fechas deben ser especificadas como: date1->20-01-2022, date2->20-01-2022, date3->20-01-2022 y así sucesivamente, con sus valores(opcionales) debajo pertenecientes a los respectivos productos y entidades </p>
                                 </div>
                             </div>
                         </div>

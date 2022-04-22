@@ -35,11 +35,12 @@ class IndicadorEntidadPlanProductoImport implements ToCollection, WithHeadingRow
             $collection->toArray(),
             [
                 '0.indicador' => ['required', new ValidateIndicadorUnidad(), new ValidateIndicadorCodigo()],
-                '*.producto' => new ValidateIndicadorProducto(),
+                '*.producto' => ['required', new ValidateIndicadorProducto()],
                 '*.entidad' => new ValidateIndicadorEntidad(),
             ],
             [
                 '*.indicador.required' => 'Tiene que especificar un indicador.',
+                '*.producto.required' => 'Hay productos vacíos cerca de: :attribute.',
             ]
         )->validate();
 

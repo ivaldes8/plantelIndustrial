@@ -21,6 +21,6 @@ class indicadorEntidadPlanProducto extends Model
     }
     public function entidad()
     {
-        return $this->hasOne(producto::class, 'id', 'entidad_id');
+        return $this->hasOne(entidad::class, 'id', 'entidad_id');
     }
 }

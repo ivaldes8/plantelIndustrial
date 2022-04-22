@@ -12,11 +12,8 @@
         <div class="card">
             <div class="card-header">
                 <div class="row">
-                    <div class="col-3 mt-1 d-flex justify-content-start">
+                    <div class="col-6 mt-1 d-flex justify-content-start">
                        Productos
-                    </div>
-                    <div class="col-3 d-flex justify-content-end">
-                        <a href="{{url('indicador-file-import')}}" class="btn btn-primary">Importar Indicadores</a>
                     </div>
                     <div class="col-3 d-flex justify-content-end">
                         <a href="{{url('producto-file-import')}}" class="btn btn-primary">Importar Productos</a>
@@ -37,7 +34,6 @@
                                 <th>SACLAP</th>
                                 <th>CNAE</th>
                                 <th>Actividades Industriales</th>
-                                <th>Indicadores</th>
                                 <th>Editar</th>
                                 <th>Delete</th>
                             </tr>
@@ -62,9 +58,6 @@
                                         @else
                                            ---
                                         @endif
-                                    </td>
-                                    <td>
-                                    <a href="{{url('producto/'.$item->id)}}" class="btn-sm btn-success">Indicadores</a>
                                     </td>
                                     <td>
                                         <a href="{{url('producto/'.$item->id.'/edit')}}" class="btn-sm btn-primary">Editar</a>

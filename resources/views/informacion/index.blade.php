@@ -13,13 +13,13 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-6 mt-1 d-flex justify-content-start">
-                       Indicadores del producto {{$producto->desc}}
+                       Información
                     </div>
                     <div class="col-3 d-flex justify-content-end">
-                        <a href="{{url('indicador-producto/create/' .$producto->id)}}" class="btn btn-primary">Asociar Indicadores</a>
+                        <a href="{{url('informacion-file-import')}}" class="btn btn-primary">Importar Información</a>
                     </div>
                     <div class="col-3 d-flex justify-content-end">
-                        <a href="{{url('producto')}}" class="btn btn-success">Atrás</a>
+                        <a href="{{url('informacion/create')}}" class="btn btn-primary disabled">Crear Información</a>
                     </div>
                 </div>
             </div>
@@ -29,32 +29,36 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Producto</th>
+                                <th>Entidad</th>
                                 <th>Indicador</th>
-                                <th>Unidad de medida</th>
                                 <th>Valor</th>
+                                <th>Unidad de Medida</th>
                                 <th>Fecha</th>
                                 <th>Editar</th>
-                                <th>Eliminar</th>
+                                <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
-                        @if (count($indicador) < 1)
+                        @if (count($informacion) < 1)
                             <tr>
-                                <td class="text-center" colspan="8">No se encontraron indicadores asociados a este producto</td>
+                                <td class="text-center" colspan="9">No se encontró información</td>
                             </tr>
                         @else
-                            @foreach ($indicador as $item)
+                            @foreach ($informacion as $item)
                                 <tr>
                                     <td>{{$item->id}}</td>
-                                    <td>{{$item->indicador->desc}}</td>
-                                    <td>{{$item->unidad}}</td>
+                                    <td>{{$item->producto ? $item->producto->desc : '---'}}</td>
+                                    <td>{{$item->entidad ? $item->entidad->name : '---'}}</td>
+                                    <td>{{$item->indicador ? $item->indicador->desc : '---'}}</td>
                                     <td>{{$item->value}}</td>
+                                    <td>{{$item->unidad}}</td>
                                     <td>{{$item->date}}</td>
                                     <td>
-                                        <a href="{{url('indicador-producto/'.$item->id.'/edit/'.$producto->id)}}" class="btn-sm btn-primary">Editar</a>
+                                        <a href="{{url('informacion/'.$item->id.'/edit')}}" class="btn-sm btn-primary">Editar</a>
                                     </td>
                                     <td>
-                                        <button class="btn-sm btn-danger" data-toggle="modal" id="smallButton" data-target="#smallModal" data-attr="{{ url('indicador-producto/delete', $item->id) }}" title="Delete Project">
+                                        <button class="btn-sm btn-danger" data-toggle="modal" id="smallButton" data-target="#smallModal" data-attr="{{ url('informacion/delete', $item->id) }}" title="Delete Project">
                                             Eliminar
                                         </button>
                                     </td>
@@ -65,7 +69,7 @@
                         </tbody>
                     </table>
                     <div class="d-flex">
-
+                        {{ $informacion->links() }}
                     </div>
                 </div>
             </div>
@@ -76,7 +80,7 @@
         <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Eliminar Relación con este indicador</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Eliminar Información</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="smallBody">
