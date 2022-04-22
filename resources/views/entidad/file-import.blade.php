@@ -40,7 +40,7 @@
                             <h4><i class="bi-exclamation-circle"></i> Atención:</h4>
                             <p>1-Cada fila del excel será tomada como una entidad a agregar</p>
                             <p>2-Toda fila del excel debe tener un nombre, código reu, dpa, código de Osde y código de Organismo</p>
-                            <p>3-Los código de Osde y código de Organismo deben pertenecer a Osdes y Organismos existentes en la aplicación</p>
+                            <p>3-El código de Osde y el código de Organismo deben pertenecer a Osdes y Organismos existentes en la aplicación</p>
                             <p>4-Las entidades a importar no deben existir en la base de datos</p>
                         </div>
                     </div>

@@ -16,7 +16,7 @@ class InformacionController extends Controller
      */
     public function index()
     {
-        $informacion = indicadorEntidadPlanProducto::paginate(50);
+        $informacion = indicadorEntidadPlanProducto::orderBy('date','ASC')->paginate(50);
         return view('informacion.index',compact('informacion'));
     }
 
