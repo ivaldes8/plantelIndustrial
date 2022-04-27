@@ -99,6 +99,7 @@
                             <li class="nav-item dropdown mx-1">
                                 <a class="nav-link dropdown-toggle
                                     {{ (request()->is('organismo*')) ||
+                                        (request()->is('unidad*')) ||
                                         (request()->is('osde*')) ||
                                         (request()->is('entidad*')) ||
                                         (request()->is('cpcu*')) ||
@@ -114,6 +115,11 @@
                                     data-bs-toggle="dropdown"
                                     aria-expanded="false">Nomencladores</a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item {{ (request()->is('unidad*')) ? 'active' : '' }}" href="{{url('unidad')}}">
+                                            Unidades de medida
+                                        </a>
+                                    </li>
                                     <li>
                                         <a class="dropdown-item {{ (request()->is('organismo*')) ? 'active' : '' }}" href="{{url('organismo')}}">
                                             Organismos

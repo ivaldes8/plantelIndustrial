@@ -12,6 +12,7 @@ use App\Http\Controllers\OSDEController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\SACLAPController;
+use App\Http\Controllers\UnidadController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Mail;
 use App\Http\Controllers\UserController;
@@ -71,6 +72,12 @@ Route::middleware(['auth','admin'])->group(function () {
     Route::get('cnae-file-import', [NAEController::class, 'fileImportExport']);
     Route::post('cnae-file-import', [NAEController::class, 'fileImport']);
     Route::get('cnae-file-export', [NAEController::class, 'export']);
+
+    Route::resource('unidad',UnidadController::class);
+    Route::get('unidad/delete/{id}', [UnidadController::class, 'delete'])->name('delete');
+    Route::get('unidad-file-import', [UnidadController::class, 'fileImportExport']);
+    Route::post('unidad-file-import', [UnidadController::class, 'fileImport']);
+    Route::get('unidad-file-export', [UnidadController::class, 'export']);
 
     Route::resource('producto',ProductoController::class);
     Route::get('producto/delete/{id}', [ProductoController::class, 'delete'])->name('delete');
