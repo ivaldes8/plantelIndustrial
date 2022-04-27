@@ -9,6 +9,7 @@ use App\Models\cpcu;
 use App\Models\entidad;
 use App\Models\saclap;
 use App\Models\nae;
+use App\Models\unidad;
 
 class ValidateIndicadorUnidad implements Rule
 {
@@ -35,7 +36,16 @@ class ValidateIndicadorUnidad implements Rule
             return true;
         }
         $codsArray = explode( '/', $value );
-        if(count($codsArray) > 1){
+
+        $findUnidad = true;
+        if(count( $codsArray ) > 1){
+            $unidad = unidad::where('desc', $codsArray[1])->get();
+            if(count($unidad) === 0){
+                $findUnidad = false;
+            }
+        }
+
+        if($findUnidad === true){
             return true;
         }
     }
@@ -47,6 +57,6 @@ class ValidateIndicadorUnidad implements Rule
      */
     public function message()
     {
-        return 'Falta la unidad de medida o el codigo del indicador';
+        return 'La unidad de medida falta o no se encuentra la unidad de medida especificada en la Base de Datos.';
     }
 }

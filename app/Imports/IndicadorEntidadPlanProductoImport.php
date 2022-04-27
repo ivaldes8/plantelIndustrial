@@ -7,6 +7,7 @@ use App\Models\cpcu;
 use App\Models\entidad;
 use App\Models\indicador;
 use App\Models\indicadorEntidadPlanProducto;
+use App\Models\unidad;
 use App\Rules\ValidateIndicadorCodigo;
 use App\Rules\ValidateIndicadorEntidad;
 use App\Rules\ValidateIndicadorProducto;
@@ -86,7 +87,7 @@ class IndicadorEntidadPlanProductoImport implements ToCollection, WithHeadingRow
                     $data = new indicadorEntidadPlanProducto();
                     $data->value = $row[$date];
                     $data->date = $dateOfValues;
-                    $data->unidad = $unidad;
+                    $data->unidad = $unidad ? unidad::where('desc', $unidad)->get()[0]->id : null;
                     $data->indicador_id = $indicador ? indicador::where('codigo', $indicador)->get()[0]->id : null;
                     $data->producto_id = count($cpcu) > 0 ? producto::where('cpcu_id', $cpcu[0]->id)->get()[0]->id : null;
                     $data->entidad_id = $row['entidad'] ? entidad::where('codREU', $row['entidad'])->get()[0]->id : null;
