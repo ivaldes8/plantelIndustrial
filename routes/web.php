@@ -3,6 +3,7 @@
 use App\Http\Controllers\ActividadController;
 use App\Http\Controllers\CPCUController;
 use App\Http\Controllers\EntidadController;
+use App\Http\Controllers\FamiliaController;
 use App\Http\Controllers\IndicadorController;
 use App\Http\Controllers\IndicadorProductoController;
 use App\Http\Controllers\InformacionController;
@@ -110,6 +111,9 @@ Route::middleware(['auth','admin'])->group(function () {
     Route::resource('plan',PlanController::class);
     Route::get('plan/delete/{id}', [PlanController::class, 'delete'])->name('delete');
     Route::get('filteringPlan', [PlanController::class, 'filter'])->name('plan-filtering');
+
+    Route::resource('familia',FamiliaController::class);
+    Route::get('familia/delete/{id}', [FamiliaController::class, 'delete'])->name('delete');
 });
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
