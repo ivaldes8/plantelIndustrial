@@ -18,9 +18,10 @@ class CreateIndicadorEntidadPlanProductosTable extends Migration
             $table->timestamps();
             $table->double('value')->nullable();
             $table->date('date')->nullable();
-            $table->string('unidad')->nullable();
             $table->double('plan')->nullable();
             $table->string('year')->nullable();
+            $table->unsignedBigInteger('unidad_id')->unsigned()->nullable();
+            $table->foreign('unidad_id')->references('id')->on('unidads')->nullOnDelete();
             $table->unsignedBigInteger('entidad_id')->unsigned()->nullable();
             $table->foreign('entidad_id')->references('id')->on('entidads')->onDelete('cascade');
             $table->unsignedBigInteger('indicador_id')->unsigned()->nullable();

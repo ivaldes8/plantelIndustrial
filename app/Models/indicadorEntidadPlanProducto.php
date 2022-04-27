@@ -9,7 +9,7 @@ class indicadorEntidadPlanProducto extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['producto_id','indicador_id','entidad_id', 'value', 'unidad', 'date', 'plan', 'year'];
+    protected $fillable = ['producto_id','indicador_id','entidad_id', 'unidad_id','value', 'date', 'plan', 'year'];
 
     public function indicador()
     {
@@ -22,5 +22,9 @@ class indicadorEntidadPlanProducto extends Model
     public function entidad()
     {
         return $this->hasOne(entidad::class, 'id', 'entidad_id');
+    }
+    public function unidad()
+    {
+        return $this->hasOne(unidad::class, 'id', 'unidad_id');
     }
 }

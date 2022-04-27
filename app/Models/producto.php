@@ -40,4 +40,9 @@ class producto extends Model
     {
         return $this->belongsToMany(entidad::class, 'indicador_entidad_plan_productos');
     }
+
+    public function familia()
+    {
+        return $this->belongsToMany(familia::class, 'familia_productos');
+    }
 }
