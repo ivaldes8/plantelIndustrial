@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePlansTable extends Migration
+class CreateIndicadorEntidadPlanProductosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,15 @@ class CreatePlansTable extends Migration
      */
     public function up()
     {
-        Schema::create('plans', function (Blueprint $table) {
+        Schema::create('indicador_entidad_plan_productos', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->double('plan')->required();
-            $table->string('year')->required();
+            $table->double('value')->nullable();
+            $table->date('date')->nullable();
+            $table->double('plan')->nullable();
+            $table->string('year')->nullable();
+            $table->unsignedBigInteger('unidad_id')->unsigned()->nullable();
+            $table->foreign('unidad_id')->references('id')->on('unidads')->nullOnDelete();
             $table->unsignedBigInteger('entidad_id')->unsigned()->nullable();
             $table->foreign('entidad_id')->references('id')->on('entidads')->onDelete('cascade');
             $table->unsignedBigInteger('indicador_id')->unsigned()->nullable();
@@ -34,6 +38,6 @@ class CreatePlansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('plans');
+        Schema::dropIfExists('indicador_entidad_plan_productos');
     }
 }

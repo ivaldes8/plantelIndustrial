@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\IndicadorEntidadPlanProductoImport;
 use App\Models\actividad;
 use App\Models\cpcu;
 use App\Models\entidad;
@@ -11,6 +12,7 @@ use App\Models\producto;
 use App\Models\saclap;
 use Illuminate\Http\Request;
 use App\Imports\ProductoImport;
+use App\Models\indicadorEntidadPlanProducto;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProductoController extends Controller
@@ -34,12 +36,11 @@ class ProductoController extends Controller
     public function create()
     {
         $producto = 'none';
-        $entidad = entidad::all();
         $actividad = actividad::all();
         $cpcu = cpcu::all();
         $saclap = saclap::all();
         $nae = nae::all();
-        return view('producto.edit', compact('producto', 'entidad', 'actividad', 'cpcu', 'saclap', 'nae'));
+        return view('producto.edit', compact('producto', 'actividad', 'cpcu', 'saclap', 'nae'));
     }
 
     /**
@@ -64,9 +65,6 @@ class ProductoController extends Controller
         $producto->saclap_id = $request->input('saclap_id');
         $producto->nae_id = $request->input('nae_id');
         $producto->save($validatedData);
-        if($request->input('entidades') !== null){
-            $producto->entidades()->attach($request->input('entidades'));
-        }
 
         if($request->input('actividades') !== null){
             $producto->actividades()->attach($request->input('actividades'));
@@ -84,7 +82,7 @@ class ProductoController extends Controller
     public function show($id)
     {
         $producto = producto::find($id);
-        $indicador = indicadorProducto::where('producto_id',$producto->id)->get();
+        $indicador = indicadorEntidadPlanProducto::where('producto_id',$producto->id)->get();
         return view('indicadorProducto.index',compact('indicador', 'producto'));
     }
 
@@ -97,7 +95,6 @@ class ProductoController extends Controller
     public function edit($id)
     {
         $producto = producto::find($id);
-        $entidad = entidad::all();
         $actividad = actividad::all();
         $cpcu = cpcu::all();
         $saclap = saclap::all();
@@ -111,14 +108,7 @@ class ProductoController extends Controller
             }
         }
 
-        for ($i=0; $i < count($entidad); $i++) {
-            for ($j=0; $j < count($producto->entidades->toArray()); $j++) {
-                if($entidad[$i]['id']=== $producto->entidades->toArray()[$j]['id']){
-                   $entidad[$i]->org_id = 'checked';
-                }
-            }
-        }
-        return view('producto.edit', compact('producto', 'entidad', 'actividad', 'cpcu', 'saclap', 'nae'));
+        return view('producto.edit', compact('producto', 'actividad', 'cpcu', 'saclap', 'nae'));
     }
 
     /**
@@ -145,9 +135,6 @@ class ProductoController extends Controller
         $producto->saclap_id = $request->input('saclap_id');
         $producto->nae_id = $request->input('nae_id');
         $producto->update($validatedData);
-        if($request->input('entidades') !== null) {
-            $producto->entidades()->sync($request->input('entidades'));
-        }
 
         if($request->input('actividades') !== null) {
             $producto->actividades()->sync($request->input('actividades'));
@@ -244,4 +231,21 @@ class ProductoController extends Controller
     {
         return Excel::download(new EntidadExport, 'entidades.xlsx');
     }
+
+    public function fileIndicadorImportExport()
+    {
+        return view('producto.file-indacador-import');
+    }
+
+    /**
+    * @return \Illuminate\Support\Collection
+    */
+    public function fileIndicadorImport(Request $request)
+    {
+        Excel::import(new IndicadorEntidadPlanProductoImport,request()->file('file'));
+
+        return back()->with('success', 'User Imported Successfully.');
+    }
+
+
 }

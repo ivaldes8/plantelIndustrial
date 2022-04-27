@@ -59,9 +59,6 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item mx-1">
-                                <a class="nav-link {{ (request()->is('saclap*')) ? 'active' : '' }}" href="{{url('saclap')}}">Dashboard</a>
-                            </li>
                             <li class="nav-item dropdown mx-2">
                                 <a class="nav-link dropdown-toggle
                                     {{ (request()->is('organismo*')) ||
@@ -109,6 +106,7 @@
                                         (request()->is('cnae*')) ||
                                         (request()->is('actividad*')) ||
                                         (request()->is('indicador*')) ||
+                                        (request()->is('producto*')) ||
                                         (request()->is('user*'))
                                         ? 'active' : '' }}"
                                     id="navbarDropdown"
@@ -156,6 +154,11 @@
                                             Indicadores
                                         </a>
                                     </li>
+                                     <li>
+                                        <a class="dropdown-item {{ (request()->is('producto*')) ? 'active' : '' }}" href="{{url('producto')}}">
+                                            Productos
+                                        </a>
+                                    </li>
                                     @if (Auth::user()->role === 'Administrador')
                                     <li>
                                         <a class="dropdown-item {{ (request()->is('user*')) ? 'active' : '' }}" href="{{url('user')}}">
@@ -166,27 +169,8 @@
 
                                 </ul>
                             </li>
-                            <li class="nav-item dropdown mx-1">
-                                <a class="nav-link dropdown-toggle
-                                    {{ (request()->is('producto*')) ||
-                                        (request()->is('filteringProd*'))
-                                        ? 'active' : '' }}"
-                                    id="navbarDropdown"
-                                    role="button"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false">Productos</a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li>
-                                        <a class="dropdown-item {{ (request()->is('producto*')) ? 'active' : '' }}" href="{{url('producto')}}">
-                                            Gestionar Productos
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item {{ (request()->is('filteringProd*')) ? 'active' : '' }}" href="{{url('filteringProd')}}">
-                                            Filtrar Productos
-                                        </a>
-                                    </li>
-                                </ul>
+                            <li class="nav-item mx-1">
+                                <a class="nav-link {{ (request()->is('informacion*')) ? 'active' : '' }}" href="{{url('informacion')}}">Gestionar Información</a>
                             </li>
                             <li class="nav-item dropdown mx-1">
                                 <a class="nav-link dropdown-toggle

@@ -26,6 +26,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Código</th>
                                 <th>Descripción</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
@@ -34,12 +35,13 @@
                         <tbody>
                         @if (count($indicador) < 1)
                             <tr>
-                                <td class="text-center" colspan="7">No se encontraron indicadores</td>
+                                <td class="text-center" colspan="8">No se encontraron indicadores</td>
                             </tr>
                         @else
                             @foreach ($indicador as $item)
                                 <tr>
                                     <td>{{$item->id}}</td>
+                                    <td>{{$item->codigo}}</td>
                                     <td>{{$item->desc}}</td>
                                     <td>
                                         <a href="{{url('indicador/'.$item->id.'/edit')}}" class="btn-sm btn-primary">Editar</a>

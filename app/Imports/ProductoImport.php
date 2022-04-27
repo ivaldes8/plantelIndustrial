@@ -35,7 +35,6 @@ class ProductoImport implements ToCollection, WithHeadingRow
             '*.cpcu' => ['required','exists:cpcus,codigo',new RepeatCPCUProducto()],
             '*.saclap' => ['required','exists:saclaps,codigo',new RepeatSACLAPProducto()],
             '*.cnae' => ['required','exists:naes,codigo'],
-            '*.entidades' => [new ValidateEntidadesProducto()],
             '*.actividadesindustriales' => [new ValidateActividadesProducto()]
         ],
         [
@@ -46,7 +45,6 @@ class ProductoImport implements ToCollection, WithHeadingRow
             '*.saclap.exists' => 'No existen saclaps con el código: :input cerca de: :attribute ',
             '*.cnae.required' => 'Hay cnaes vacíos cerca de: :attribute',
             '*.cnae.exists' => 'No existen cnaes con el código: :input cerca de: :attribute ',
-            '*.entidades.required' => 'Hay entidades vacías cerca de: :attribute',
         ])->validate();
 
         foreach ($collection as $row) {
@@ -57,14 +55,6 @@ class ProductoImport implements ToCollection, WithHeadingRow
             $producto->nae_id = nae::where('codigo', $row['cnae'])->get()[0]->id;
             $producto->save();
 
-            if($row['entidades']){
-                $entidades = explode( '/', $row['entidades'] );
-                $entidadesId = [];
-                for ($i=0; $i < count($entidades); $i++) {
-                    array_push($entidadesId,entidad::where('codREU', $entidades[$i])->get()[0]->id);
-                }
-                $producto->entidades()->attach($entidadesId);
-            }
             if($row['actividadesindustriales']){
                 $actividades = explode( '/', $row['actividadesindustriales'] );
                 $actividadesId = [];

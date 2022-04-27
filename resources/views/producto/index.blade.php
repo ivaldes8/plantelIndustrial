@@ -30,12 +30,10 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Descripción</th>
-                                <th>Entidades</th>
                                 <th>CPCU</th>
                                 <th>SACLAP</th>
                                 <th>CNAE</th>
                                 <th>Actividades Industriales</th>
-                                <th>Indicadores</th>
                                 <th>Editar</th>
                                 <th>Delete</th>
                             </tr>
@@ -43,21 +41,13 @@
                         <tbody>
                         @if (count($producto) < 1)
                             <tr>
-                                <td class="text-center" colspan="10">No se encontraron productos</td>
+                                <td class="text-center" colspan="9">No se encontraron productos</td>
                             </tr>
                         @else
                             @foreach ($producto as $item)
                                 <tr>
                                     <td>{{$item->id}}</td>
                                     <td>{{$item->desc}}</td>
-                                    <td>@if (count($item->entidades) > 0)
-                                            @foreach ($item->entidades as $entidad)
-                                               / {{$entidad->name}}
-                                            @endforeach
-                                        @else
-                                           ---
-                                        @endif
-                                    </td>
                                     <td>{{$item->cpcu ? $item->cpcu->codigo : '---'}}</td>
                                     <td>{{$item->saclap ? $item->saclap->codigo : '---'}}</td>
                                     <td>{{$item->cnae ? $item->cnae->codigo : '---'}}</td>
@@ -68,9 +58,6 @@
                                         @else
                                            ---
                                         @endif
-                                    </td>
-                                    <td>
-                                    <a href="{{url('producto/'.$item->id)}}" class="btn-sm btn-success">Indicadores</a>
                                     </td>
                                     <td>
                                         <a href="{{url('producto/'.$item->id.'/edit')}}" class="btn-sm btn-primary">Editar</a>

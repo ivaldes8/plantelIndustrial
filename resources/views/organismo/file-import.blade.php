@@ -38,8 +38,8 @@
                     <div class="col-12">
                         <div class="alert alert-primary" role="alert">
                             <h4><i class="bi-exclamation-circle"></i> Atención:</h4>
-                            <p>1-Cada fila del excel será toamda como un organismo a agregar</p>
-                            <p>2-Toda fila del excel debe tener un nomre, código y siglas</p>
+                            <p>1-Cada fila del excel será tomada como un organismo a agregar</p>
+                            <p>2-Toda fila del excel debe tener un nombre, código y siglas</p>
                             <p>3-Los códigos a importar no deben existir en la base de datos</p>
                         </div>
                     </div>

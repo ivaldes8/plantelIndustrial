@@ -2,14 +2,16 @@
 
 namespace App\Rules;
 
+use App\Models\actividad;
 use Illuminate\Contracts\Validation\Rule;
 use App\Models\producto;
 use App\Models\cpcu;
 use App\Models\entidad;
+use App\Models\indicador;
 use App\Models\saclap;
 use App\Models\nae;
 
-class ValidateEntidadesProducto implements Rule
+class ValidateIndicadorCodigo implements Rule
 {
     /**
      * Create a new rule instance.
@@ -34,18 +36,19 @@ class ValidateEntidadesProducto implements Rule
         if(!$value){
             return true;
         }
-        $reusArray = explode( '/', $value );
-        if(count($reusArray) === 0){
+        $codInd = explode( '/', $value );
+        if(count($codInd) === 0){
             return true;
         }
-        $findAll = true;
-        for ($i=0; $i < count($reusArray); $i++) {
-           $entidad = entidad::where('codREU', $reusArray[$i])->get();
-           if(count($entidad) === 0){
-               $findAll = false;
-           }
+        $findIndicador = true;
+        if(count($codInd) > 1){
+            $indicador = indicador::where('codigo', $codInd[0])->get();
+            if(count($indicador) === 0){
+                $findIndicador = false;
+            }
         }
-        if($findAll === true){
+
+        if($findIndicador === true){
             return true;
         }
     }
@@ -57,6 +60,6 @@ class ValidateEntidadesProducto implements Rule
      */
     public function message()
     {
-        return 'Uno de estos códigos REU de las entidades :input no se encuentran registrados en la base de datos cerca de :attribute.';
+        return 'El codigo del indicador especificado no se encuentra en la base de datos';
     }
 }

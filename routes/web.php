@@ -5,6 +5,7 @@ use App\Http\Controllers\CPCUController;
 use App\Http\Controllers\EntidadController;
 use App\Http\Controllers\IndicadorController;
 use App\Http\Controllers\IndicadorProductoController;
+use App\Http\Controllers\InformacionController;
 use App\Http\Controllers\NAEController;
 use App\Http\Controllers\OrganismoController;
 use App\Http\Controllers\OSDEController;
@@ -77,6 +78,11 @@ Route::middleware(['auth','admin'])->group(function () {
     Route::get('producto-file-import', [ProductoController::class, 'fileImportExport']);
     Route::post('producto-file-import', [ProductoController::class, 'fileImport']);
     Route::get('producto-file-export', [ProductoController::class, 'export']);
+
+    Route::resource('informacion',InformacionController::class);
+    Route::get('informacion/delete/{id}', [InformacionController::class, 'delete'])->name('delete');
+    Route::get('informacion-file-import', [InformacionController::class, 'fileImportExport']);
+    Route::post('informacion-file-import', [InformacionController::class, 'fileImport']);
 
     Route::resource('actividad',ActividadController::class);
     Route::get('actividad/delete/{id}', [ActividadController::class, 'delete'])->name('delete');
