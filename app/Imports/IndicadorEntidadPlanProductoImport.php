@@ -36,7 +36,7 @@ class IndicadorEntidadPlanProductoImport implements ToCollection, WithHeadingRow
             $collection->toArray(),
             [
                 '0.indicador' => ['required', new ValidateIndicadorUnidad(), new ValidateIndicadorCodigo()],
-                '*.producto' => ['required', new ValidateIndicadorProducto()],
+                '*.producto' => [new ValidateIndicadorProducto()],
                 '*.entidad' => new ValidateIndicadorEntidad(),
             ],
             [
@@ -50,9 +50,12 @@ class IndicadorEntidadPlanProductoImport implements ToCollection, WithHeadingRow
         $datesArray = [];
         foreach ($collection as $key => $row) {
             $datesArray = $row->keys();
+            $rowInExecel = $key + 2;
             if (!$row['producto'] && !$row['entidad']) {
-                $rowInExecel = $key + 2;
                 return back()->withErrors(['msg' => 'Existen valores que no tienen asignados productos ni entidades en la fila: ' . $rowInExecel]);
+            }
+            if($row['entidad'] && !$row['producto']){
+                return back()->withErrors(['msg' => 'Existen entidades que no tienen asignado un producto en la fila: ' . $rowInExecel]);
             }
         }
 
@@ -87,7 +90,7 @@ class IndicadorEntidadPlanProductoImport implements ToCollection, WithHeadingRow
                     $data = new indicadorEntidadPlanProducto();
                     $data->value = $row[$date];
                     $data->date = $dateOfValues;
-                    $data->unidad = $unidad ? unidad::where('desc', $unidad)->get()[0]->id : null;
+                    $data->unidad_id = $unidad ? unidad::where('desc', $unidad)->get()[0]->id : null;
                     $data->indicador_id = $indicador ? indicador::where('codigo', $indicador)->get()[0]->id : null;
                     $data->producto_id = count($cpcu) > 0 ? producto::where('cpcu_id', $cpcu[0]->id)->get()[0]->id : null;
                     $data->entidad_id = $row['entidad'] ? entidad::where('codREU', $row['entidad'])->get()[0]->id : null;

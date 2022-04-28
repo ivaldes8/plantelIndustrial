@@ -52,7 +52,7 @@
                                     <td>{{$item->entidad ? $item->entidad->name : '---'}}</td>
                                     <td>{{$item->indicador ? $item->indicador->desc : '---'}}</td>
                                     <td>{{$item->value}}</td>
-                                    <td>{{$item->unidad}}</td>
+                                    <td>{{$item->unidad->desc}}</td>
                                     <td>{{$item->date}}</td>
                                     <td>
                                         <a href="{{url('informacion/'.$item->id.'/edit')}}" class="btn-sm btn-primary">Editar</a>
