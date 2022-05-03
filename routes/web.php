@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ActividadController;
 use App\Http\Controllers\CPCUController;
+use App\Http\Controllers\CuotaMercadoController;
 use App\Http\Controllers\EntidadController;
 use App\Http\Controllers\FamiliaController;
 use App\Http\Controllers\IndicadorController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\OrganismoController;
 use App\Http\Controllers\OSDEController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\ReportesController;
 use App\Http\Controllers\SACLAPController;
 use App\Http\Controllers\UnidadController;
 use Illuminate\Support\Facades\Route;
@@ -114,6 +116,8 @@ Route::middleware(['auth','admin'])->group(function () {
 
     Route::resource('familia',FamiliaController::class);
     Route::get('familia/delete/{id}', [FamiliaController::class, 'delete'])->name('delete');
+
+    Route::get('cuotaDeMercado', [ReportesController::class, 'cuotaDeMercado'])->name('cuotaDeMercado');
 });
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

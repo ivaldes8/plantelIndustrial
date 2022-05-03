@@ -36,6 +36,11 @@ class producto extends Model
         return $this->belongsToMany(indicador::class, 'indicador_entidad_plan_productos');
     }
 
+    public function informacion()
+    {
+        return $this->hasMany(indicadorEntidadPlanProducto::class, 'producto_id', 'id');
+    }
+
     public function entidades()
     {
         return $this->belongsToMany(entidad::class, 'indicador_entidad_plan_productos');

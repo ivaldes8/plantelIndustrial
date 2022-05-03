@@ -3,8 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Imports\IndicadorEntidadPlanProductoImport;
+use App\Models\actividad;
+use App\Models\cpcu;
+use App\Models\entidad;
+use App\Models\familia;
+use App\Models\indicador;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\indicadorEntidadPlanProducto;
+use App\Models\nae;
+use App\Models\producto;
+use App\Models\saclap;
+use App\Models\unidad;
 use Illuminate\Http\Request;
 
 class InformacionController extends Controller
@@ -16,8 +25,18 @@ class InformacionController extends Controller
      */
     public function index()
     {
+
+        $productos = producto::all();
+        $cpcus = cpcu::all();
+        $saclaps = saclap::all();
+        $naes = nae::all();
+        $familias = familia::all();
+        $entidades = entidad::all();
+        $unidades = unidad::all();
+        $actividades = actividad::all();
+        $indicadores = indicador::all();
         $informacion = indicadorEntidadPlanProducto::orderBy('date','ASC')->paginate(50);
-        return view('informacion.index',compact('informacion'));
+        return view('informacion.index',compact('informacion', 'productos', 'cpcus', 'saclaps', 'naes', 'familias', 'entidades', 'unidades', 'actividades', 'indicadores'));
     }
 
     /**

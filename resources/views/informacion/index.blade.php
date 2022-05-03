@@ -24,6 +24,130 @@
                 </div>
             </div>
             <div class="card-body">
+                <form action="{{ url('cpcu') }}" method="get">
+                    <div class="row">
+                        <div class="col-3 mt-1 d-flex justify-content-start">
+                            <div class="input-group">
+                                <select name="producto" class="form-control form-control-sm productoSelect">
+                                    <option></option>
+                                    @foreach ($productos as $item)
+                                        <option value="{{ $item->id }}">{{ $item->desc }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-3 mt-1 d-flex justify-content-start">
+                            <div class="input-group ">
+                                <select name="cpcu" class="form-control form-control-sm cpcuSelect">
+                                    <option></option>
+                                    @foreach ($cpcus as $item)
+                                        <option value="{{ $item->id }}">{{ $item->codigo }} {{ $item->desc }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-3 mt-1 d-flex justify-content-start">
+                            <div class="input-group ">
+                                <select name="saclap" class="form-control form-control-sm saclapSelect">
+                                    <option></option>
+                                    @foreach ($saclaps as $item)
+                                        <option value="{{ $item->id }}">{{ $item->codigo }} {{ $item->desc }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-3 d-flex justify-content-end">
+                            <button class="btn btn-sm btn-primary mx-1" type="submit">Buscar</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3 mt-1 d-flex justify-content-start">
+                            <div class="input-group">
+                                <select name="familia" class="form-control form-control-sm familiaSelect">
+                                    <option></option>
+                                    @foreach ($familias as $item)
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-3 mt-1 d-flex justify-content-start">
+                            <div class="input-group ">
+                                <select name="entidad" class="form-control form-control-sm entidadSelect">
+                                    <option></option>
+                                    @foreach ($entidades as $item)
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-3 mt-1 d-flex justify-content-start">
+                            <div class="input-group">
+                                <select name="nae" class="form-control form-control-sm naeSelect">
+                                    <option></option>
+                                    @foreach ($naes as $item)
+                                        <option value="{{ $item->id }}">{{ $item->codigo }} {{ $item->desc }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-2 mt-1 d-flex justify-content-start">
+                            <div class="input-group ">
+                                <select name="unidad" class="form-control form-control-sm unidadSelect">
+                                    <option></option>
+                                    @foreach ($unidades as $item)
+                                        <option value="{{ $item->id }}">{{ $item->desc }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3 mt-1 d-flex justify-content-start">
+                            <div class="input-group">
+                                <select name="actividad" class="form-control form-control-sm actSelect">
+                                    <option></option>
+                                    @foreach ($actividades as $item)
+                                        <option value="{{ $item->id }}">{{ $item->desc }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-3 mt-1 d-flex justify-content-start">
+                            <div class="input-group ">
+                                <select name="indicador" class="form-control form-control-sm indicadorSelect">
+                                    <option></option>
+                                    @foreach ($indicadores as $item)
+                                        <option value="{{ $item->id }}">{{ $item->desc }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-3 mt-1 d-flex justify-content-start">
+                            <div class="input-group ">
+                                <input type="number" name="valorIni" class="form-control form-control-sm" id="valor" placeholder="Valor desde">
+                            </div>
+                        </div>
+                        <div class="col-3 mt-1 d-flex justify-content-start">
+                            <div class="input-group ">
+                                <input type="number" name="valorEnd" class="form-control form-control-sm" id="valor" placeholder="Valor hasta">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3 mt-1 d-flex justify-content-start">
+                            <div class="input-group ">
+                                <input type="text" name="fechaIni" class="form-control form-control-sm startDate" id="fechaIni" placeholder="Desde ...">
+                            </div>
+                        </div>
+                        <div class="col-3 mt-1 d-flex justify-content-start">
+                            <div class="input-group ">
+                                <input type="text" name="fechaEnd" class="form-control form-control-sm endDate" id="fechaEnd" placeholder="Hasta ...">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <hr>
                 <div class="table-responsive">
                     <table class="table table-primary table-bordered table-striped">
                         <thead>
@@ -69,7 +193,7 @@
                         </tbody>
                     </table>
                     <div class="d-flex">
-                        {{ $informacion->links() }}
+                        {{ $informacion->withQueryString()->links() }}
                     </div>
                 </div>
             </div>
@@ -115,6 +239,56 @@
                 }
                 , timeout: 8000
             })
+        });
+        $(document).ready(function() {
+            $('.productoSelect').select2({
+                placeholder: "Productos",
+                allowClear: true
+            });
+            $('.cpcuSelect').select2({
+                placeholder: "Código CPCU",
+                allowClear: true
+            });
+            $('.saclapSelect').select2({
+                placeholder: "Código SACLAP",
+                allowClear: true
+            });
+            $('.familiaSelect').select2({
+                placeholder: "Familia",
+                allowClear: true
+            });
+            $('.entidadSelect').select2({
+                placeholder: "Entidad",
+                allowClear: true
+            });
+            $('.naeSelect').select2({
+                placeholder: "Código NAE",
+                allowClear: true
+            });
+            $('.unidadSelect').select2({
+                placeholder: "Unidad de medida",
+                allowClear: true
+            });
+            $('.actSelect').select2({
+                placeholder: "Actividades Industriales",
+                allowClear: true
+            });
+            $('.indicadorSelect').select2({
+                placeholder: "Indicadores",
+                allowClear: true
+            });
+            $('.startDate').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                autoclose: true,
+                orientation: 'bottom'
+            });
+            $('.endDate').datepicker({
+                format: 'dd/mm/yyyy',
+                todayHighlight: true,
+                autoclose: true,
+                orientation: 'bottom'
+            });
         });
     </script>
 @endsection

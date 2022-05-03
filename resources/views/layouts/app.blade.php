@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,7 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Plantel-Industrial') }}</title>
-    <link rel="icon" type="image/x-icon" href="{{asset('1.ico')}}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('1.ico') }}">
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -29,17 +30,20 @@
     <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet" />
     <script src="{{ asset('js/select2.min.js') }}"></script>
 </head>
+
 <body>
     <div id="app">
-        <a class="col-12 card disaicBrand" href = "http://www.disaic.cu">
-        <img class="disaicLogo" src="{{ asset('logotipo disaic2.png') }}" alt="">
+        <a class="col-12 card disaicBrand" href="http://www.disaic.cu">
+            <img class="disaicLogo" src="{{ asset('logotipo disaic2.png') }}" alt="">
         </a>
         <nav class="navbar navbar-expand-md navbar-light bg-white main-nav shadow-sm sticky-top">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     Plantel Industrial
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -59,174 +63,164 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item dropdown mx-2">
-                                <a class="nav-link dropdown-toggle
-                                    {{ (request()->is('organismo*')) ||
-                                        (request()->is('osde*')) ||
-                                        (request()->is('entidad*')) ||
-                                        (request()->is('user*'))
-                                        ? 'active' : '' }}"
-                                    id="navbarDropdown"
-                                    role="button"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false">Reportes</a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li>
-                                        <a class="dropdown-item {{ (request()->is('organismo*')) ? 'active' : '' }}" href="{{url('organismo')}}">
-                                            Organismos
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item {{ (request()->is('osde*')) ? 'active' : '' }}" href="{{url('osde')}}">
-                                            Osdes
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item {{ (request()->is('entidad*')) ? 'active' : '' }}" href="{{url('entidad')}}">
-                                            Entidades
-                                        </a>
-                                    </li>
-                                    @if (Auth::user()->role === 'Administrador')
-                                    <li>
-                                        <a class="dropdown-item {{ (request()->is('user*')) ? 'active' : '' }}" href="{{url('user')}}">
-                                            Usuarios
-                                        </a>
-                                    </li>
-                                    @endif
-
-                                </ul>
-                            </li>
                             <li class="nav-item dropdown mx-1">
                                 <a class="nav-link dropdown-toggle
-                                    {{ (request()->is('organismo*')) ||
-                                        (request()->is('unidad*')) ||
-                                        (request()->is('osde*')) ||
-                                        (request()->is('entidad*')) ||
-                                        (request()->is('cpcu*')) ||
-                                        (request()->is('saclap*')) ||
-                                        (request()->is('cnae*')) ||
-                                        (request()->is('actividad*')) ||
-                                        (request()->is('indicador*')) ||
-                                        (request()->is('producto*')) ||
-                                        (request()->is('user*'))
-                                        ? 'active' : '' }}"
-                                    id="navbarDropdown"
-                                    role="button"
-                                    data-bs-toggle="dropdown"
+                                    {{ request()->is('organismo*') ||
+                                    request()->is('unidad*') ||
+                                    request()->is('osde*') ||
+                                    request()->is('entidad*') ||
+                                    request()->is('cpcu*') ||
+                                    request()->is('saclap*') ||
+                                    request()->is('cnae*') ||
+                                    request()->is('actividad*') ||
+                                    request()->is('indicador*') ||
+                                    request()->is('producto*') ||
+                                    request()->is('user*')
+                                        ? 'active'
+                                        : '' }}"
+                                    id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                                     aria-expanded="false">Nomencladores</a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li>
-                                        <a class="dropdown-item {{ (request()->is('unidad*')) ? 'active' : '' }}" href="{{url('unidad')}}">
+                                        <a class="dropdown-item {{ request()->is('unidad*') ? 'active' : '' }}"
+                                            href="{{ url('unidad') }}">
                                             Unidades de medida
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item {{ (request()->is('organismo*')) ? 'active' : '' }}" href="{{url('organismo')}}">
+                                        <a class="dropdown-item {{ request()->is('organismo*') ? 'active' : '' }}"
+                                            href="{{ url('organismo') }}">
                                             Organismos
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item {{ (request()->is('osde*')) ? 'active' : '' }}" href="{{url('osde')}}">
+                                        <a class="dropdown-item {{ request()->is('osde*') ? 'active' : '' }}"
+                                            href="{{ url('osde') }}">
                                             Osdes
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item {{ (request()->is('entidad*')) ? 'active' : '' }}" href="{{url('entidad')}}">
+                                        <a class="dropdown-item {{ request()->is('entidad*') ? 'active' : '' }}"
+                                            href="{{ url('entidad') }}">
                                             Entidades
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item {{ (request()->is('cpcu*')) ? 'active' : '' }}" href="{{url('cpcu')}}">
+                                        <a class="dropdown-item {{ request()->is('cpcu*') ? 'active' : '' }}"
+                                            href="{{ url('cpcu') }}">
                                             CPCU
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item {{ (request()->is('saclap*')) ? 'active' : '' }}" href="{{url('saclap')}}">
+                                        <a class="dropdown-item {{ request()->is('saclap*') ? 'active' : '' }}"
+                                            href="{{ url('saclap') }}">
                                             SACLAP
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item {{ (request()->is('cnae*')) ? 'active' : '' }}" href="{{url('cnae')}}">
+                                        <a class="dropdown-item {{ request()->is('cnae*') ? 'active' : '' }}"
+                                            href="{{ url('cnae') }}">
                                             CNAE
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item {{ (request()->is('actividad*')) ? 'active' : '' }}" href="{{url('actividad')}}">
+                                        <a class="dropdown-item {{ request()->is('actividad*') ? 'active' : '' }}"
+                                            href="{{ url('actividad') }}">
                                             Actividades Industriales
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item {{ (request()->is('indicador*')) ? 'active' : '' }}" href="{{url('indicador')}}">
+                                        <a class="dropdown-item {{ request()->is('indicador*') ? 'active' : '' }}"
+                                            href="{{ url('indicador') }}">
                                             Indicadores
                                         </a>
                                     </li>
-                                     <li>
-                                        <a class="dropdown-item {{ (request()->is('producto*')) ? 'active' : '' }}" href="{{url('producto')}}">
+                                    <li>
+                                        <a class="dropdown-item {{ request()->is('producto*') ? 'active' : '' }}"
+                                            href="{{ url('producto') }}">
                                             Productos
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item {{ (request()->is('familia*')) ? 'active' : '' }}" href="{{url('familia')}}">
+                                        <a class="dropdown-item {{ request()->is('familia*') ? 'active' : '' }}"
+                                            href="{{ url('familia') }}">
                                             Familia de productos
                                         </a>
                                     </li>
                                     @if (Auth::user()->role === 'Administrador')
-                                    <li>
-                                        <a class="dropdown-item {{ (request()->is('user*')) ? 'active' : '' }}" href="{{url('user')}}">
-                                            Usuarios
-                                        </a>
-                                    </li>
+                                        <li>
+                                            <a class="dropdown-item {{ request()->is('user*') ? 'active' : '' }}"
+                                                href="{{ url('user') }}">
+                                                Usuarios
+                                            </a>
+                                        </li>
                                     @endif
 
                                 </ul>
                             </li>
                             <li class="nav-item mx-1">
-                                <a class="nav-link {{ (request()->is('informacion*')) ? 'active' : '' }}" href="{{url('informacion')}}">Gestionar Información</a>
+                                <a class="nav-link {{ request()->is('informacion*') ? 'active' : '' }}"
+                                    href="{{ url('informacion') }}">Gestionar Información</a>
                             </li>
                             <li class="nav-item dropdown mx-1">
                                 <a class="nav-link dropdown-toggle
-                                    {{ (request()->is('plan*')) ||
-                                        (request()->is('importP*')) ||
-                                        (request()->is('filteringPlan*'))
-                                        ? 'active' : '' }}"
-                                    id="navbarDropdown"
-                                    role="button"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false">Planes Anuales</a>
+                                {{ request()->is('cuotaDeMercado*') || request()->is('osde*')
+                                    ? 'active'
+                                    : '' }}"
+                                    id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">Reportes</a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li>
-                                        <a class="dropdown-item {{ (request()->is('plan*')) ? 'active' : '' }}" href="{{url('plan')}}">
+                                        <a class="dropdown-item {{ request()->is('unidad*') ? 'active' : '' }}"
+                                            href="{{ url('cuotaDeMercado') }}">
+                                            Grado de satisfacción de la demanda nacional
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown mx-1">
+                                <a class="nav-link dropdown-toggle
+                                    {{                                     request()->is('plan*') || request()->is('importP*') || request()->is('filteringPlan*') ? 'active' : '' }}"
+                                    id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Planes
+                                    Anuales</a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item {{ request()->is('plan*') ? 'active' : '' }}"
+                                            href="{{ url('plan') }}">
                                             Gestionar Planes Anuales
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item {{ (request()->is('osde*')) ? 'active' : '' }}" href="{{url('osde')}}">
+                                        <a class="dropdown-item {{ request()->is('osde*') ? 'active' : '' }}"
+                                            href="{{ url('osde') }}">
                                             Importar Planes Anuales
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item {{ (request()->is('filteringPlan*')) ? 'active' : '' }}" href="{{url('filteringPlan')}}">
+                                        <a class="dropdown-item {{ request()->is('filteringPlan*') ? 'active' : '' }}"
+                                            href="{{ url('filteringPlan') }}">
                                             Filtrar Planes Anuales
                                         </a>
                                     </li>
                                 </ul>
                             </li>
                             <!-- <li class="nav-item mx-1">
-                                <a class="nav-link {{ (request()->is('plan*')) ? 'active' : '' }}" href="{{url('plan')}}">Planes Anuales</a>
-                            </li> -->
+                                    <a class="nav-link {{ request()->is('plan*') ? 'active' : '' }}" href="{{ url('plan') }}">Planes Anuales</a>
+                                </li> -->
                             <li class="nav-item dropdown mx-1">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                         document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        class="d-none">
                                         @csrf
                                     </form>
                                 </div>
@@ -242,4 +236,5 @@
         </main>
     </div>
 </body>
+
 </html>
