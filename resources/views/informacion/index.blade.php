@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <form action="{{ url('cpcu') }}" method="get">
+                <form action="{{ url('informacion') }}" method="get">
                     <div class="row">
                         <div class="col-3 mt-1 d-flex justify-content-start">
                             <div class="input-group">

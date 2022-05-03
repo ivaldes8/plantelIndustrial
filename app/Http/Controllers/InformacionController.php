@@ -14,6 +14,7 @@ use App\Models\nae;
 use App\Models\producto;
 use App\Models\saclap;
 use App\Models\unidad;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class InformacionController extends Controller
@@ -35,7 +36,82 @@ class InformacionController extends Controller
         $unidades = unidad::all();
         $actividades = actividad::all();
         $indicadores = indicador::all();
-        $informacion = indicadorEntidadPlanProducto::orderBy('date','ASC')->paginate(50);
+
+        $query = indicadorEntidadPlanProducto::query();
+
+        $query->when(request()->input('producto'), function($q) {
+            return $q->where('producto_id',request()->input('producto'));
+        });
+
+        $query->when(request()->input('cpcu'), function($q) {
+            $q->whereHas('producto', function($q)
+            {
+                return $q->where('cpcu_id',request()->input('cpcu'));
+            });
+        });
+
+        $query->when(request()->input('saclap'), function($q) {
+            $q->whereHas('producto', function($q)
+            {
+                return $q->where('saclap_id',request()->input('saclap'));
+            });
+        });
+
+        $query->when(request()->input('nae'), function($q) {
+            $q->whereHas('producto', function($q)
+            {
+                return $q->where('nae_id',request()->input('nae'));
+            });
+        });
+
+        $query->when(request()->input('familia'), function($q) {
+            $q->whereHas('producto', function($q)
+            {
+                $q->whereHas('familia', function($q) {
+                    return $q->where('familia_id',request()->input('familia'));
+                });
+            });
+        });
+
+        $query->when(request()->input('entidad'), function($q) {
+            return $q->where('entidad_id',request()->input('entidad'));
+        });
+
+        $query->when(request()->input('unidad'), function($q) {
+            return $q->where('unidad_id',request()->input('unidad'));
+        });
+
+        $query->when(request()->input('actividad'), function($q) {
+            $q->whereHas('producto', function($q)
+            {
+                $q->whereHas('actividades', function($q) {
+                    return $q->where('actividad_id',request()->input('actividad'));
+                });
+            });
+        });
+
+        $query->when(request()->input('indicador'), function($q) {
+            return $q->where('indicador_id',request()->input('indicador'));
+        });
+
+        $query->when(request()->input('valorIni'), function($q) {
+            return $q->where('value','>=',request()->input('valorIni'));
+        });
+
+        $query->when(request()->input('valorEnd'), function($q) {
+            return $q->where('value','<=',request()->input('valorEnd'));
+        });
+
+        $query->when(request()->input('fechaIni'), function($q) {
+            return $q->whereDate('date','>=', Carbon::createFromFormat('d/m/Y', request()->input('fechaIni'))->toDateString());
+        });
+
+        $query->when(request()->input('fechaEnd'), function($q) {
+            return $q->whereDate('date','<=', Carbon::createFromFormat('d/m/Y', request()->input('fechaEnd'))->toDateString());
+        });
+
+        $informacion = $query->orderBy('date','ASC')->paginate(50);
+
         return view('informacion.index',compact('informacion', 'productos', 'cpcus', 'saclaps', 'naes', 'familias', 'entidades', 'unidades', 'actividades', 'indicadores'));
     }
 
