@@ -46,11 +46,11 @@
                                         <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" {{$item->active ? 'checked' : ''}} disabled>
                                     </div>
                                 <td>
-                                    <a href="{{url('user/'.$item->id.'/edit')}}" class="btn-sm btn-primary">Editar</a>
+                                    <a href="{{url('user/'.$item->id.'/edit')}}" class="btn-sm btn-primary"><i class="bi bi-pencil"></i></a>
                                 </td>
                                 <td>
                                     <button class="btn-sm btn-danger" data-toggle="modal" id="smallButton" data-target="#smallModal" data-attr="{{ url('user/delete', $item->id) }}" title="Delete Project">
-                                        Eliminar
+                                        <i class="bi bi-trash"></i>
                                     </button>
                                 </td>
                             </tr>

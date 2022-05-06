@@ -16,6 +16,7 @@ use App\Models\saclap;
 use App\Models\unidad;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\Calculation\LookupRef\Indirect;
 
 class InformacionController extends Controller
 {
@@ -122,7 +123,12 @@ class InformacionController extends Controller
      */
     public function create()
     {
-        //
+        $informacion = 'none';
+        $productos = producto::all();
+        $entidades = entidad::all();
+        $indicadores = indicador::all();
+        $unidades = unidad::all();
+        return view('informacion.edit', compact('informacion', 'productos', 'entidades', 'indicadores', 'unidades'));
     }
 
     /**
@@ -133,7 +139,24 @@ class InformacionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'producto' => 'required',
+            'indicador' => 'required',
+            'valor' => 'required',
+            'unidad' => 'required',
+            'fecha' => 'required'
+        ], [
+            'required' => 'Este campo es requerido'
+        ]);
+        $informacion = new indicadorEntidadPlanProducto();
+        $informacion->producto_id = $request->input('producto');
+        $informacion->entidad_id = $request->input('entidad');
+        $informacion->indicador_id = $request->input('indicador');
+        $informacion->value = $request->input('valor');
+        $informacion->unidad_id = $request->input('unidad');
+        $informacion->date = Carbon::createFromFormat('d/m/Y', $request->input('fecha'))->toDateString();
+        $informacion->save($validatedData);
+        return redirect('/informacion')->with('status','Infomación creada satisfactoriamente');
     }
 
     /**
@@ -155,7 +178,12 @@ class InformacionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $informacion = indicadorEntidadPlanProducto::find($id);
+        $productos = producto::all();
+        $entidades = entidad::all();
+        $indicadores = indicador::all();
+        $unidades = unidad::all();
+        return view('informacion.edit', compact('informacion', 'productos', 'entidades', 'indicadores', 'unidades'));
     }
 
     /**
@@ -167,7 +195,25 @@ class InformacionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validatedData = $request->validate([
+            'producto' => 'required',
+            'indicador' => 'required',
+            'valor' => 'required',
+            'unidad' => 'required',
+            'fecha' => 'required'
+        ], [
+            'required' => 'Este campo es requerido'
+        ]);
+
+        $informacion = indicadorEntidadPlanProducto::find($id);
+        $informacion->producto_id = $request->input('producto');
+        $informacion->entidad_id = $request->input('entidad');
+        $informacion->indicador_id = $request->input('indicador');
+        $informacion->value = $request->input('valor');
+        $informacion->unidad_id = $request->input('unidad');
+        $informacion->date = Carbon::createFromFormat('Y-m-d', $request->input('fecha'))->toDateString();
+        $informacion->update($validatedData);
+        return redirect('/informacion')->with('status','Infomación editada satisfactoriamente');
     }
 
     public function delete($id)

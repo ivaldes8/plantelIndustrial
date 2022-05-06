@@ -13,82 +13,88 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-6 mt-1 d-flex justify-content-start">
-                      {{$producto === "none" ? 'Crear Producto' : 'Editar Producto'}}
+                      {{$informacion === "none" ? 'Crear Información' : 'Editar Información'}}
                     </div>
                     <div class="col-6 d-flex justify-content-end">
-                        <a href="{{url('producto')}}" class="btn btn-success">Atrás</a>
+                        <a href="{{url('informacion')}}" class="btn btn-success">Atrás</a>
                     </div>
                 </div>
             </div>
             <div class="card-body">
-            @if($producto === "none")
-                <form action="{{url('producto')}}" method="POST">
+            @if($informacion === "none")
+                <form action="{{url('informacion')}}" method="POST">
             @else
-                <form action="{{url('producto/'.$producto->id)}}" method="POST">
+                <form action="{{url('informacion/'.$informacion->id)}}" method="POST">
                     @method('PUT')
             @endif
                     @csrf
                     <div class="form-group mb-3">
-                        <label for="">Descripción:</label>
-                        <input type="text" name="desc" class="form-control" value="{{ $producto !== 'none' ? $producto->desc : '' }}">
-                        @if ($errors->has('desc'))
-                            <span class="text-danger">{{ $errors->first('desc') }}</span>
+                        <label for="">Producto:</label>
+                        <select name="producto" class="form-select prodSelect">
+                            @foreach ($productos as $item)
+                                <option {{ $informacion !== 'none' && $item->id == $informacion->producto_id ? 'selected' : '' }} value="{{$item->id}}">{{$item->desc}}</option>
+                            @endforeach
+                        </select>
+                        @if ($errors->has('producto'))
+                            <span class="text-danger">{{ $errors->first('producto') }}</span>
                         @endif
                     </div>
 
                     <div class="form-group mb-3">
-                        <label for="">Actividades Industriales:</label>
-                        <select name="actividades[]" multiple="multiple" class="form-select actSelect">
-                            @foreach ($actividad as $item)
-                                <option {{ $producto !== 'none' && $item->osde_id === 'checked' ? 'selected' : '' }} value="{{$item->id}}">{{$item->desc}}</option>
+                        <label for="">Entidad:</label>
+                        <select name="entidad" class="form-select entSelect">
+                            <option></option>
+                            @foreach ($entidades as $item)
+                                <option {{ $informacion !== 'none' && $item->id == $informacion->entidad_id ? 'selected' : '' }} value="{{$item->id}}">{{$item->name}}</option>
                             @endforeach
                         </select>
-                        @if ($errors->has('actividades'))
-                            <span class="text-danger">{{ $errors->first('actividades') }}</span>
+                        @if ($errors->has('entidad'))
+                            <span class="text-danger">{{ $errors->first('entidad') }}</span>
                         @endif
                     </div>
 
                     <div class="form-group mb-3">
-                        <label for="">CPCU:</label>
-                        <select name="cpcu_id" class="form-select cpcuSelect">
-                            @foreach ($cpcu as $item)
-                                <option {{ $producto !== 'none' && $item->id == $producto->cpcu_id ? 'selected' : '' }} value="{{$item->id}}">{{$item->codigo}}/{{$item->desc}}</option>
+                        <label for="">Indicador:</label>
+                        <select name="indicador" class="form-select indSelect">
+                            @foreach ($indicadores as $item)
+                                <option {{ $informacion !== 'none' && $item->id == $informacion->indicador_id ? 'selected' : '' }} value="{{$item->id}}">{{$item->desc}}</option>
                             @endforeach
-                            <option value="">Ninguno</option>
                         </select>
-                        @if ($errors->has('cpcu_id'))
-                            <span class="text-danger">{{ $errors->first('cpcu_id') }}</span>
+                        @if ($errors->has('indicador'))
+                            <span class="text-danger">{{ $errors->first('indicador') }}</span>
                         @endif
                     </div>
 
                     <div class="form-group mb-3">
-                        <label for="">SACLAP:</label>
-                        <select name="saclap_id" class="form-select saclapSelect">
-                            @foreach ($saclap as $item)
-                                <option {{ $producto !== 'none' && $item->id == $producto->saclap_id ? 'selected' : '' }} value="{{$item->id}}">{{$item->codigo}}/{{$item->desc}}</option>
-                            @endforeach
-                            <option value="">Ninguno</option>
-                        </select>
-                        @if ($errors->has('saclap_id'))
-                            <span class="text-danger">{{ $errors->first('saclap_id') }}</span>
+                        <label for="">Valor:</label>
+                        <input type="number" name="valor" class="form-control" value="{{ $informacion !== 'none' ? $informacion->value : '' }}">
+                        @if ($errors->has('valor'))
+                            <span class="text-danger">{{ $errors->first('valor') }}</span>
                         @endif
                     </div>
 
                     <div class="form-group mb-3">
-                        <label for="">CNAE:</label>
-                        <select name="nae_id" class="form-select cnaeSelect">
-                            @foreach ($nae as $item)
-                                <option {{ $producto !== 'none' && $item->id == $producto->nae_id ? 'selected' : '' }} value="{{$item->id}}">{{$item->codigo}}/{{$item->desc}}</option>
+                        <label for="">Unidad de medida:</label>
+                        <select name="unidad" class="form-select unitSelect">
+                            @foreach ($unidades as $item)
+                                <option {{ $informacion !== 'none' && $item->id == $informacion->unidad_id ? 'selected' : '' }} value="{{$item->id}}">{{$item->desc}}</option>
                             @endforeach
-                            <option value="">Ninguno</option>
                         </select>
-                        @if ($errors->has('nae_id'))
-                            <span class="text-danger">{{ $errors->first('nae_id') }}</span>
+                        @if ($errors->has('unidad'))
+                            <span class="text-danger">{{ $errors->first('unidad') }}</span>
+                        @endif
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="">Fecha:</label>
+                        <input type="text" name="fecha" class="form-control date" value="{{ $informacion !== 'none' ? $informacion->date : '' }}">
+                        @if ($errors->has('fecha'))
+                            <span class="text-danger">{{ $errors->first('fecha') }}</span>
                         @endif
                     </div>
 
                     <div class="form-group mb-3 d-flex justify-content-end">
-                        <button class="btn btn-primary" type="submit">{{$producto === 'none' ? 'Crear' : 'Editar'}}</button>
+                        <button class="btn btn-primary" type="submit">{{$informacion === 'none' ? 'Crear' : 'Editar'}}</button>
                     </div>
                 </form>
             </div>
@@ -96,19 +102,25 @@
     </div>
     <script>
         $(document).ready(function() {
-            $('.cpcuSelect').select2();
+            $('.prodSelect').select2();
         });
         $(document).ready(function() {
-            $('.saclapSelect').select2();
+            $('.entSelect').select2({
+                placeholder: "Entidades",
+                allowClear: true
+            });
         });
         $(document).ready(function() {
-            $('.cnaeSelect').select2();
+            $('.indSelect').select2();
         });
         $(document).ready(function() {
-            $('.actSelect').select2();
+            $('.unitSelect').select2();
         });
-        $(document).ready(function() {
-            $('.entSelect').select2();
+        $('.date').datepicker({
+            format: 'dd/mm/yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            orientation: 'bottom'
         });
     </script>
 @endsection

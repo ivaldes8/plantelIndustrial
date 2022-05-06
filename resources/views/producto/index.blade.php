@@ -60,11 +60,11 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="{{url('producto/'.$item->id.'/edit')}}" class="btn-sm btn-primary">Editar</a>
+                                        <a href="{{url('producto/'.$item->id.'/edit')}}" class="btn-sm btn-primary"><i class="bi bi-pencil"></i></a>
                                     </td>
                                     <td>
                                         <button class="btn-sm btn-danger" data-toggle="modal" id="smallButton" data-target="#smallModal" data-attr="{{ url('producto/delete', $item->id) }}" title="Delete Project">
-                                            Eliminar
+                                            <i class="bi bi-trash"></i>
                                         </button>
                                     </td>
                                 </tr>
