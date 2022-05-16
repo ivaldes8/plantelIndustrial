@@ -10,7 +10,7 @@
                     Importar Entidad
                 </div>
                 <div class="col-3 d-flex justify-content-end">
-                    <a class="btn btn-primary disabled" href="{{url('entidad-file-export')}}">Descargar Plantilla</a>
+                    <a class="btn btn-primary" href="{{url('entidad-file-export')}}">Descargar Plantilla</a>
                 </div>
                 <div class="col-3 d-flex justify-content-end">
                     <a href="{{url('entidad')}}" class="btn btn-success">Atrás</a>

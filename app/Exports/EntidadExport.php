@@ -12,13 +12,11 @@ class EntidadExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-            'id',
             'nombre',
             'codreu',
             'dpa',
             'codorganismo',
             'codosde'
-
         ];
     }
     /**
@@ -26,8 +24,12 @@ class EntidadExport implements FromCollection, WithHeadings
     */
     public function collection()
     {
-        $entidades = entidad::first()->organismo()->select('*')->get();
-        dd($entidades);
-        return entidad::all();
+        $entidades = entidad::all();
+        $aux = [];
+        foreach ($entidades as $key => $entidad) {
+            array_push($aux,[$entidad->name, $entidad->codREU, $entidad->dpa, $entidad->organismo->codigo, $entidad->osde->codigo]);
+        }
+
+        return collect($aux);
     }
 }
