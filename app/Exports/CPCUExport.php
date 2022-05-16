@@ -12,11 +12,8 @@ class CPCUExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-            'id',
             'codigo',
             'desc',
-            'creando en',
-            'última actualización'
         ];
     }
     /**
@@ -24,6 +21,6 @@ class CPCUExport implements FromCollection, WithHeadings
     */
     public function collection()
     {
-        return cpcu::all();
+        return cpcu::select('codigo', 'desc' )->get();
     }
 }

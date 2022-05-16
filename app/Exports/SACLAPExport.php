@@ -12,11 +12,8 @@ class SACLAPExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-            'id',
             'codigo',
-            'desc',
-            'creando en',
-            'última actualización'
+            'desc'
         ];
     }
     /**
@@ -24,6 +21,6 @@ class SACLAPExport implements FromCollection, WithHeadings
     */
     public function collection()
     {
-        return saclap::all();
+        return saclap::select('codigo', 'desc' )->get();
     }
 }

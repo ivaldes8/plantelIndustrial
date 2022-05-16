@@ -10,7 +10,7 @@
                         Importar Información
                     </div>
                     <div class="col-3 d-flex justify-content-end">
-                        <a class="btn btn-primary disabled" href="{{ url('informacion-file-export') }}">Descargar Plantilla</a>
+                        <a class="btn btn-primary" href="{{ url('informacion-file-export') }}">Descargar Plantilla</a>
                     </div>
                     <div class="col-3 d-flex justify-content-end">
                         <a href="{{ url('informacion') }}" class="btn btn-success">Atrás</a>

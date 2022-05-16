@@ -12,12 +12,9 @@ class OSDEExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-            'id',
             'nombre',
             'siglas',
             'codigo',
-            'creando en',
-            'última actualización'
         ];
     }
     /**
@@ -25,6 +22,6 @@ class OSDEExport implements FromCollection, WithHeadings
     */
     public function collection()
     {
-        return osde::all();
+        return osde::select('name', 'siglas', 'codigo')->get();
     }
 }

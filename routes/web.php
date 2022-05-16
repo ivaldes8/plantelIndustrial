@@ -93,6 +93,7 @@ Route::middleware(['auth','admin'])->group(function () {
     Route::get('informacion/delete/{id}', [InformacionController::class, 'delete'])->name('delete');
     Route::get('informacion-file-import', [InformacionController::class, 'fileImportExport']);
     Route::post('informacion-file-import', [InformacionController::class, 'fileImport']);
+    Route::get('informacion-file-export', [InformacionController::class, 'export']);
 
     Route::resource('actividad',ActividadController::class);
     Route::get('actividad/delete/{id}', [ActividadController::class, 'delete'])->name('delete');

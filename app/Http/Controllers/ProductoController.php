@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ProductoExport;
 use App\Imports\IndicadorEntidadPlanProductoImport;
 use App\Models\actividad;
 use App\Models\cpcu;
@@ -229,22 +230,7 @@ class ProductoController extends Controller
 
     public function export()
     {
-        return Excel::download(new EntidadExport, 'entidades.xlsx');
-    }
-
-    public function fileIndicadorImportExport()
-    {
-        return view('producto.file-indacador-import');
-    }
-
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function fileIndicadorImport(Request $request)
-    {
-        Excel::import(new IndicadorEntidadPlanProductoImport,request()->file('file'));
-
-        return back()->with('success', 'User Imported Successfully.');
+        return Excel::download(new ProductoExport, 'productos.xlsx');
     }
 
 

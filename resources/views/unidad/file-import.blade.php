@@ -10,7 +10,7 @@
                     Importar Unidades de medida
                 </div>
                 <div class="col-3 d-flex justify-content-end">
-                    <a class="btn btn-primary disabled" href="{{url('unidad-file-export')}}">Descargar Plantilla</a>
+                    <a class="btn btn-primary" href="{{url('unidad-file-export')}}">Descargar Plantilla</a>
                 </div>
                 <div class="col-3 d-flex justify-content-end">
                     <a href="{{url('unidad')}}" class="btn btn-success">Atrás</a>

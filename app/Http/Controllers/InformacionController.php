@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\InformacionExport;
 use App\Imports\IndicadorEntidadPlanProductoImport;
 use App\Models\actividad;
 use App\Models\cpcu;
@@ -248,5 +249,10 @@ class InformacionController extends Controller
         Excel::import(new IndicadorEntidadPlanProductoImport,request()->file('file'));
 
         return back()->with('success', 'User Imported Successfully.');
+    }
+
+    public function export()
+    {
+        return Excel::download(new InformacionExport, 'informacion.xlsx');
     }
 }

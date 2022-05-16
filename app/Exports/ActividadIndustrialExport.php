@@ -12,10 +12,8 @@ class ActividadIndustrialExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-            'id',
-            'desc',
-            'creando en',
-            'última actualización'
+            'codigo',
+            'desc'
         ];
     }
     /**
@@ -23,6 +21,6 @@ class ActividadIndustrialExport implements FromCollection, WithHeadings
     */
     public function collection()
     {
-        return actividad::all();
+        return actividad::select('codigo', 'desc' )->get();
     }
 }

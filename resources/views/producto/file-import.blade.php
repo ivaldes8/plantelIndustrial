@@ -10,7 +10,7 @@
                     Importar Producto
                 </div>
                 <div class="col-3 d-flex justify-content-end">
-                    <a class="btn btn-primary disabled" href="{{url('producto-file-export')}}">Descargar Plantilla</a>
+                    <a class="btn btn-primary" href="{{url('producto-file-export')}}">Descargar Plantilla</a>
                 </div>
                 <div class="col-3 d-flex justify-content-end">
                     <a href="{{url('producto')}}" class="btn btn-success">Atrás</a>

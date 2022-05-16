@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Imports\UnidadImport;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\unidadExport;
+use App\Exports\UnidadExport;
 use App\Models\unidad;
 
 class UnidadController extends Controller
@@ -131,8 +131,8 @@ class UnidadController extends Controller
         return back()->with('success', 'User Imported Successfully.');
     }
 
-    // public function export()
-    // {
-    //     return Excel::download(new unidadExport, 'unidad.xlsx');
-    // }
+    public function export()
+    {
+        return Excel::download(new UnidadExport, 'unidad.xlsx');
+    }
 }

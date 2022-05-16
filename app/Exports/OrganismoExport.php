@@ -12,12 +12,9 @@ class OrganismoExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-            'id',
             'nombre',
             'siglas',
-            'codigo',
-            'creando en',
-            'última actualización'
+            'codigo'
         ];
     }
     /**
@@ -25,6 +22,6 @@ class OrganismoExport implements FromCollection, WithHeadings
     */
     public function collection()
     {
-        return organismo::all();
+        return organismo::select('name', 'siglas', 'codigo')->get();
     }
 }

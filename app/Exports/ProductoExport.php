@@ -12,14 +12,11 @@ class ProductoExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-            'id',
-            'creando en',
-            'última actualización',
-            'nombre',
-            'codreu',
-            'dpa',
-            'codorganismo',
-            'codosde'
+            'cpcu',
+            'saclap',
+            'cnae',
+            'descripcion',
+            'actividadesIndustriales'
 
         ];
     }
@@ -28,6 +25,21 @@ class ProductoExport implements FromCollection, WithHeadings
     */
     public function collection()
     {
-        return producto::all();
+        $productos = producto::all();
+        $aux = [];
+        foreach ($productos as $key => $producto) {
+            if(count($producto->actividades) === 0) {
+                array_push($aux,[$producto->cpcu->codigo, $producto->saclap->codigo, $producto->cnae->codigo, $producto->desc]);
+            }
+            if(count($producto->actividades) > 0) {
+                $actArr = [];
+                foreach ($producto->actividades as $key => $actividad) {
+                   array_push($actArr, $actividad->codigo);
+                }
+                $imploded = implode("/", $actArr);
+                array_push($aux,[$producto->cpcu->codigo, $producto->saclap->codigo, $producto->cnae->codigo, $producto->desc, $imploded]);
+            }
+        }
+        return collect($aux);
     }
 }
