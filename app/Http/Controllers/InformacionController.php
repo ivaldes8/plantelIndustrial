@@ -52,10 +52,19 @@ class InformacionController extends Controller
             });
         });
 
+        // $query->when(request()->input('saclap'), function($q) {
+        //     $q->whereHas('producto', function($q)
+        //     {
+        //         return $q->where('saclap_id',request()->input('saclap'));
+        //     });
+        // });
+
         $query->when(request()->input('saclap'), function($q) {
             $q->whereHas('producto', function($q)
             {
-                return $q->where('saclap_id',request()->input('saclap'));
+                $q->whereHas('saclaps', function($q) {
+                    return $q->where('saclap_id',request()->input('saclap'));
+                });
             });
         });
 

@@ -8,7 +8,7 @@ use App\Models\cpcu;
 use App\Models\saclap;
 use App\Models\nae;
 
-class RepeatSACLAPProducto implements Rule
+class ValidateSACLAPProducto implements Rule
 {
     /**
      * Create a new rule instance.
@@ -30,14 +30,21 @@ class RepeatSACLAPProducto implements Rule
     public function passes($attribute, $value)
     {
 
-        $saclap = saclap::where('codigo', $value)->get();
-        if(count($saclap) === 0){
+        if(!$value){
             return true;
         }
-        if(count($saclap) > 0){
-            $producto = producto::where('saclap_id',$saclap[0]->id)->get();
+        $codsArray = explode( ',', $value );
+        if(count($codsArray) === 0){
+            return true;
         }
-        if(count($saclap) > 0 && count($producto) === 0){
+        $findAll = true;
+        for ($i=0; $i < count($codsArray); $i++) {
+           $saclap = saclap::where('codigo', $codsArray[$i])->get();
+           if(count($saclap) === 0){
+               $findAll = false;
+           }
+        }
+        if($findAll === true){
             return true;
         }
     }
@@ -49,6 +56,6 @@ class RepeatSACLAPProducto implements Rule
      */
     public function message()
     {
-        return 'Ya existen productos con el código saclap :input en la base de datos ';
+        return 'Uno de estos códigos de saclap :input no se encuentran registrados en la base de datos cerca de :attribute.';
     }
 }

@@ -9,7 +9,7 @@ use App\Models\entidad;
 use App\Models\saclap;
 use App\Models\nae;
 use App\Rules\RepeatCPCUProducto;
-use App\Rules\RepeatSACLAPProducto;
+use App\Rules\ValidateSACLAPProducto;
 use App\Rules\RepeatCNAEProducto;
 use App\Rules\ValidateActividadesProducto;
 use App\Rules\ValidateEntidadesProducto;
@@ -33,7 +33,7 @@ class ProductoImport implements ToCollection, WithHeadingRow
         Validator::make($collection->toArray(), [
             '*.descripcion' => 'required',
             '*.cpcu' => ['required','exists:cpcus,codigo',new RepeatCPCUProducto()],
-            '*.saclap' => ['required','exists:saclaps,codigo',new RepeatSACLAPProducto()],
+            '*.saclap' => ['required',new ValidateSACLAPProducto()],
             '*.cnae' => ['required','exists:naes,codigo'],
             '*.actividadesindustriales' => [new ValidateActividadesProducto()]
         ],
@@ -51,9 +51,18 @@ class ProductoImport implements ToCollection, WithHeadingRow
             $producto = new producto();
             $producto->desc = $row['descripcion'];
             $producto->cpcu_id = cpcu::where('codigo', $row['cpcu'])->get()[0]->id;
-            $producto->saclap_id = saclap::where('codigo', $row['saclap'])->get()[0]->id;
+            // $producto->saclap_id = saclap::where('codigo', $row['saclap'])->get()[0]->id;
             $producto->nae_id = nae::where('codigo', $row['cnae'])->get()[0]->id;
             $producto->save();
+
+            if($row['saclap']){
+                $saclaps = explode( ',', $row['saclap'] );
+                $saclapsId = [];
+                for ($i=0; $i < count($saclaps); $i++) {
+                    array_push($saclapsId,saclap::where('codigo', $saclaps[$i])->get()[0]->id);
+                }
+                $producto->saclaps()->attach($saclapsId);
+            }
 
             if($row['actividadesindustriales']){
                 $actividades = explode( '/', $row['actividadesindustriales'] );

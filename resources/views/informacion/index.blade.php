@@ -186,7 +186,16 @@
                                         <td>{{ $item->id }}</td>
                                         <td>{{ $item->producto ? $item->producto->desc : '---' }}</td>
                                         <td>{{ $item->producto ? $item->producto->cpcu->codigo : '---' }}</td>
-                                        <td>{{ $item->producto ? $item->producto->saclap->codigo : '---' }}</td>
+                                        {{-- <td>{{ $item->producto ? $item->producto->saclap->codigo : '---' }}</td> --}}
+                                        <td>
+                                            @if ($item->producto && count($item->producto->saclaps) > 0)
+                                                @foreach ($item->producto->saclaps as $saclap)
+                                                    /{{ $saclap->codigo }}
+                                                @endforeach
+                                            @else
+                                                <p>---</p>
+                                            @endif
+                                        </td>
                                         <td>{{ $item->producto ? $item->producto->cnae->codigo : '---' }}</td>
                                         <td>{{ $item->entidad ? $item->entidad->name : '---' }}</td>
                                         <td>

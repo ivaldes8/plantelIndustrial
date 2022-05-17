@@ -16,9 +16,9 @@ class producto extends Model
         return $this->hasOne(cpcu::class, 'id', 'cpcu_id');
     }
 
-    public function saclap()
+    public function saclaps()
     {
-        return $this->hasOne(saclap::class, 'id', 'saclap_id');
+        return $this->belongsToMany(saclap::class, 'saclap_productos');
     }
 
     public function cnae()

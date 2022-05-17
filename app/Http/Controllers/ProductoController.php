@@ -55,7 +55,7 @@ class ProductoController extends Controller
         $validatedData = $request->validate([
             'desc' => 'required',
             'cpcu_id' => 'required',
-            'saclap_id' => 'required',
+            'saclaps' => 'required',
             'nae_id' => 'required'
         ], [
             'required' => 'Este campo es requerido'
@@ -63,12 +63,16 @@ class ProductoController extends Controller
         $producto = new producto();
         $producto->desc = $request->input('desc');
         $producto->cpcu_id = $request->input('cpcu_id');
-        $producto->saclap_id = $request->input('saclap_id');
+        // $producto->saclap_id = $request->input('saclap_id');
         $producto->nae_id = $request->input('nae_id');
         $producto->save($validatedData);
 
         if($request->input('actividades') !== null){
             $producto->actividades()->attach($request->input('actividades'));
+        }
+
+        if($request->input('saclaps') !== null){
+            $producto->saclaps()->attach($request->input('saclaps'));
         }
 
         return redirect('/producto')->with('status','Producto creado satisfactoriamente');
@@ -109,6 +113,14 @@ class ProductoController extends Controller
             }
         }
 
+        for ($i=0; $i < count($saclap); $i++) {
+            for ($j=0; $j < count($producto->saclaps->toArray()); $j++) {
+                if($saclap[$i]['id'] === $producto->saclaps->toArray()[$j]['id']){
+                   $saclap[$i]->checked = 'checked';
+                }
+            }
+        }
+
         return view('producto.edit', compact('producto', 'actividad', 'cpcu', 'saclap', 'nae'));
     }
 
@@ -124,7 +136,7 @@ class ProductoController extends Controller
         $validatedData = $request->validate([
             'desc' => 'required',
             'cpcu_id' => 'required',
-            'saclap_id' => 'required',
+            'saclaps' => 'required',
             'nae_id' => 'required'
         ], [
             'required' => 'Este campo es requerido'
@@ -133,12 +145,16 @@ class ProductoController extends Controller
         $producto = producto::find($id);
         $producto->desc = $request->input('desc');
         $producto->cpcu_id = $request->input('cpcu_id');
-        $producto->saclap_id = $request->input('saclap_id');
+        // $producto->saclap_id = $request->input('saclap_id');
         $producto->nae_id = $request->input('nae_id');
         $producto->update($validatedData);
 
         if($request->input('actividades') !== null) {
             $producto->actividades()->sync($request->input('actividades'));
+        }
+
+        if($request->input('saclaps') !== null) {
+            $producto->saclaps()->sync($request->input('saclaps'));
         }
 
         return redirect('/producto')->with('status','Producto editado satisfactoriamente');

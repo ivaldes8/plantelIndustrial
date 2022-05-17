@@ -17,6 +17,7 @@ class CreateSaclapsTable extends Migration
             $table->id();
             $table->string('codigo')->required();
             $table->text('desc')->required();
+            $table->string('checked')->default('')->nullable();
             $table->timestamps();
         });
     }

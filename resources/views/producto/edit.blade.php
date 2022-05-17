@@ -63,14 +63,13 @@
 
                     <div class="form-group mb-3">
                         <label for="">SACLAP:</label>
-                        <select name="saclap_id" class="form-select saclapSelect">
+                        <select name="saclaps[]" multiple="multiple" class="form-select saclapSelect">
                             @foreach ($saclap as $item)
-                                <option {{ $producto !== 'none' && $item->id == $producto->saclap_id ? 'selected' : '' }} value="{{$item->id}}">{{$item->codigo}}/{{$item->desc}}</option>
+                                <option {{ $producto !== 'none' && $item->checked == 'checked' ? 'selected' : '' }} value="{{$item->id}}">{{$item->codigo}}/{{$item->desc}}</option>
                             @endforeach
-                            <option value="">Ninguno</option>
                         </select>
-                        @if ($errors->has('saclap_id'))
-                            <span class="text-danger">{{ $errors->first('saclap_id') }}</span>
+                        @if ($errors->has('saclaps'))
+                            <span class="text-danger">{{ $errors->first('saclaps') }}</span>
                         @endif
                     </div>
 
