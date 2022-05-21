@@ -75,6 +75,7 @@
                                     request()->is('actividad*') ||
                                     request()->is('indicador*') ||
                                     request()->is('producto*') ||
+                                    request()->is('familia*') ||
                                     request()->is('user*')
                                         ? 'active'
                                         : '' }}"
@@ -136,15 +137,15 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item {{ request()->is('producto*') ? 'active' : '' }}"
-                                            href="{{ url('producto') }}">
-                                            Productos
-                                        </a>
-                                    </li>
-                                    <li>
                                         <a class="dropdown-item {{ request()->is('familia*') ? 'active' : '' }}"
                                             href="{{ url('familia') }}">
                                             Familia de productos
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item {{ request()->is('producto*') ? 'active' : '' }}"
+                                            href="{{ url('producto') }}">
+                                            Productos
                                         </a>
                                     </li>
                                     @if (Auth::user()->role === 'Administrador')

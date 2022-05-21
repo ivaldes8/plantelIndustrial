@@ -33,32 +33,38 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($familia as $item)
+                            @if (count($familia) < 1)
                                 <tr>
-                                    <td>{{ $item->id }}</td>
-                                    <td>{{ $item->name }}</td>
-                                    <td>
-                                        @if (count($item->productos) > 0)
-                                            @foreach ($item->productos as $producto)
-                                                / {{ $producto->desc }}
-                                            @endforeach
-                                        @else
-                                            ---
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <a href="{{ url('familia/' . $item->id . '/edit') }}"
-                                            class="btn-sm btn-primary"><i class="bi bi-pencil"></i></a>
-                                    </td>
-                                    <td>
-                                        <button class="btn-sm btn-danger" data-toggle="modal" id="smallButton"
-                                            data-target="#smallModal" data-attr="{{ url('familia/delete', $item->id) }}"
-                                            title="Delete Project">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </td>
+                                    <td class="text-center" colspan="7">No se encontraron familias de productos</td>
                                 </tr>
-                            @endforeach
+                            @else
+                                @foreach ($familia as $item)
+                                    <tr>
+                                        <td>{{ $item->id }}</td>
+                                        <td>{{ $item->name }}</td>
+                                        <td>
+                                            @if (count($item->productos) > 0)
+                                                @foreach ($item->productos as $producto)
+                                                    / {{ $producto->desc }}
+                                                @endforeach
+                                            @else
+                                                ---
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <a href="{{ url('familia/' . $item->id . '/edit') }}"
+                                                class="btn-sm btn-primary"><i class="bi bi-pencil"></i></a>
+                                        </td>
+                                        <td>
+                                            <button class="btn-sm btn-danger" data-toggle="modal" id="smallButton"
+                                                data-target="#smallModal"
+                                                data-attr="{{ url('familia/delete', $item->id) }}" title="Delete Project">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
                         </tbody>
                     </table>
                     <div class="d-flex">

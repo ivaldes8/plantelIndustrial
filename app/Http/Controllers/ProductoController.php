@@ -13,6 +13,7 @@ use App\Models\producto;
 use App\Models\saclap;
 use Illuminate\Http\Request;
 use App\Imports\ProductoImport;
+use App\Models\familia;
 use App\Models\indicadorEntidadPlanProducto;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -41,7 +42,8 @@ class ProductoController extends Controller
         $cpcu = cpcu::all();
         $saclap = saclap::all();
         $nae = nae::all();
-        return view('producto.edit', compact('producto', 'actividad', 'cpcu', 'saclap', 'nae'));
+        $familia = familia::all();
+        return view('producto.edit', compact('producto', 'actividad', 'cpcu', 'saclap', 'nae', 'familia'));
     }
 
     /**
@@ -104,6 +106,7 @@ class ProductoController extends Controller
         $cpcu = cpcu::all();
         $saclap = saclap::all();
         $nae = nae::all();
+        $familia = familia::all();
 
         for ($i=0; $i < count($actividad); $i++) {
             for ($j=0; $j < count($producto->actividades->toArray()); $j++) {
@@ -121,7 +124,7 @@ class ProductoController extends Controller
             }
         }
 
-        return view('producto.edit', compact('producto', 'actividad', 'cpcu', 'saclap', 'nae'));
+        return view('producto.edit', compact('producto', 'actividad', 'cpcu', 'saclap', 'nae', 'familia'));
     }
 
     /**
@@ -149,9 +152,9 @@ class ProductoController extends Controller
         $producto->nae_id = $request->input('nae_id');
         $producto->update($validatedData);
 
-        if($request->input('actividades') !== null) {
-            $producto->actividades()->sync($request->input('actividades'));
-        }
+        $producto->familia()->sync($request->input('familia_id'));
+
+        $producto->actividades()->sync($request->input('actividades'));
 
         if($request->input('saclaps') !== null) {
             $producto->saclaps()->sync($request->input('saclaps'));

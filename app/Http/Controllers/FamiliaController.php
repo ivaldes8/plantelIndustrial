@@ -40,8 +40,7 @@ class FamiliaController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required',
-            'producto_id' => 'required'
+            'name' => 'required'
         ], [
             'required' => 'Este campo es requerido'
         ]);
@@ -99,8 +98,7 @@ class FamiliaController extends Controller
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'name' => 'required',
-            'producto_id' => 'required'
+            'name' => 'required'
         ], [
             'required' => 'Este campo es requerido'
         ]);
@@ -109,9 +107,7 @@ class FamiliaController extends Controller
         $familia->name = $request->input('name');
         $familia->update($validatedData);
 
-        if($request->input('producto_id') !== null) {
-            $familia->productos()->sync($request->input('producto_id'));
-        }
+        $familia->productos()->sync($request->input('producto_id'));
 
         return redirect('/familia')->with('status','Familia de productos editada satisfactoriamente');
     }

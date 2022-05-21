@@ -6,13 +6,14 @@ use App\Models\actividad;
 use App\Models\producto;
 use App\Models\cpcu;
 use App\Models\entidad;
+use App\Models\familia;
 use App\Models\saclap;
 use App\Models\nae;
 use App\Rules\RepeatCPCUProducto;
 use App\Rules\ValidateSACLAPProducto;
 use App\Rules\RepeatCNAEProducto;
 use App\Rules\ValidateActividadesProducto;
-use App\Rules\ValidateEntidadesProducto;
+use App\Rules\ValidateFamiliaProducto;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -35,7 +36,8 @@ class ProductoImport implements ToCollection, WithHeadingRow
             '*.cpcu' => ['required','exists:cpcus,codigo',new RepeatCPCUProducto()],
             '*.saclap' => ['required',new ValidateSACLAPProducto()],
             '*.cnae' => ['required','exists:naes,codigo'],
-            '*.actividadesindustriales' => [new ValidateActividadesProducto()]
+            '*.actividadesindustriales' => [new ValidateActividadesProducto()],
+            '*.familia' => [new ValidateFamiliaProducto()]
         ],
         [
             '*.descripcion.required' => 'Hay descripciones vacías cerca de: :attribute',
@@ -71,6 +73,11 @@ class ProductoImport implements ToCollection, WithHeadingRow
                     array_push($actividadesId,actividad::where('codigo', $actividades[$i])->get()[0]->id);
                 }
                 $producto->actividades()->attach($actividadesId);
+            }
+
+            if($row['familia']){
+                $familia = familia::where('name', $row['familia'])->get()[0]->id;
+                $producto->familia()->attach($familia);
             }
 
         }

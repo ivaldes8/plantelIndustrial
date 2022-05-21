@@ -86,6 +86,20 @@
                         @endif
                     </div>
 
+                    <div class="form-group mb-3">
+                        <label for="">Familia de productos:</label>
+                        <select name="familia_id" class="form-select cnaeSelect">
+                            <option value="">Ninguna</option>
+                            @foreach ($familia as $item)
+                                <option {{ $producto !== 'none' && count($producto->familia) > 0 && $item->id == $producto->familia[0]->id ? 'selected' : '' }} value="{{$item->id}}">{{$item->name}}</option>
+                            @endforeach
+
+                        </select>
+                        @if ($errors->has('familia_id'))
+                            <span class="text-danger">{{ $errors->first('familia_id') }}</span>
+                        @endif
+                    </div>
+
                     <div class="form-group mb-3 d-flex justify-content-end">
                         <button class="btn btn-primary" type="submit">{{$producto === 'none' ? 'Crear' : 'Editar'}}</button>
                     </div>

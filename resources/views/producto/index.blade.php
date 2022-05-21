@@ -27,25 +27,26 @@
                 <div class="table-responsive">
                     <table class="table table-primary table-bordered table-striped">
                         <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Descripción</th>
-                                <th>CPCU</th>
-                                <th>SACLAP</th>
-                                <th>CNAE</th>
-                                <th>Actividades Industriales</th>
-                                <th>Editar</th>
-                                <th>Delete</th>
+                            <tr style="font-size: 90%;">
+                                <th style="width: 20px;">ID</th>
+                                <th style="width: 200px;">Descripción</th>
+                                <th style="width: 100px;">CPCU</th>
+                                <th style="width: 100px;">SACLAP</th>
+                                <th style="width: 100px;">CNAE</th>
+                                <th style="width: 200px;">Actividades Industriales</th>
+                                <th style="width: 100px;">Familia</th>
+                                <th style="width: 20px;">Editar</th>
+                                <th style="width: 20px;">Delete</th>
                             </tr>
                         </thead>
                         <tbody>
                             @if (count($producto) < 1)
                                 <tr>
-                                    <td class="text-center" colspan="9">No se encontraron productos</td>
+                                    <td class="text-center" colspan="10">No se encontraron productos</td>
                                 </tr>
                             @else
                                 @foreach ($producto as $item)
-                                    <tr>
+                                    <tr style="font-size: 90%;">
                                         <td>{{ $item->id }}</td>
                                         <td>{{ $item->desc }}</td>
                                         <td>{{ $item->cpcu ? $item->cpcu->codigo : '---' }}</td>
@@ -64,6 +65,15 @@
                                             @if (count($item->actividades) > 0)
                                                 @foreach ($item->actividades as $actividad)
                                                     / {{ $actividad->desc }}
+                                                @endforeach
+                                            @else
+                                                ---
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if (count($item->familia) > 0)
+                                                @foreach ($item->familia as $fam)
+                                                    / {{ $fam->name }}
                                                 @endforeach
                                             @else
                                                 ---
