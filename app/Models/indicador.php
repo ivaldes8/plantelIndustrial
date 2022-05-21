@@ -10,4 +10,9 @@ class indicador extends Model
     use HasFactory;
 
     protected $fillable = ['codigo', 'desc'];
+
+    public function informaciones()
+    {
+        return $this->hasMany(indicadorEntidadCpcuSaclap::class,'indicador_id', 'id');
+    }
 }

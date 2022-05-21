@@ -9,36 +9,21 @@ class producto extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['desc', 'cpcu_id', 'saclap_id', 'nae_id'];
-
-    public function cpcu()
-    {
-        return $this->hasOne(cpcu::class, 'id', 'cpcu_id');
-    }
-
-    public function saclaps()
-    {
-        return $this->belongsToMany(saclap::class, 'saclap_productos');
-    }
-
-    public function cnae()
-    {
-        return $this->hasOne(nae::class, 'id', 'nae_id');
-    }
+    protected $fillable = ['desc'];
 
     public function actividades()
     {
         return $this->belongsToMany(actividad::class, 'actividad_productos');
     }
 
-    public function indicadores()
+    public function cpcus()
     {
-        return $this->belongsToMany(indicador::class, 'indicador_entidad_plan_productos');
+        return $this->belongsToMany(cpcu::class, 'cpcu_productos');
     }
 
-    public function informacion()
+    public function saclaps()
     {
-        return $this->hasMany(indicadorEntidadPlanProducto::class, 'producto_id', 'id');
+        return $this->belongsToMany(saclap::class, 'saclap_productos');
     }
 
     public function entidades()

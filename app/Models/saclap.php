@@ -11,8 +11,13 @@ class saclap extends Model
 
     protected $fillable = ['codigo', 'desc'];
 
-    public function producto()
+    public function productos()
     {
-        return $this->belongsTo(producto::class);
+        return $this->belongsToMany(producto::class, 'saclap_productos');
+    }
+
+    public function informaciones()
+    {
+        return $this->hasMany(indicadorEntidadCpcuSaclap::class,'saclap_id', 'id');
     }
 }

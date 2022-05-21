@@ -21,9 +21,9 @@ class entidad extends Model
         return $this->hasOne(osde::class, 'id', 'osde_id');
     }
 
-    public function productos()
+    public function informaciones()
     {
-        return $this->belongsToMany(producto::class, 'indicador_entidad_plan_productos');
+        return $this->hasMany(indicadorEntidadCpcuSaclap::class,'entidad_id', 'id');
     }
 }
 

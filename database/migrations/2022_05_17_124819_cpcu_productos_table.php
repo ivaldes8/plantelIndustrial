@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFamiliaProductosTable extends Migration
+class CpcuProductosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateFamiliaProductosTable extends Migration
      */
     public function up()
     {
-        Schema::create('familia_productos', function (Blueprint $table) {
+        Schema::create('cpcu_productos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('familia_id')->unsigned()->nullable();
-            $table->foreign('familia_id')->references('id')->on('familias')->onDelete('cascade');
+            $table->timestamps();
+            $table->unsignedBigInteger('cpcu_id')->unsigned()->nullable();
+            $table->foreign('cpcu_id')->references('id')->on('cpcus')->onDelete('cascade');
             $table->unsignedBigInteger('producto_id')->unsigned()->nullable();
             $table->foreign('producto_id')->references('id')->on('productos')->onDelete('cascade');
-            $table->timestamps();
         });
     }
 
@@ -30,6 +30,6 @@ class CreateFamiliaProductosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('familia_productos');
+        Schema::dropIfExists('cpcu_productos');
     }
 }

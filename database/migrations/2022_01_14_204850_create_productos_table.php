@@ -17,12 +17,6 @@ class CreateProductosTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('desc')->required();
-            $table->unsignedBigInteger('cpcu_id')->unsigned()->nullable();
-            $table->foreign('cpcu_id')->references('id')->on('cpcus')->nullOnDelete();
-            // $table->unsignedBigInteger('saclap_id')->unsigned()->nullable();
-            // $table->foreign('saclap_id')->references('id')->on('saclaps')->nullOnDelete();
-            $table->unsignedBigInteger('nae_id')->unsigned()->nullable();
-            $table->foreign('nae_id')->references('id')->on('naes')->nullOnDelete();
         });
     }
 
