@@ -29,7 +29,6 @@ class EntidadExport extends DefaultValueBinder implements FromCollection, WithHe
         return [
             'nombre',
             'codreu',
-            'dpa',
             'codorganismo',
             'codosde'
         ];
@@ -42,7 +41,7 @@ class EntidadExport extends DefaultValueBinder implements FromCollection, WithHe
         $entidades = entidad::all();
         $aux = [];
         foreach ($entidades as $key => $entidad) {
-            array_push($aux,[$entidad->name, $entidad->codREU, $entidad->dpa, $entidad->organismo->codigo, $entidad->osde->codigo]);
+            array_push($aux,[$entidad->name, $entidad->codREU, $entidad->organismo->codigo, $entidad->osde->codigo]);
         }
 
         return collect($aux);

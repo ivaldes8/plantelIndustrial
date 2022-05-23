@@ -27,7 +27,6 @@ class EntidadImport implements ToCollection, WithHeadingRow
             '*.nombre' => 'required',
             '*.codorganismo' => 'required|exists:organismos,codigo',
             '*.codosde' => 'required|exists:osdes,codigo',
-            '*.dpa' => 'required',
 
         ],
         [
@@ -38,14 +37,12 @@ class EntidadImport implements ToCollection, WithHeadingRow
             '*.codorganismo.exists' => 'No existen organismos con el código: :input cerca de: :attribute ',
             '*.codosde.required' => 'Hay osdes vacías cerca de: :attribute',
             '*.codosde.exists' => 'No existen osdes con el código: :input cerca de: :attribute ',
-            '*.dpa.required' => 'Hay dpa vacías cerca de: :attribute'
         ])->validate();
 
         foreach ($collection as $row) {
             entidad::create([
                 'codREU' => $row['codreu'],
                 'name' => $row['nombre'],
-                'dpa' => $row['dpa'],
                 'org_id' => organismo::where('codigo', $row['codorganismo'])->get()[0]->id,
                 'osde_id' => osde::where('codigo', $row['codosde'])->get()[0]->id
             ]);

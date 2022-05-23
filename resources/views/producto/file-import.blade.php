@@ -38,8 +38,8 @@
                         <div class="alert alert-primary" role="alert">
                             <h4><i class="bi-exclamation-circle"></i> Atención:</h4>
                             <p>1-Cada fila del excel será tomada como un producto a agregar</p>
-                            <p>2-Toda fila del excel debe tener una descripcion, un cpcu, uno o  varios saclap(cod1,cod2,...) y un cnae</p>
-                            <p>3-Los código de cpcu, saclap y cnae deben existir en la aplicación</p>
+                            <p>2-Toda fila del excel debe tener una descripcion, uno o varios cpcu(cod1,cod2,...) y uno o  varios saclap(cod1,cod2,...)</p>
+                            <p>3-Los código de cpcu y saclap deben existir en la aplicación</p>
                             <p>4-Los productos a importar no deben existir en la base de datos</p>
                         </div>
                     </div>

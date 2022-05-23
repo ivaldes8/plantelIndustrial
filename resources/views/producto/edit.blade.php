@@ -50,14 +50,13 @@
 
                     <div class="form-group mb-3">
                         <label for="">CPCU:</label>
-                        <select name="cpcu_id" class="form-select cpcuSelect">
+                        <select name="cpcus[]" multiple="multiple" class="form-select cpcuSelect">
                             @foreach ($cpcu as $item)
-                                <option {{ $producto !== 'none' && $item->id == $producto->cpcu_id ? 'selected' : '' }} value="{{$item->id}}">{{$item->codigo}}/{{$item->desc}}</option>
+                                <option {{ $producto !== 'none' && $item->checked == 'checked' ? 'selected' : '' }} value="{{$item->id}}">{{$item->codigo}}/{{$item->desc}}</option>
                             @endforeach
-                            <option value="">Ninguno</option>
                         </select>
-                        @if ($errors->has('cpcu_id'))
-                            <span class="text-danger">{{ $errors->first('cpcu_id') }}</span>
+                        @if ($errors->has('cpcus'))
+                            <span class="text-danger">{{ $errors->first('cpcus') }}</span>
                         @endif
                     </div>
 
@@ -70,33 +69,6 @@
                         </select>
                         @if ($errors->has('saclaps'))
                             <span class="text-danger">{{ $errors->first('saclaps') }}</span>
-                        @endif
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label for="">CNAE:</label>
-                        <select name="nae_id" class="form-select cnaeSelect">
-                            @foreach ($nae as $item)
-                                <option {{ $producto !== 'none' && $item->id == $producto->nae_id ? 'selected' : '' }} value="{{$item->id}}">{{$item->codigo}}/{{$item->desc}}</option>
-                            @endforeach
-                            <option value="">Ninguno</option>
-                        </select>
-                        @if ($errors->has('nae_id'))
-                            <span class="text-danger">{{ $errors->first('nae_id') }}</span>
-                        @endif
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label for="">Familia de productos:</label>
-                        <select name="familia_id" class="form-select cnaeSelect">
-                            <option value="">Ninguna</option>
-                            @foreach ($familia as $item)
-                                <option {{ $producto !== 'none' && count($producto->familia) > 0 && $item->id == $producto->familia[0]->id ? 'selected' : '' }} value="{{$item->id}}">{{$item->name}}</option>
-                            @endforeach
-
-                        </select>
-                        @if ($errors->has('familia_id'))
-                            <span class="text-danger">{{ $errors->first('familia_id') }}</span>
                         @endif
                     </div>
 
@@ -115,13 +87,7 @@
             $('.saclapSelect').select2();
         });
         $(document).ready(function() {
-            $('.cnaeSelect').select2();
-        });
-        $(document).ready(function() {
             $('.actSelect').select2();
-        });
-        $(document).ready(function() {
-            $('.entSelect').select2();
         });
     </script>
 @endsection

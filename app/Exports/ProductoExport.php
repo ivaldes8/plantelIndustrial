@@ -30,10 +30,8 @@ class ProductoExport extends DefaultValueBinder implements FromCollection, WithH
         return [
             'cpcu',
             'saclap',
-            'cnae',
-            'descripcion',
+            'producto',
             'actividadesIndustriales'
-
         ];
     }
 
@@ -45,28 +43,34 @@ class ProductoExport extends DefaultValueBinder implements FromCollection, WithH
         $productos = producto::all();
         $aux = [];
         foreach ($productos as $key => $producto) {
-            if (count($producto->actividades) === 0) {
+            $implodedSaclap = null;
+            $implodedCPCU = null;
+            $implodedAct = null;
+
+            if(count($producto->actividades) > 0) {
                 $actArr = [];
-                foreach ($producto->saclaps as $key => $saclap) {
-                    array_push($actArr, $saclap->codigo);
+                foreach ($producto->actividades as $key => $actividad) {
+                    array_push($actArr, $actividad->codigo);
                 }
-                $imploded = implode(",", $actArr);
-                array_push($aux, [$producto->cpcu->codigo, $imploded, $producto->cnae->codigo, $producto->desc]);
+                $implodedAct = implode(",", $actArr);
             }
-            if (count($producto->actividades) > 0) {
+
+            if(count($producto->saclaps) > 0) {
                 $saclapArr = [];
                 foreach ($producto->saclaps as $key => $saclap) {
                     array_push($saclapArr, $saclap->codigo);
                 }
                 $implodedSaclap = implode(",", $saclapArr);
-
-                $actArr = [];
-                foreach ($producto->actividades as $key => $actividad) {
-                    array_push($actArr, $actividad->codigo);
-                }
-                $imploded = implode("/", $actArr);
-                array_push($aux, [$producto->cpcu->codigo, $implodedSaclap, $producto->cnae->codigo, $producto->desc, $imploded]);
             }
+
+            if(count($producto->cpcus) > 0) {
+                $cpcuArr = [];
+                foreach ($producto->cpcus as $key => $cpcu) {
+                    array_push($cpcuArr, $cpcu->codigo);
+                }
+                $implodedCPCU = implode(",", $cpcuArr);
+            }
+            array_push($aux, [$implodedCPCU, $implodedSaclap, $producto->desc, $implodedAct]);
         }
         return collect($aux);
     }

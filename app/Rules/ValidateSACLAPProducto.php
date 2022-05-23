@@ -3,10 +3,7 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
-use App\Models\producto;
-use App\Models\cpcu;
 use App\Models\saclap;
-use App\Models\nae;
 
 class ValidateSACLAPProducto implements Rule
 {

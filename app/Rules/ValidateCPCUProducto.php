@@ -3,12 +3,9 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
-use App\Models\producto;
 use App\Models\cpcu;
-use App\Models\saclap;
-use App\Models\nae;
 
-class RepeatCPCUProducto implements Rule
+class ValidateCPCUProducto implements Rule
 {
     /**
      * Create a new rule instance.
@@ -29,14 +26,22 @@ class RepeatCPCUProducto implements Rule
      */
     public function passes($attribute, $value)
     {
-        $cpcu = cpcu::where('codigo', $value)->get();
-        if(count($cpcu) === 0){
+
+        if(!$value){
             return true;
         }
-        if(count($cpcu) > 0){
-            $producto = producto::where('cpcu_id',$cpcu[0]->id)->get();
+        $codsArray = explode( ',', $value );
+        if(count($codsArray) === 0){
+            return true;
         }
-        if(count($cpcu) > 0 && count($producto) === 0){
+        $findAll = true;
+        for ($i=0; $i < count($codsArray); $i++) {
+           $cpcu = cpcu::where('codigo', $codsArray[$i])->get();
+           if(count($cpcu) === 0){
+               $findAll = false;
+           }
+        }
+        if($findAll === true){
             return true;
         }
     }
@@ -48,6 +53,6 @@ class RepeatCPCUProducto implements Rule
      */
     public function message()
     {
-        return 'Ya existen productos con el código cpcu :input en la base de datos ';
+        return 'Uno de estos códigos de cpcu :input no se encuentran registrados en la base de datos cerca de :attribute.';
     }
 }

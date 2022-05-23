@@ -30,11 +30,9 @@
                             <tr style="font-size: 90%;">
                                 <th style="width: 20px;">ID</th>
                                 <th style="width: 200px;">Descripción</th>
-                                <th style="width: 100px;">CPCU</th>
-                                <th style="width: 100px;">SACLAP</th>
-                                <th style="width: 100px;">CNAE</th>
-                                <th style="width: 200px;">Actividades Industriales</th>
-                                <th style="width: 100px;">Familia</th>
+                                <th style="width: 200px;">CPCU</th>
+                                <th style="width: 200px;">SACLAP</th>
+                                <th style="width: 200px;">Actividad Industrial</th>
                                 <th style="width: 20px;">Editar</th>
                                 <th style="width: 20px;">Delete</th>
                             </tr>
@@ -49,7 +47,15 @@
                                     <tr style="font-size: 90%;">
                                         <td>{{ $item->id }}</td>
                                         <td>{{ $item->desc }}</td>
-                                        <td>{{ $item->cpcu ? $item->cpcu->codigo : '---' }}</td>
+                                        <td>
+                                            @if (count($item->cpcus) > 0)
+                                                @foreach ($item->cpcus as $cpcu)
+                                                    / {{ $cpcu->codigo }}
+                                                @endforeach
+                                            @else
+                                                ---
+                                            @endif
+                                        </td>
                                         <td>
                                             @if (count($item->saclaps) > 0)
                                                 @foreach ($item->saclaps as $saclap)
@@ -59,21 +65,10 @@
                                                 ---
                                             @endif
                                         </td>
-                                        {{-- <td>{{$item->saclap ? $item->saclap->codigo : '---'}}</td> --}}
-                                        <td>{{ $item->cnae ? $item->cnae->codigo : '---' }}</td>
                                         <td>
                                             @if (count($item->actividades) > 0)
                                                 @foreach ($item->actividades as $actividad)
                                                     / {{ $actividad->desc }}
-                                                @endforeach
-                                            @else
-                                                ---
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if (count($item->familia) > 0)
-                                                @foreach ($item->familia as $fam)
-                                                    / {{ $fam->name }}
                                                 @endforeach
                                             @else
                                                 ---

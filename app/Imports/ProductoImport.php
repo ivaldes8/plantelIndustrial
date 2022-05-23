@@ -5,15 +5,10 @@ namespace App\Imports;
 use App\Models\actividad;
 use App\Models\producto;
 use App\Models\cpcu;
-use App\Models\entidad;
-use App\Models\familia;
 use App\Models\saclap;
-use App\Models\nae;
-use App\Rules\RepeatCPCUProducto;
 use App\Rules\ValidateSACLAPProducto;
-use App\Rules\RepeatCNAEProducto;
 use App\Rules\ValidateActividadesProducto;
-use App\Rules\ValidateFamiliaProducto;
+use App\Rules\ValidateCPCUProducto;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -32,30 +27,36 @@ class ProductoImport implements ToCollection, WithHeadingRow
         $collection = LazyCollection::make($rows);
 
         Validator::make($collection->toArray(), [
-            '*.descripcion' => 'required',
-            '*.cpcu' => ['required','exists:cpcus,codigo',new RepeatCPCUProducto()],
+            '*.producto' => 'required|unique:productos,desc',
+            '*.cpcu' => ['required',new ValidateCPCUProducto()],
             '*.saclap' => ['required',new ValidateSACLAPProducto()],
-            '*.cnae' => ['required','exists:naes,codigo'],
             '*.actividadesindustriales' => [new ValidateActividadesProducto()],
-            '*.familia' => [new ValidateFamiliaProducto()]
         ],
         [
-            '*.descripcion.required' => 'Hay descripciones vacías cerca de: :attribute',
+            '*.producto.required' => 'Hay productos vacíos cerca de: :attribute',
+            '*.producto.unique' => 'El producto :input ya se encuentra en la base de datos',
             '*.cpcu.required' => 'Hay cpcus vacíos cerca de: :attribute',
             '*.cpcu.exists' => 'No existen cpcus con el código: :input cerca de: :attribute ',
             '*.saclap.required' => 'Hay saclaps vacíos cerca de: :attribute',
             '*.saclap.exists' => 'No existen saclaps con el código: :input cerca de: :attribute ',
-            '*.cnae.required' => 'Hay cnaes vacíos cerca de: :attribute',
-            '*.cnae.exists' => 'No existen cnaes con el código: :input cerca de: :attribute ',
         ])->validate();
 
         foreach ($collection as $row) {
             $producto = new producto();
-            $producto->desc = $row['descripcion'];
-            $producto->cpcu_id = cpcu::where('codigo', $row['cpcu'])->get()[0]->id;
-            // $producto->saclap_id = saclap::where('codigo', $row['saclap'])->get()[0]->id;
-            $producto->nae_id = nae::where('codigo', $row['cnae'])->get()[0]->id;
+            $producto->desc = $row['producto'];
             $producto->save();
+
+            if($row['cpcu']){
+                $cpcus = explode( ',', $row['cpcu'] );
+                $cpcusId = [];
+                if(count($cpcus) > 0){
+                    for ($i=0; $i < count($cpcus); $i++) {
+                        array_push($cpcusId,cpcu::where('codigo', $cpcus[$i])->get()[0]->id);
+                    }
+                }
+
+                $producto->cpcus()->attach($cpcusId);
+            }
 
             if($row['saclap']){
                 $saclaps = explode( ',', $row['saclap'] );
@@ -73,11 +74,6 @@ class ProductoImport implements ToCollection, WithHeadingRow
                     array_push($actividadesId,actividad::where('codigo', $actividades[$i])->get()[0]->id);
                 }
                 $producto->actividades()->attach($actividadesId);
-            }
-
-            if($row['familia']){
-                $familia = familia::where('name', $row['familia'])->get()[0]->id;
-                $producto->familia()->attach($familia);
             }
 
         }

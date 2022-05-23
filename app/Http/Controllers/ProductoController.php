@@ -41,9 +41,7 @@ class ProductoController extends Controller
         $actividad = actividad::all();
         $cpcu = cpcu::all();
         $saclap = saclap::all();
-        $nae = nae::all();
-        $familia = familia::all();
-        return view('producto.edit', compact('producto', 'actividad', 'cpcu', 'saclap', 'nae', 'familia'));
+        return view('producto.edit', compact('producto', 'actividad', 'cpcu', 'saclap'));
     }
 
     /**
@@ -56,25 +54,25 @@ class ProductoController extends Controller
     {
         $validatedData = $request->validate([
             'desc' => 'required',
-            'cpcu_id' => 'required',
+            'cpcus' => 'required',
             'saclaps' => 'required',
-            'nae_id' => 'required'
         ], [
             'required' => 'Este campo es requerido'
         ]);
         $producto = new producto();
         $producto->desc = $request->input('desc');
-        $producto->cpcu_id = $request->input('cpcu_id');
-        // $producto->saclap_id = $request->input('saclap_id');
-        $producto->nae_id = $request->input('nae_id');
         $producto->save($validatedData);
 
-        if($request->input('actividades') !== null){
-            $producto->actividades()->attach($request->input('actividades'));
+        if($request->input('cpcus') !== null){
+            $producto->cpcus()->attach($request->input('cpcus'));
         }
 
         if($request->input('saclaps') !== null){
             $producto->saclaps()->attach($request->input('saclaps'));
+        }
+
+        if($request->input('actividades') !== null){
+            $producto->actividades()->attach($request->input('actividades'));
         }
 
         return redirect('/producto')->with('status','Producto creado satisfactoriamente');
@@ -88,9 +86,7 @@ class ProductoController extends Controller
      */
     public function show($id)
     {
-        $producto = producto::find($id);
-        $indicador = indicadorEntidadPlanProducto::where('producto_id',$producto->id)->get();
-        return view('indicadorProducto.index',compact('indicador', 'producto'));
+       return 'there is no content here';
     }
 
     /**
@@ -105,13 +101,19 @@ class ProductoController extends Controller
         $actividad = actividad::all();
         $cpcu = cpcu::all();
         $saclap = saclap::all();
-        $nae = nae::all();
-        $familia = familia::all();
 
         for ($i=0; $i < count($actividad); $i++) {
             for ($j=0; $j < count($producto->actividades->toArray()); $j++) {
                 if($actividad[$i]['id']=== $producto->actividades->toArray()[$j]['id']){
                    $actividad[$i]->osde_id = 'checked';
+                }
+            }
+        }
+
+        for ($i=0; $i < count($cpcu); $i++) {
+            for ($j=0; $j < count($producto->cpcus->toArray()); $j++) {
+                if($cpcu[$i]['id'] === $producto->cpcus->toArray()[$j]['id']){
+                   $cpcu[$i]->checked = 'checked';
                 }
             }
         }
@@ -124,7 +126,7 @@ class ProductoController extends Controller
             }
         }
 
-        return view('producto.edit', compact('producto', 'actividad', 'cpcu', 'saclap', 'nae', 'familia'));
+        return view('producto.edit', compact('producto', 'actividad', 'cpcu', 'saclap'));
     }
 
     /**
@@ -138,26 +140,25 @@ class ProductoController extends Controller
     {
         $validatedData = $request->validate([
             'desc' => 'required',
-            'cpcu_id' => 'required',
+            'cpcus' => 'required',
             'saclaps' => 'required',
-            'nae_id' => 'required'
         ], [
             'required' => 'Este campo es requerido'
         ]);
 
         $producto = producto::find($id);
         $producto->desc = $request->input('desc');
-        $producto->cpcu_id = $request->input('cpcu_id');
-        // $producto->saclap_id = $request->input('saclap_id');
-        $producto->nae_id = $request->input('nae_id');
         $producto->update($validatedData);
 
-        $producto->familia()->sync($request->input('familia_id'));
 
         $producto->actividades()->sync($request->input('actividades'));
 
         if($request->input('saclaps') !== null) {
             $producto->saclaps()->sync($request->input('saclaps'));
+        }
+
+        if($request->input('cpcus') !== null) {
+            $producto->cpcus()->sync($request->input('cpcus'));
         }
 
         return redirect('/producto')->with('status','Producto editado satisfactoriamente');
