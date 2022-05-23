@@ -47,13 +47,11 @@ class EntidadController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required',
-            'dpa' => 'required',
             'codREU' => 'required',
             'org_id' => 'required',
             'osde_id' => 'required'
         ], [
             'name.required' => 'Este campo es requerido',
-            'dpa.required' => 'Este campo es requerido',
             'codREU.required' => 'Este campo es requerido',
             'org_id.required' => 'Este campo es requerido',
             'osde_id.required' => 'Este campo es requerido'
@@ -61,7 +59,6 @@ class EntidadController extends Controller
 
         $entidad = new entidad();
         $entidad->name = $request->input('name');
-        $entidad->dpa = $request->input('dpa');
         $entidad->codREU = $request->input('codREU');
         $entidad->org_id = $request->input('org_id');
         $entidad->osde_id = $request->input('osde_id');
@@ -105,13 +102,11 @@ class EntidadController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required',
-            'dpa' => 'required',
             'codREU' => 'required',
             'org_id' => 'required',
             'osde_id' => 'required'
         ], [
             'name.required' => 'Este campo es requerido',
-            'dpa.required' => 'Este campo es requerido',
             'codREU.required' => 'Este campo es requerido',
             'org_id.required' => 'Este campo es requerido',
             'osde_id.required' => 'Este campo es requerido'
@@ -119,7 +114,6 @@ class EntidadController extends Controller
 
         $entidad = entidad::find($id);
         $entidad->name = $request->input('name');
-        $entidad->dpa = $request->input('dpa');
         $entidad->codREU = $request->input('codREU');
         $entidad->org_id = $request->input('org_id');
         $entidad->osde_id = $request->input('osde_id');

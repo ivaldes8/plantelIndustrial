@@ -71,11 +71,9 @@
                                     request()->is('entidad*') ||
                                     request()->is('cpcu*') ||
                                     request()->is('saclap*') ||
-                                    request()->is('cnae*') ||
                                     request()->is('actividad*') ||
                                     request()->is('indicador*') ||
                                     request()->is('producto*') ||
-                                    request()->is('familia*') ||
                                     request()->is('user*')
                                         ? 'active'
                                         : '' }}"
@@ -119,12 +117,6 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item {{ request()->is('cnae*') ? 'active' : '' }}"
-                                            href="{{ url('cnae') }}">
-                                            CNAE
-                                        </a>
-                                    </li>
-                                    <li>
                                         <a class="dropdown-item {{ request()->is('actividad*') ? 'active' : '' }}"
                                             href="{{ url('actividad') }}">
                                             Actividades Industriales
@@ -134,12 +126,6 @@
                                         <a class="dropdown-item {{ request()->is('indicador*') ? 'active' : '' }}"
                                             href="{{ url('indicador') }}">
                                             Indicadores
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item {{ request()->is('familia*') ? 'active' : '' }}"
-                                            href="{{ url('familia') }}">
-                                            Familia de productos
                                         </a>
                                     </li>
                                     <li>
@@ -179,35 +165,6 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="nav-item dropdown mx-1">
-                                <a class="nav-link dropdown-toggle
-                                    {{                                     request()->is('plan*') || request()->is('importP*') || request()->is('filteringPlan*') ? 'active' : '' }}"
-                                    id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Planes
-                                    Anuales</a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li>
-                                        <a class="dropdown-item {{ request()->is('plan*') ? 'active' : '' }}"
-                                            href="{{ url('plan') }}">
-                                            Gestionar Planes Anuales
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item {{ request()->is('osde*') ? 'active' : '' }}"
-                                            href="{{ url('osde') }}">
-                                            Importar Planes Anuales
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item {{ request()->is('filteringPlan*') ? 'active' : '' }}"
-                                            href="{{ url('filteringPlan') }}">
-                                            Filtrar Planes Anuales
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <!-- <li class="nav-item mx-1">
-                                    <a class="nav-link {{ request()->is('plan*') ? 'active' : '' }}" href="{{ url('plan') }}">Planes Anuales</a>
-                                </li> -->
                             <li class="nav-item dropdown mx-1">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

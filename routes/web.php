@@ -70,12 +70,6 @@ Route::middleware(['auth','admin'])->group(function () {
     Route::post('saclap-file-import', [SACLAPController::class, 'fileImport']);
     Route::get('saclap-file-export', [SACLAPController::class, 'export']);
 
-    Route::resource('cnae',NAEController::class);
-    Route::get('cnae/delete/{id}', [NAEController::class, 'delete'])->name('delete');
-    Route::get('cnae-file-import', [NAEController::class, 'fileImportExport']);
-    Route::post('cnae-file-import', [NAEController::class, 'fileImport']);
-    Route::get('cnae-file-export', [NAEController::class, 'export']);
-
     Route::resource('unidad',UnidadController::class);
     Route::get('unidad/delete/{id}', [UnidadController::class, 'delete'])->name('delete');
     Route::get('unidad-file-import', [UnidadController::class, 'fileImportExport']);
@@ -110,13 +104,6 @@ Route::middleware(['auth','admin'])->group(function () {
     Route::put('indicador-producto/{indicador}/update/{producto}', [IndicadorProductoController::class, 'update'])->name('update');
     Route::get('indicador-producto/delete/{id}', [IndicadorProductoController::class, 'delete'])->name('delete');
     Route::delete('indicador-producto/delete/{id}', [IndicadorProductoController::class, 'destroy'])->name('destroy');
-
-    Route::resource('plan',PlanController::class);
-    Route::get('plan/delete/{id}', [PlanController::class, 'delete'])->name('delete');
-    Route::get('filteringPlan', [PlanController::class, 'filter'])->name('plan-filtering');
-
-    Route::resource('familia',FamiliaController::class);
-    Route::get('familia/delete/{id}', [FamiliaController::class, 'delete'])->name('delete');
 
     Route::get('cuotaDeMercado', [ReportesController::class, 'cuotaDeMercado'])->name('cuotaDeMercado');
 });

@@ -9,7 +9,7 @@ class entidad extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'codREU', 'dpa', 'org_id', 'osde_id'];
+    protected $fillable = ['name', 'codREU', 'org_id', 'osde_id'];
 
     public function organismo()
     {

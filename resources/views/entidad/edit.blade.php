@@ -45,14 +45,6 @@
                     </div>
 
                     <div class="form-group mb-3">
-                        <label for="">DPA:</label>
-                        <input type="text" name="dpa" class="form-control" value="{{ $entidad !== 'none' ? $entidad->dpa : '' }}">
-                        @if ($errors->has('dpa'))
-                            <span class="text-danger">{{ $errors->first('dpa') }}</span>
-                        @endif
-                    </div>
-
-                    <div class="form-group mb-3">
                         <label for="">OSDE:</label>
                         <select name="osde_id" class="form-select osdeSelect">
                             @foreach ($osde as $osd)

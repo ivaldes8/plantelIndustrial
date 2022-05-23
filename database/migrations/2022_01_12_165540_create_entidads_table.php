@@ -18,7 +18,6 @@ class CreateEntidadsTable extends Migration
             $table->timestamps();
             $table->string('name')->required();
             $table->string('codREU')->required();
-            $table->string('dpa')->required();
             $table->unsignedBigInteger('org_id')->unsigned()->nullable();
             $table->foreign('org_id')->references('id')->on('organismos')->nullOnDelete();
             $table->unsignedBigInteger('osde_id')->unsigned()->nullable();
