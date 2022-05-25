@@ -3,21 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Exports\InformacionExport;
-use App\Imports\IndicadorEntidadPlanProductoImport;
 use App\Models\actividad;
 use App\Models\cpcu;
 use App\Models\entidad;
-use App\Models\familia;
 use App\Models\indicador;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Models\indicadorEntidadPlanProducto;
-use App\Models\nae;
 use App\Models\producto;
 use App\Models\saclap;
 use App\Models\unidad;
+use App\Models\informacionEntidadCpcuSaclap;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use PhpOffice\PhpSpreadsheet\Calculation\LookupRef\Indirect;
 
 class InformacionController extends Controller
 {
@@ -32,73 +28,57 @@ class InformacionController extends Controller
         $productos = producto::all();
         $cpcus = cpcu::all();
         $saclaps = saclap::all();
-        $naes = nae::all();
-        $familias = familia::all();
         $entidades = entidad::all();
         $unidades = unidad::all();
         $actividades = actividad::all();
         $indicadores = indicador::all();
 
-        $query = indicadorEntidadPlanProducto::query();
+        $query = informacionEntidadCpcuSaclap::query();
 
         $query->when(request()->input('producto'), function($q) {
-            return $q->where('producto_id',request()->input('producto'));
+            $q->whereHas('cpcu', function($q)
+                {
+                    $q->whereHas('productos', function($q) {
+                        return $q->where('producto_id',request()->input('producto'));
+                    });
+                })->orWhereHas('saclap', function($q)
+                {
+                    $q->whereHas('productos', function($q) {
+                        return $q->where('producto_id',request()->input('producto'));
+                    });
+                });
         });
 
         $query->when(request()->input('cpcu'), function($q) {
-            $q->whereHas('producto', function($q)
-            {
-                return $q->where('cpcu_id',request()->input('cpcu'));
-            });
+            $q->where('cpcu_id',request()->input('cpcu'));
         });
-
-        // $query->when(request()->input('saclap'), function($q) {
-        //     $q->whereHas('producto', function($q)
-        //     {
-        //         return $q->where('saclap_id',request()->input('saclap'));
-        //     });
-        // });
 
         $query->when(request()->input('saclap'), function($q) {
-            $q->whereHas('producto', function($q)
-            {
-                $q->whereHas('saclaps', function($q) {
-                    return $q->where('saclap_id',request()->input('saclap'));
-                });
-            });
-        });
-
-        $query->when(request()->input('nae'), function($q) {
-            $q->whereHas('producto', function($q)
-            {
-                return $q->where('nae_id',request()->input('nae'));
-            });
-        });
-
-        $query->when(request()->input('familia'), function($q) {
-            $q->whereHas('producto', function($q)
-            {
-                $q->whereHas('familia', function($q) {
-                    return $q->where('familia_id',request()->input('familia'));
-                });
-            });
+            $q->where('saclap_id',request()->input('saclap'));
         });
 
         $query->when(request()->input('entidad'), function($q) {
             return $q->where('entidad_id',request()->input('entidad'));
         });
 
-        $query->when(request()->input('unidad'), function($q) {
-            return $q->where('unidad_id',request()->input('unidad'));
+         $query->when(request()->input('producto'), function($q) {
+            $q->whereHas('cpcu', function($q)
+                {
+                    $q->whereHas('productos', function($q) {
+                        $q->whereHas('actividades', function($q){
+                            return $q->where('entidad_id',request()->input('entidad'));
+                        });
+                    });
+                })->orWhereHas('saclap', function($q)
+                {
+                    $q->whereHas('actividades', function($q){
+                        return $q->where('entidad_id',request()->input('entidad'));
+                    });
+                });
         });
 
-        $query->when(request()->input('actividad'), function($q) {
-            $q->whereHas('producto', function($q)
-            {
-                $q->whereHas('actividades', function($q) {
-                    return $q->where('actividad_id',request()->input('actividad'));
-                });
-            });
+        $query->when(request()->input('unidad'), function($q) {
+            return $q->where('unidad_id',request()->input('unidad'));
         });
 
         $query->when(request()->input('indicador'), function($q) {
@@ -123,7 +103,7 @@ class InformacionController extends Controller
 
         $informacion = $query->orderBy('date','ASC')->paginate(50);
 
-        return view('informacion.index',compact('informacion', 'productos', 'cpcus', 'saclaps', 'naes', 'familias', 'entidades', 'unidades', 'actividades', 'indicadores'));
+        return view('informacion.index',compact('informacion', 'productos', 'cpcus', 'saclaps', 'entidades', 'unidades', 'actividades', 'indicadores'));
     }
 
     /**
@@ -134,11 +114,13 @@ class InformacionController extends Controller
     public function create()
     {
         $informacion = 'none';
-        $productos = producto::all();
         $entidades = entidad::all();
         $indicadores = indicador::all();
         $unidades = unidad::all();
-        return view('informacion.edit', compact('informacion', 'productos', 'entidades', 'indicadores', 'unidades'));
+        $cpcu = cpcu::all();
+        $saclap = saclap::all();
+
+        return view('informacion.edit', compact('informacion', 'cpcu', 'saclap', 'entidades', 'indicadores', 'unidades'));
     }
 
     /**
@@ -150,7 +132,6 @@ class InformacionController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'producto' => 'required',
             'indicador' => 'required',
             'valor' => 'required',
             'unidad' => 'required',
@@ -158,13 +139,20 @@ class InformacionController extends Controller
         ], [
             'required' => 'Este campo es requerido'
         ]);
-        $informacion = new indicadorEntidadPlanProducto();
-        $informacion->producto_id = $request->input('producto');
+
+
+        if(!$request->input('cpcu') && !$request->input('saclap')){
+            return back()->withErrors(["CpcuSaclap" => ["Tiene que seleccionar un código cpcu o un código saclap"]]);
+        }
+
+        $informacion = new informacionEntidadCpcuSaclap();
+        $informacion->cpcu_id = $request->input('cpcu');
+        $informacion->saclap_id = $request->input('saclap');
         $informacion->entidad_id = $request->input('entidad');
         $informacion->indicador_id = $request->input('indicador');
         $informacion->value = $request->input('valor');
         $informacion->unidad_id = $request->input('unidad');
-        $informacion->date = Carbon::createFromFormat('d/m/Y', $request->input('fecha'))->toDateString();
+        $informacion->date = Carbon::createFromFormat('Y-m-d', $request->input('fecha'))->toDateString();
         $informacion->save($validatedData);
         return redirect('/informacion')->with('status','Infomación creada satisfactoriamente');
     }
@@ -188,12 +176,13 @@ class InformacionController extends Controller
      */
     public function edit($id)
     {
-        $informacion = indicadorEntidadPlanProducto::find($id);
-        $productos = producto::all();
+        $informacion = informacionEntidadCpcuSaclap::find($id);
+        $cpcu = cpcu::all();
+        $saclap = saclap::all();
         $entidades = entidad::all();
         $indicadores = indicador::all();
         $unidades = unidad::all();
-        return view('informacion.edit', compact('informacion', 'productos', 'entidades', 'indicadores', 'unidades'));
+        return view('informacion.edit', compact('informacion', 'cpcu', 'saclap', 'entidades', 'indicadores', 'unidades'));
     }
 
     /**
@@ -206,7 +195,6 @@ class InformacionController extends Controller
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'producto' => 'required',
             'indicador' => 'required',
             'valor' => 'required',
             'unidad' => 'required',
@@ -215,8 +203,13 @@ class InformacionController extends Controller
             'required' => 'Este campo es requerido'
         ]);
 
-        $informacion = indicadorEntidadPlanProducto::find($id);
-        $informacion->producto_id = $request->input('producto');
+        if(!$request->input('cpcu') && !$request->input('saclap')){
+            return back()->withErrors(["CpcuSaclap" => ["Tiene que seleccionar un código cpcu o un código saclap"]]);
+        }
+
+        $informacion = informacionEntidadCpcuSaclap::find($id);
+        $informacion->cpcu_id = $request->input('cpcu');
+        $informacion->saclap_id = $request->input('saclap');
         $informacion->entidad_id = $request->input('entidad');
         $informacion->indicador_id = $request->input('indicador');
         $informacion->value = $request->input('valor');
@@ -228,7 +221,7 @@ class InformacionController extends Controller
 
     public function delete($id)
     {
-        $informacion = indicadorEntidadPlanProducto::find($id);
+        $informacion = informacionEntidadCpcuSaclap::find($id);
         return view('informacion.delete', compact('informacion'));
     }
 
@@ -240,7 +233,7 @@ class InformacionController extends Controller
      */
     public function destroy($id)
     {
-        $informacion = indicadorEntidadPlanProducto::find($id);
+        $informacion = informacionEntidadCpcuSaclap::find($id);
         $informacion->delete();
         return redirect()->back()->with('status','Información eliminada Satisfactoriamente');
     }
@@ -255,7 +248,7 @@ class InformacionController extends Controller
     */
     public function fileImport(Request $request)
     {
-        Excel::import(new IndicadorEntidadPlanProductoImport,request()->file('file'));
+        Excel::import(new informacionEntidadCpcuSaclap(),request()->file('file'));
 
         return back()->with('success', 'User Imported Successfully.');
     }

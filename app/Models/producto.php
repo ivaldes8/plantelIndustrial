@@ -25,14 +25,4 @@ class producto extends Model
     {
         return $this->belongsToMany(saclap::class, 'saclap_productos');
     }
-
-    public function entidades()
-    {
-        return $this->belongsToMany(entidad::class, 'indicador_entidad_plan_productos');
-    }
-
-    public function familia()
-    {
-        return $this->belongsToMany(familia::class, 'familia_productos');
-    }
 }

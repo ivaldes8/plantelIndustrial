@@ -59,20 +59,12 @@
                             </div>
                         </div>
                         <div class="col-3 d-flex justify-content-end">
-                            <button class="btn btn-sm btn-primary mx-1" type="submit"><i class="bi bi-search"></i></button>
+                            <button class="btn btn-sm btn-primary mx-1" type="submit"><i
+                                    class="bi bi-search"></i></button>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-3 mt-1 d-flex justify-content-start">
-                            <div class="input-group">
-                                <select name="familia" class="form-control form-control-sm familiaSelect">
-                                    <option></option>
-                                    @foreach ($familias as $item)
-                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
+
                         <div class="col-3 mt-1 d-flex justify-content-start">
                             <div class="input-group ">
                                 <select name="entidad" class="form-control form-control-sm entidadSelect">
@@ -83,17 +75,29 @@
                                 </select>
                             </div>
                         </div>
+
                         <div class="col-3 mt-1 d-flex justify-content-start">
                             <div class="input-group">
-                                <select name="nae" class="form-control form-control-sm naeSelect">
+                                <select name="actividad" class="form-control form-control-sm actSelect">
                                     <option></option>
-                                    @foreach ($naes as $item)
-                                        <option value="{{ $item->id }}">{{ $item->codigo }} {{ $item->desc }}
-                                        </option>
+                                    @foreach ($actividades as $item)
+                                        <option value="{{ $item->id }}">{{ $item->desc }}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
+
+                        <div class="col-3 mt-1 d-flex justify-content-start">
+                            <div class="input-group ">
+                                <select name="indicador" class="form-control form-control-sm indicadorSelect">
+                                    <option></option>
+                                    @foreach ($indicadores as $item)
+                                        <option value="{{ $item->id }}">{{ $item->desc }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="col-2 mt-1 d-flex justify-content-start">
                             <div class="input-group ">
                                 <select name="unidad" class="form-control form-control-sm unidadSelect">
@@ -107,26 +111,6 @@
                     </div>
                     <div class="row">
                         <div class="col-3 mt-1 d-flex justify-content-start">
-                            <div class="input-group">
-                                <select name="actividad" class="form-control form-control-sm actSelect">
-                                    <option></option>
-                                    @foreach ($actividades as $item)
-                                        <option value="{{ $item->id }}">{{ $item->desc }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-3 mt-1 d-flex justify-content-start">
-                            <div class="input-group ">
-                                <select name="indicador" class="form-control form-control-sm indicadorSelect">
-                                    <option></option>
-                                    @foreach ($indicadores as $item)
-                                        <option value="{{ $item->id }}">{{ $item->desc }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-3 mt-1 d-flex justify-content-start">
                             <div class="input-group ">
                                 <input type="number" name="valorIni" class="form-control form-control-sm" id="valor"
                                     placeholder="Valor desde">
@@ -138,8 +122,6 @@
                                     placeholder="Valor hasta">
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-3 mt-1 d-flex justify-content-start">
                             <div class="input-group ">
                                 <input type="text" name="fechaIni" class="form-control form-control-sm startDate"
@@ -160,17 +142,14 @@
                         <thead>
                             <tr style="font-size: 90%;">
                                 <th style="width: 20px;">ID</th>
-                                <th style="width: 120px;">Producto</th>
+                                <th style="width: 340px;">Producto</th>
                                 <th style="width: 80px;">CPCU</th>
                                 <th style="width: 80px;">SAClAP</th>
-                                <th style="width: 80px;">NAE</th>
-                                <th style="width: 120px;">Entidad</th>
-                                <th style="width: 340px;">Actividades Industriales</th>
+                                <th style="width: 180px;">Entidad</th>
                                 <th style="width: 80px;">Indicador</th>
                                 <th style="width: 60px;">Valor</th>
                                 <th style="width: 30px;">Unidad</th>
-                                <th style="width: 160px;">Fecha</th>
-                                <th style="width: 60px;">Familia</th>
+                                <th style="width: 100px;">Fecha</th>
                                 <th style="width: 60px;">Editar</th>
                                 <th style="width: 60px;">Delete</th>
                             </tr>
@@ -182,45 +161,37 @@
                                 </tr>
                             @else
                                 @foreach ($informacion as $item)
-                                    <tr  style="font-size: 90%;">
+                                    <tr style="font-size: 90%;">
                                         <td>{{ $item->id }}</td>
-                                        <td>{{ $item->producto ? $item->producto->desc : '---' }}</td>
-                                        <td>{{ $item->producto ? $item->producto->cpcu->codigo : '---' }}</td>
-                                        {{-- <td>{{ $item->producto ? $item->producto->saclap->codigo : '---' }}</td> --}}
                                         <td>
-                                            @if ($item->producto && count($item->producto->saclaps) > 0)
-                                                @foreach ($item->producto->saclaps as $saclap)
-                                                    /{{ $saclap->codigo }}
+                                            @if ($item->cpcu && $item->cpcu->productos && count($item->cpcu->productos) > 0)
+                                                Cpcu:
+                                                @foreach ($item->cpcu->productos as $producto)
+                                                    /{{ $producto->desc }}
                                                 @endforeach
-                                            @else
-                                                <p>---</p>
                                             @endif
-                                        </td>
-                                        <td>{{ $item->producto ? $item->producto->cnae->codigo : '---' }}</td>
-                                        <td>{{ $item->entidad ? $item->entidad->name : '---' }}</td>
-                                        <td>
-                                            @if ($item->producto && count($item->producto->actividades) > 0)
-                                                @foreach ($item->producto->actividades as $actividad)
-                                                    /{{ $actividad->desc }}
+                                            @if ($item->cpcu && $item->cpcu->productos && count($item->cpcu->productos) > 0 && $item->saclap && $item->saclap->productos && count($item->saclap->productos) > 0)
+                                                <hr>
+                                            @endif
+                                            @if (!($item->cpcu && $item->cpcu->productos && count($item->cpcu->productos) > 0) && !($item->saclap && $item->saclap->productos && count($item->saclap->productos) > 0))
+                                                ---
+                                            @endif
+
+                                            @if ($item->saclap && $item->saclap->productos && count($item->saclap->productos) > 0)
+                                                Saclap:
+                                                @foreach ($item->saclap->productos as $producto)
+                                                    /{{ $producto->desc }}
                                                 @endforeach
-                                            @else
-                                                <p>---</p>
                                             @endif
                                         </td>
 
+                                        <td>{{ $item->cpcu ? $item->cpcu->codigo : '---' }}</td>
+                                        <td>{{ $item->saclap ? $item->saclap->codigo : '---' }}</td>
+                                        <td>{{ $item->entidad ? $item->entidad->name : '---' }}</td>
                                         <td>{{ $item->indicador ? $item->indicador->desc : '---' }}</td>
                                         <td>{{ $item->value }}</td>
                                         <td>{{ $item->unidad->desc }}</td>
                                         <td>{{ $item->date }}</td>
-                                        <td>
-                                            @if ($item->producto && count($item->producto->familia) > 0)
-                                                @foreach ($item->producto->familia as $family)
-                                                    /{{ $family->name }}
-                                                @endforeach
-                                            @else
-                                                <p>---</p>
-                                            @endif
-                                        </td>
 
                                         <td>
                                             <a href="{{ url('informacion/' . $item->id . '/edit') }}"
