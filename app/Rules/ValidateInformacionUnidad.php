@@ -11,7 +11,7 @@ use App\Models\saclap;
 use App\Models\nae;
 use App\Models\unidad;
 
-class ValidateIndicadorUnidad implements Rule
+class ValidateInformacionUnidad implements Rule
 {
     /**
      * Create a new rule instance.

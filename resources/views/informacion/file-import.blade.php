@@ -37,8 +37,8 @@
                             <div class="col-12">
                                 <div class="alert alert-primary" role="alert">
                                     <h4><i class="bi-exclamation-circle"></i> Atención:</h4>
-                                    <p>1-En la columna indicador del excel debe estar el indicador y la unidad de medida en el siguite formato: (código del indicador/unidad de medida)</p>
-                                    <p>2-Los productos con sus códigos cpcu deben existir en la aplicación, y en el excel para poner un producto, se pone su código cpcu</p>
+                                    <p>1-En la columna indicador del excel debe estar el indicador, la unidad de medida y el tipo de clasificador en el siguite formato: (código del indicador/unidad de medida/clasificador Ej: "Inportaciones/Kg/Cpcu")</p>
+                                    <p>2-Los productos con sus códigos cpcu deben existir en la aplicación, y en el excel para poner un producto, se pone su código cpcu o saclap</p>
                                     <p>3-Para introducir entidades, se deben poner el código REU de estas, y también deben de existir en la aplicación</p>
                                     <p>4-Las columnas de fechas deben ser especificadas como: date1->20-01-2022, date2->20-01-2022, date3->20-01-2022 y así sucesivamente, con sus valores(opcionales) debajo pertenecientes a los respectivos productos y entidades </p>
                                 </div>

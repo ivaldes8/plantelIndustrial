@@ -2,15 +2,12 @@
 
 namespace App\Rules;
 
-use App\Models\actividad;
 use Illuminate\Contracts\Validation\Rule;
 use App\Models\producto;
 use App\Models\cpcu;
-use App\Models\entidad;
 use App\Models\saclap;
-use App\Models\nae;
 
-class ValidateIndicadorEntidad implements Rule
+class ValidateInformacionProducto implements Rule
 {
     /**
      * Create a new rule instance.
@@ -31,12 +28,14 @@ class ValidateIndicadorEntidad implements Rule
      */
     public function passes($attribute, $value)
     {
+
         if(!$value){
             return true;
         }
-        $entidad = entidad::where('codREU', $value)->get();
+        $cpcu = cpcu::where('codigo', $value)->get();
+        $saclap = saclap::where('codigo', $value)->get();
 
-        if(count($entidad) > 0){
+        if(count($saclap) > 0 || count($cpcu) > 0){
             return true;
         }
     }
@@ -48,6 +47,6 @@ class ValidateIndicadorEntidad implements Rule
      */
     public function message()
     {
-        return 'El codigo REU :input no se encuentra asociado a ninguna entidad en la base de datos cerca de: :attribute.';
+        return 'El codigo :input no se encuentra en la base de datos cerca de: :attribute.';
     }
 }

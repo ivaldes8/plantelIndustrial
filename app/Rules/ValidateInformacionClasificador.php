@@ -9,8 +9,9 @@ use App\Models\cpcu;
 use App\Models\entidad;
 use App\Models\saclap;
 use App\Models\nae;
+use App\Models\unidad;
 
-class ValidateIndicadorProducto implements Rule
+class ValidateInformacionClasificador implements Rule
 {
     /**
      * Create a new rule instance.
@@ -31,18 +32,13 @@ class ValidateIndicadorProducto implements Rule
      */
     public function passes($attribute, $value)
     {
-
         if(!$value){
             return true;
         }
-        $cpcu = cpcu::where('codigo', $value)->get();
+        $codsArray = explode( '/', $value );
 
-        $producto = [];
-        if(count($cpcu) > 0){
-            $producto = producto::where('cpcu_id', $cpcu[0]->id)->get();
-
-        }
-        if(count($producto) > 0 && count($cpcu) > 0){
+        $findUnidad = true;
+        if(count( $codsArray ) > 2 && ($codsArray[2] === 'Cpcu' || $codsArray[2] === 'Saclap')){
             return true;
         }
     }
@@ -54,6 +50,6 @@ class ValidateIndicadorProducto implements Rule
      */
     public function message()
     {
-        return 'El codigo cpcu :input no se encuentra asociado a ningun producto en la base de datos cerca de: :attribute.';
+        return 'Tiene que seleccionar un clasificador válido, (Cpcu o Saclap), no :input.';
     }
 }

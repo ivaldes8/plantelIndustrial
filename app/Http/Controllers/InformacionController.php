@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\InformacionExport;
+use App\Imports\InformacionEntidadCpcuSaclapImport;
 use App\Models\actividad;
 use App\Models\cpcu;
 use App\Models\entidad;
@@ -248,7 +249,7 @@ class InformacionController extends Controller
     */
     public function fileImport(Request $request)
     {
-        Excel::import(new informacionEntidadCpcuSaclap(),request()->file('file'));
+        Excel::import(new InformacionEntidadCpcuSaclapImport,request()->file('file'));
 
         return back()->with('success', 'User Imported Successfully.');
     }
