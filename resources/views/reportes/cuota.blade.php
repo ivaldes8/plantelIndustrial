@@ -52,25 +52,26 @@
                 </form>
                 <hr>
                 <div class="row">
-                    @if (count($productsArray) > 0 && count($errors) === 0)
+                    @if (count($actArr) > 0 && count($errors) === 0)
                         <div class="col-12">
                             <div class="alert alert-info">
                                 <h3><i class="bi-check-circle"></i> Resultado:</h3>
-                                @foreach ($productsArray as $key => $value)
+                                @foreach ($actArr as $key => $act)
                                     <h4><i class="bi-caret-right-square"></i>
-                                    @foreach ($value[5] as $actividades)
-                                        /{{$actividades->desc}}
-                                    @endforeach
+                                        {{ $act[0][5] }}
                                     </h4>
-                                    <div class="row">
-                                        <div class="col-md-4 col-xs-12">
-                                            <p style="margin-left: 10px"><i class="bi-caret-right"></i>{{$value[3]}} - {{$value[4]}}</p>
+                                    @foreach ($act as $value)
+                                        <div class="row">
+                                        <div class="col-md-12 col-xs-12">
+                                            <p style="margin-left: 10px"><i class="bi-caret-right"></i>{{$value[3]}}</p>
                                         </div>
-                                        <div class="col-md-8 col-xs-12">
-                                            <p style="margin-left: 20px"><i class="bi-arrow-right-short"></i> Produccion: {{$value[0]}} U - Importaciones: {{$value[1]}} U - Cuota de Mercado: {{$value[2]}}% en Unidades</p>
-                                            <p style="margin-left: 20px"><i class="bi-arrow-right-short"></i> Produccion: {{$value[6]}} Valor - Importaciones: {{$value[7]}} Valor - Cuota de Mercado: {{$value[8]}}% en Valores</p>
+                                        <div class="col-md-12 col-xs-12">
+                                            <p style="margin-left: 20px"><i class="bi-arrow-right-short"></i> Produccion: {{$value[0]}} U - Importaciones: {{$value[1]}} U - Cuota de Mercado: {{$value[2]}}% (U)</p>
+                                            <p style="margin-left: 20px"><i class="bi-arrow-right-short"></i> Produccion: {{$value[6]}} Valor - Importaciones: {{$value[7]}} Valor - Cuota de Mercado: {{$value[8]}}% (V)</p>
                                         </div>
-                                    </div>
+                                        </div>
+                                    @endforeach
+
                                 @endforeach
                             </div>
                         </div>
