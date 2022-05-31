@@ -24,6 +24,58 @@
                 </div>
             </div>
             <div class="card-body">
+                <form action="{{ url('producto') }}" method="get">
+                    <div class="row">
+                        <div class="col-11 mt-1 d-flex justify-content-start">
+                            <div class="input-group ">
+                                <input type="text" name="desc" class="form-control form-control-sm" id="desc"
+                                    placeholder="Descripción del producto">
+                            </div>
+                        </div>
+
+                        <div class="col-1 d-flex justify-content-end">
+                            <button class="btn btn-sm btn-primary mx-1" type="submit">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4 mt-1 d-flex justify-content-start">
+                            <div class="input-group ">
+                                <select name="cpcu" class="form-control form-control-sm cpcuSelect">
+                                    <option></option>
+                                    @foreach ($cpcus as $item)
+                                        <option value="{{ $item->id }}">{{ $item->codigo }} {{ $item->desc }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-4 mt-1 d-flex justify-content-start">
+                            <div class="input-group ">
+                                <select name="saclap" class="form-control form-control-sm saclapSelect">
+                                    <option></option>
+                                    @foreach ($saclaps as $item)
+                                        <option value="{{ $item->id }}">{{ $item->codigo }} {{ $item->desc }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-4 mt-1 d-flex justify-content-start">
+                            <div class="input-group">
+                                <select name="actividad" class="form-control form-control-sm actSelect">
+                                    <option></option>
+                                    @foreach ($actividades as $item)
+                                        <option value="{{ $item->id }}">{{ $item->desc }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <hr>
                 <div class="table-responsive">
                     <table class="table table-primary table-bordered table-striped">
                         <thead>
@@ -93,7 +145,7 @@
                         </tbody>
                     </table>
                     <div class="d-flex">
-                        {{ $producto->links() }}
+                        {{ $producto->withQueryString()->links() }}
                     </div>
                 </div>
             </div>
@@ -140,6 +192,18 @@
                 },
                 timeout: 8000
             })
+        });
+        $('.cpcuSelect').select2({
+            placeholder: "Código CPCU",
+            allowClear: true
+        });
+        $('.saclapSelect').select2({
+            placeholder: "Código SACLAP",
+            allowClear: true
+        });
+        $('.actSelect').select2({
+            placeholder: "Actividades Industriales",
+            allowClear: true
         });
     </script>
 @endsection

@@ -62,18 +62,18 @@ class InformacionController extends Controller
             return $q->where('entidad_id',request()->input('entidad'));
         });
 
-         $query->when(request()->input('producto'), function($q) {
+         $query->when(request()->input('actividad'), function($q) {
             $q->whereHas('cpcu', function($q)
                 {
                     $q->whereHas('productos', function($q) {
                         $q->whereHas('actividades', function($q){
-                            return $q->where('entidad_id',request()->input('entidad'));
+                            return $q->where('actividad_id',request()->input('actividad'));
                         });
                     });
                 })->orWhereHas('saclap', function($q)
                 {
                     $q->whereHas('actividades', function($q){
-                        return $q->where('entidad_id',request()->input('entidad'));
+                        return $q->where('actividad_id',request()->input('actividad'));
                     });
                 });
         });

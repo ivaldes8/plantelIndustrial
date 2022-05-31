@@ -26,8 +26,43 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        $producto = producto::paginate(10);
-        return view('producto.index',compact('producto'));
+        $cpcus = cpcu::all();
+        $saclaps = saclap::all();
+        $actividades = actividad::all();
+
+        $query = producto::query();
+
+        $query->when(request()->input('cpcu'), function ($q) {
+            return $q->whereHas('cpcus', function ($q) {
+                $q->where('cpcu_id', request()->input('cpcu'));
+            });
+        });
+
+        $query->when(request()->input('saclap'), function ($q) {
+            return $q->whereHas('saclaps', function ($q) {
+                $q->where('saclap_id', request()->input('saclap'));
+            });
+        });
+
+        $query->when(request()->input('saclap'), function ($q) {
+            return $q->whereHas('saclaps', function ($q) {
+                $q->where('saclap_id', request()->input('saclap'));
+            });
+        });
+
+        $query->when(request()->input('actividad'), function ($q) {
+            return $q->whereHas('actividades', function ($q) {
+                $q->where('actividad_id', request()->input('actividad'));
+            });
+        });
+
+        $query->when(request()->input('desc'), function ($q) {
+            return $q->where('desc', 'like', '%' . request()->input('desc') . '%');
+        });
+
+        $producto = $query->paginate(50);
+
+        return view('producto.index', compact('producto', 'cpcus', 'saclaps', 'actividades'));
     }
 
     /**
@@ -63,19 +98,19 @@ class ProductoController extends Controller
         $producto->desc = $request->input('desc');
         $producto->save($validatedData);
 
-        if($request->input('cpcus') !== null){
+        if ($request->input('cpcus') !== null) {
             $producto->cpcus()->attach($request->input('cpcus'));
         }
 
-        if($request->input('saclaps') !== null){
+        if ($request->input('saclaps') !== null) {
             $producto->saclaps()->attach($request->input('saclaps'));
         }
 
-        if($request->input('actividades') !== null){
+        if ($request->input('actividades') !== null) {
             $producto->actividades()->attach($request->input('actividades'));
         }
 
-        return redirect('/producto')->with('status','Producto creado satisfactoriamente');
+        return redirect('/producto')->with('status', 'Producto creado satisfactoriamente');
     }
 
     /**
@@ -86,7 +121,7 @@ class ProductoController extends Controller
      */
     public function show($id)
     {
-       return 'there is no content here';
+        return 'there is no content here';
     }
 
     /**
@@ -102,26 +137,26 @@ class ProductoController extends Controller
         $cpcu = cpcu::all();
         $saclap = saclap::all();
 
-        for ($i=0; $i < count($actividad); $i++) {
-            for ($j=0; $j < count($producto->actividades->toArray()); $j++) {
-                if($actividad[$i]['id']=== $producto->actividades->toArray()[$j]['id']){
-                   $actividad[$i]->osde_id = 'checked';
+        for ($i = 0; $i < count($actividad); $i++) {
+            for ($j = 0; $j < count($producto->actividades->toArray()); $j++) {
+                if ($actividad[$i]['id'] === $producto->actividades->toArray()[$j]['id']) {
+                    $actividad[$i]->osde_id = 'checked';
                 }
             }
         }
 
-        for ($i=0; $i < count($cpcu); $i++) {
-            for ($j=0; $j < count($producto->cpcus->toArray()); $j++) {
-                if($cpcu[$i]['id'] === $producto->cpcus->toArray()[$j]['id']){
-                   $cpcu[$i]->checked = 'checked';
+        for ($i = 0; $i < count($cpcu); $i++) {
+            for ($j = 0; $j < count($producto->cpcus->toArray()); $j++) {
+                if ($cpcu[$i]['id'] === $producto->cpcus->toArray()[$j]['id']) {
+                    $cpcu[$i]->checked = 'checked';
                 }
             }
         }
 
-        for ($i=0; $i < count($saclap); $i++) {
-            for ($j=0; $j < count($producto->saclaps->toArray()); $j++) {
-                if($saclap[$i]['id'] === $producto->saclaps->toArray()[$j]['id']){
-                   $saclap[$i]->checked = 'checked';
+        for ($i = 0; $i < count($saclap); $i++) {
+            for ($j = 0; $j < count($producto->saclaps->toArray()); $j++) {
+                if ($saclap[$i]['id'] === $producto->saclaps->toArray()[$j]['id']) {
+                    $saclap[$i]->checked = 'checked';
                 }
             }
         }
@@ -153,15 +188,15 @@ class ProductoController extends Controller
 
         $producto->actividades()->sync($request->input('actividades'));
 
-        if($request->input('saclaps') !== null) {
+        if ($request->input('saclaps') !== null) {
             $producto->saclaps()->sync($request->input('saclaps'));
         }
 
-        if($request->input('cpcus') !== null) {
+        if ($request->input('cpcus') !== null) {
             $producto->cpcus()->sync($request->input('cpcus'));
         }
 
-        return redirect('/producto')->with('status','Producto editado satisfactoriamente');
+        return redirect('/producto')->with('status', 'Producto editado satisfactoriamente');
     }
 
     public function delete($id)
@@ -180,49 +215,44 @@ class ProductoController extends Controller
     {
         $producto = producto::find($id);
         $producto->delete();
-        return redirect()->back()->with('status','Producto eliminado Satisfactoriamente');
+        return redirect()->back()->with('status', 'Producto eliminado Satisfactoriamente');
     }
 
     public function filter(Request $request)
     {
         $query = producto::query();
-        $query->when(request()->input('descP'), function($q) {
-            return $q->where('desc', 'like', '%'.request()->input('descP').'%');
+        $query->when(request()->input('descP'), function ($q) {
+            return $q->where('desc', 'like', '%' . request()->input('descP') . '%');
         });
 
-        $query->when(request()->input('cpcu'), function($q) {
-            return $q->whereHas('cpcu', function($q)
-            {
-                $q->where('codigo', 'like', '%'.request()->input('cpcu').'%');
+        $query->when(request()->input('cpcu'), function ($q) {
+            return $q->whereHas('cpcu', function ($q) {
+                $q->where('codigo', 'like', '%' . request()->input('cpcu') . '%');
             });
         });
 
-        $query->when(request()->input('saclap'), function($q) {
-            return $q->whereHas('saclap', function($q)
-            {
-                $q->where('codigo', 'like', '%'.request()->input('saclap').'%');
+        $query->when(request()->input('saclap'), function ($q) {
+            return $q->whereHas('saclap', function ($q) {
+                $q->where('codigo', 'like', '%' . request()->input('saclap') . '%');
             });
         });
 
-        $query->when(request()->input('cnae'), function($q) {
-            return $q->whereHas('cnae', function($q)
-            {
-                $q->where('codigo', 'like', '%'.request()->input('cnae').'%');
+        $query->when(request()->input('cnae'), function ($q) {
+            return $q->whereHas('cnae', function ($q) {
+                $q->where('codigo', 'like', '%' . request()->input('cnae') . '%');
             });
         });
 
-        $query->when(request()->input('entidades'), function($q) {
+        $query->when(request()->input('entidades'), function ($q) {
 
-            return $q->whereHas('entidades', function($q)
-            {
+            return $q->whereHas('entidades', function ($q) {
                 $q->whereIn('entidad_id', request()->input('entidades'));
             });
         });
 
-        $query->when(request()->input('actividades'), function($q) {
+        $query->when(request()->input('actividades'), function ($q) {
 
-            return $q->whereHas('actividades', function($q)
-            {
+            return $q->whereHas('actividades', function ($q) {
                 $q->whereIn('actividad_id', request()->input('actividades'));
             });
         });
@@ -230,7 +260,7 @@ class ProductoController extends Controller
         $producto = $query->paginate(10);
         $entidad = entidad::all();
         $actividad = actividad::all();
-        return view('producto.filter',compact('producto', 'entidad', 'actividad'));
+        return view('producto.filter', compact('producto', 'entidad', 'actividad'));
     }
 
     public function fileImportExport()
@@ -239,11 +269,11 @@ class ProductoController extends Controller
     }
 
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function fileImport(Request $request)
     {
-        Excel::import(new ProductoImport,request()->file('file'));
+        Excel::import(new ProductoImport, request()->file('file'));
 
         return back()->with('success', 'User Imported Successfully.');
     }
@@ -252,6 +282,4 @@ class ProductoController extends Controller
     {
         return Excel::download(new ProductoExport, 'productos.xlsx');
     }
-
-
 }
