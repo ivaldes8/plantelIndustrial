@@ -39,7 +39,7 @@ class InformacionExport extends DefaultValueBinder implements FromCollection, Wi
     */
     public function collection()
     {
-        $aux = [0 => ['2/Kg', '32131.0100', '5469', '40', '500', '320']];
+        $aux = [0 => ['Importaciones/U/Saclap', '32131.0100', '5469', '40', '500', '320']];
         return collect($aux);
     }
 }

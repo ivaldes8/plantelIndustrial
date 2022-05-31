@@ -136,6 +136,14 @@
                         </div>
                     </div>
                 </form>
+                @if ($EntitiesValidation)
+                    <hr>
+                    <div class="alert alert-danger">
+                        <h5><i class="bi-exclamation-triangle"></i> {{$EntitiesValidation}}</h5>
+
+                    </div>
+
+                @endif
                 <hr>
                 <div class="table-responsive">
                     <table class="table table-primary table-sm table-bordered table-striped">

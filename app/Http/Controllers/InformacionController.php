@@ -104,7 +104,15 @@ class InformacionController extends Controller
 
         $informacion = $query->orderBy('date','ASC')->paginate(50);
 
-        return view('informacion.index',compact('informacion', 'productos', 'cpcus', 'saclaps', 'entidades', 'unidades', 'actividades', 'indicadores'));
+        $EntitiesValidation = null;
+
+        $ent = informacionEntidadCpcuSaclap::where('entidad_id', null)->get();
+
+        if(count($ent) > 0) {
+            $EntitiesValidation = 'Existen '. count($ent) .' registros con productos sin entidades asignadas, esto prodría afectar en el cálculo de algunos parámetros de la aplicación.';
+        }
+
+        return view('informacion.index',compact('informacion', 'productos', 'cpcus', 'saclaps', 'entidades', 'unidades', 'actividades', 'indicadores', 'EntitiesValidation'));
     }
 
     /**
