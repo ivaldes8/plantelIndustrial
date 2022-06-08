@@ -40,19 +40,18 @@
                         <label for="">Actividades Industriales:</label>
                         <select name="actividades[]" multiple="multiple" class="form-select actSelect">
                             @foreach ($actividad as $item)
-                                <option {{ $producto !== 'none' && $item->osde_id === 'checked' ? 'selected' : '' }} value="{{$item->id}}">{{$item->desc}}</option>
+                                <option {{ $producto !== 'none' && !!$producto->actividades->where('id', $item->id)->first() ? 'selected' : '' }} value="{{$item->id}}">{{$item->desc}}</option>
                             @endforeach
                         </select>
                         @if ($errors->has('actividades'))
                             <span class="text-danger">{{ $errors->first('actividades') }}</span>
                         @endif
                     </div>
-
                     <div class="form-group mb-3">
                         <label for="">CPCU:</label>
                         <select name="cpcus[]" multiple="multiple" class="form-select cpcuSelect">
                             @foreach ($cpcu as $item)
-                                <option {{ $producto !== 'none' && $item->checked == 'checked' ? 'selected' : '' }} value="{{$item->id}}">{{$item->codigo}}/{{$item->desc}}</option>
+                                <option {{ $producto !== 'none' && !!$producto->cpcus->where('id', $item->id)->first() ? 'selected' : '' }} value="{{$item->id}}">{{$item->codigo}}/{{$item->desc}}</option>
                             @endforeach
                         </select>
                         @if ($errors->has('cpcus'))
@@ -64,7 +63,7 @@
                         <label for="">SACLAP:</label>
                         <select name="saclaps[]" multiple="multiple" class="form-select saclapSelect">
                             @foreach ($saclap as $item)
-                                <option {{ $producto !== 'none' && $item->checked == 'checked' ? 'selected' : '' }} value="{{$item->id}}">{{$item->codigo}}/{{$item->desc}}</option>
+                                <option {{ $producto !== 'none' && !!$producto->saclaps->where('id', $item->id)->first() ? 'selected' : '' }} value="{{$item->id}}">{{$item->codigo}}/{{$item->desc}}</option>
                             @endforeach
                         </select>
                         @if ($errors->has('saclaps'))

@@ -137,30 +137,6 @@ class ProductoController extends Controller
         $cpcu = cpcu::all();
         $saclap = saclap::all();
 
-        for ($i = 0; $i < count($actividad); $i++) {
-            for ($j = 0; $j < count($producto->actividades->toArray()); $j++) {
-                if ($actividad[$i]['id'] === $producto->actividades->toArray()[$j]['id']) {
-                    $actividad[$i]->osde_id = 'checked';
-                }
-            }
-        }
-
-        for ($i = 0; $i < count($cpcu); $i++) {
-            for ($j = 0; $j < count($producto->cpcus->toArray()); $j++) {
-                if ($cpcu[$i]['id'] === $producto->cpcus->toArray()[$j]['id']) {
-                    $cpcu[$i]->checked = 'checked';
-                }
-            }
-        }
-
-        for ($i = 0; $i < count($saclap); $i++) {
-            for ($j = 0; $j < count($producto->saclaps->toArray()); $j++) {
-                if ($saclap[$i]['id'] === $producto->saclaps->toArray()[$j]['id']) {
-                    $saclap[$i]->checked = 'checked';
-                }
-            }
-        }
-
         return view('producto.edit', compact('producto', 'actividad', 'cpcu', 'saclap'));
     }
 
