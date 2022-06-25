@@ -19,6 +19,8 @@ class CreateEntidadsTable extends Migration
             $table->string('name')->required();
             $table->string('codREU')->nullable();
             $table->string('codNIT')->nullable();
+            $table->string('codFormOrg')->nullable();
+            $table->string('formOrg')->nullable();
             $table->string('dpa')->nullable();
             $table->string('siglas')->nullable();
             $table->string('direccion')->nullable();

@@ -77,6 +77,22 @@
                     </div>
 
                     <div class="form-group mb-3">
+                        <label for="">Código de Forma Organizativa:</label>
+                        <input type="text" name="codFormOrg" class="form-control" value="{{ $entidad !== 'none' ? $entidad->codFormOrg : '' }}">
+                        @if ($errors->has('codFormOrg'))
+                            <span class="text-danger">{{ $errors->first('codFormOrg') }}</span>
+                        @endif
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="">Forma Organizativa:</label>
+                        <input type="text" name="formOrg" class="form-control" value="{{ $entidad !== 'none' ? $entidad->formOrg : '' }}">
+                        @if ($errors->has('formOrg'))
+                            <span class="text-danger">{{ $errors->first('formOrg') }}</span>
+                        @endif
+                    </div>
+
+                    <div class="form-group mb-3">
                         <label for="">OSDE:</label>
                         <select name="osde_id" class="form-select osdeSelect">
                             @foreach ($osde as $osd)

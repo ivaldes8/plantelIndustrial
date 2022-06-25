@@ -64,6 +64,8 @@ class EntidadController extends Controller
         $entidad->name = $request->input('name');
         $entidad->codREU = $request->input('codREU');
         $entidad->codNIT = $request->input('codNIT');
+        $entidad->codFormOrg = $request->input('codFormOrg');
+        $entidad->formOrg = $request->input('formOrg');
         $entidad->org_id = $request->input('org_id');
         $entidad->osde_id = $request->input('osde_id');
         $entidad->dpa = $request->input('dpa');
@@ -123,6 +125,8 @@ class EntidadController extends Controller
         $entidad->name = $request->input('name');
         $entidad->codREU = $request->input('codREU');
         $entidad->codNIT = $request->input('codNIT');
+        $entidad->codFormOrg = $request->input('codFormOrg');
+        $entidad->formOrg = $request->input('formOrg');
         $entidad->org_id = $request->input('org_id');
         $entidad->osde_id = $request->input('osde_id');
         $entidad->dpa = $request->input('dpa');

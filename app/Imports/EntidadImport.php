@@ -49,6 +49,8 @@ class EntidadImport implements ToCollection, WithHeadingRow
                 'siglas' => $row['siglas'],
                 'dpa' => $row['dpa'],
                 'direccion' => $row['direccion'],
+                'codFormOrg' => $row['codFormOrg'],
+                'formOrg' => $row['formOrg'],
                 'org_id' => organismo::where('codigo', $row['codorganismo'])->get()[0]->id,
                 'osde_id' => osde::where('codigo', $row['codosde'])->get()[0]->id
             ]);

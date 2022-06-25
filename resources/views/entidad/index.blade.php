@@ -37,6 +37,8 @@
                                 <th>DPA</th>
                                 <th>OSDE</th>
                                 <th>Organismo</th>
+                                <th>Código de Forma Organizativa</th>
+                                <th>Forma Organizativa</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
@@ -58,6 +60,8 @@
                                         <td>{{ $item->dpa ? $item->dpa : '---' }}</td>
                                         <td>{{ $item->osde ? $item->osde->name : '---' }}</td>
                                         <td>{{ $item->organismo ? $item->organismo->name : '---' }}</td>
+                                        <td>{{ $item->codFormOrg ? $item->codFormOrg : '---' }}</td>
+                                        <td>{{ $item->formOrg ? $item->formOrg : '---' }}</td>
                                         <td>
                                             <a href="{{ url('entidad/' . $item->id . '/edit') }}"
                                                 class="btn-sm btn-primary"><i class="bi bi-pencil"></i></a>
