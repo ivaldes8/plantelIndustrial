@@ -37,10 +37,42 @@
                     </div>
 
                     <div class="form-group mb-3">
+                        <label for="">Código NIT:</label>
+                        <input type="text" name="codNIT" class="form-control" value="{{ $entidad !== 'none' ? $entidad->codNIT : '' }}">
+                        @if ($errors->has('codNIT'))
+                            <span class="text-danger">{{ $errors->first('codNIT') }}</span>
+                        @endif
+                    </div>
+
+                    <div class="form-group mb-3">
                         <label for="">Nombre:</label>
                         <input type="text" name="name" class="form-control" value="{{ $entidad !== 'none' ? $entidad->name : '' }}">
                         @if ($errors->has('name'))
                             <span class="text-danger">{{ $errors->first('name') }}</span>
+                        @endif
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="">Siglas:</label>
+                        <input type="text" name="siglas" class="form-control" value="{{ $entidad !== 'none' ? $entidad->siglas : '' }}">
+                        @if ($errors->has('siglas'))
+                            <span class="text-danger">{{ $errors->first('siglas') }}</span>
+                        @endif
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="">Direccion:</label>
+                        <input type="text" name="direccion" class="form-control" value="{{ $entidad !== 'none' ? $entidad->direccion : '' }}">
+                        @if ($errors->has('direccion'))
+                            <span class="text-danger">{{ $errors->first('direccion') }}</span>
+                        @endif
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="">DPA:</label>
+                        <input type="text" name="dpa" class="form-control" value="{{ $entidad !== 'none' ? $entidad->dpa : '' }}">
+                        @if ($errors->has('dpa'))
+                            <span class="text-danger">{{ $errors->first('dpa') }}</span>
                         @endif
                     </div>
 

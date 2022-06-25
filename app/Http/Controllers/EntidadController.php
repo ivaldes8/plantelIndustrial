@@ -47,12 +47,15 @@ class EntidadController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required',
-            'codREU' => 'required',
+            'codREU' => 'required|unique:entidads,codreu',
+            'codNIT' => 'required|unique:entidads,codnit',
             'org_id' => 'required',
             'osde_id' => 'required'
         ], [
             'name.required' => 'Este campo es requerido',
             'codREU.required' => 'Este campo es requerido',
+            'codREU.unique' => 'El código reu :input ya se encuentra en la base de datos',
+            'codNIT.unique' => 'El código nit :input ya se encuentra en la base de datos',
             'org_id.required' => 'Este campo es requerido',
             'osde_id.required' => 'Este campo es requerido'
         ]);
@@ -60,8 +63,12 @@ class EntidadController extends Controller
         $entidad = new entidad();
         $entidad->name = $request->input('name');
         $entidad->codREU = $request->input('codREU');
+        $entidad->codNIT = $request->input('codNIT');
         $entidad->org_id = $request->input('org_id');
         $entidad->osde_id = $request->input('osde_id');
+        $entidad->dpa = $request->input('dpa');
+        $entidad->siglas = $request->input('siglas');
+        $entidad->direccion = $request->input('direccion');
         $entidad->save($validatedData);
         return redirect('/entidad')->with('status','Entidad creada satisfactoriamente');
     }
@@ -115,8 +122,12 @@ class EntidadController extends Controller
         $entidad = entidad::find($id);
         $entidad->name = $request->input('name');
         $entidad->codREU = $request->input('codREU');
+        $entidad->codNIT = $request->input('codNIT');
         $entidad->org_id = $request->input('org_id');
         $entidad->osde_id = $request->input('osde_id');
+        $entidad->dpa = $request->input('dpa');
+        $entidad->siglas = $request->input('siglas');
+        $entidad->direccion = $request->input('direccion');
         $entidad->update($validatedData);
         return redirect('/entidad')->with('status','Entidad Editada satisfactoriamente');
     }

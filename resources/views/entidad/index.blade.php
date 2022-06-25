@@ -30,7 +30,11 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Código REU</th>
+                                <th>Código NIT</th>
                                 <th>Nombre</th>
+                                <th>Siglas</th>
+                                <th>Dirección</th>
+                                <th>DPA</th>
                                 <th>OSDE</th>
                                 <th>Organismo</th>
                                 <th>Edit</th>
@@ -40,14 +44,18 @@
                         <tbody>
                             @if (count($entidad) < 1)
                                 <tr>
-                                    <td class="text-center" colspan="7">No se encontraron entidades</td>
+                                    <td class="text-center" colspan="10">No se encontraron entidades</td>
                                 </tr>
                             @else
                                 @foreach ($entidad as $item)
                                     <tr>
                                         <td>{{ $item->id }}</td>
                                         <td>{{ $item->codREU }}</td>
+                                        <td>{{ $item->codNIT ? $item->codNIT : '---'}}</td>
                                         <td>{{ $item->name }}</td>
+                                        <td>{{ $item->siglas ? $item->siglas : '---' }}</td>
+                                        <td>{{ $item->direccion ? $item->direccion : '---' }}</td>
+                                        <td>{{ $item->dpa ? $item->dpa : '---' }}</td>
                                         <td>{{ $item->osde ? $item->osde->name : '---' }}</td>
                                         <td>{{ $item->organismo ? $item->organismo->name : '---' }}</td>
                                         <td>

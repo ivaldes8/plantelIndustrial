@@ -24,6 +24,7 @@ class EntidadImport implements ToCollection, WithHeadingRow
 
         Validator::make($collection->toArray(), [
             '*.codreu' => 'required|unique:entidads',
+            '*.codnit' => 'unique:entidads',
             '*.nombre' => 'required',
             '*.codorganismo' => 'required|exists:organismos,codigo',
             '*.codosde' => 'required|exists:osdes,codigo',
@@ -32,6 +33,7 @@ class EntidadImport implements ToCollection, WithHeadingRow
         [
             '*.codreu.required' => 'Hay códigos REU vacíos cerca de: :attribute',
             '*.codreu.unique' => 'El código reu :input ya se encuentra en la base de datos',
+            '*.codnit.unique' => 'El código nit :input ya se encuentra en la base de datos',
             '*.nombre.required' => 'Hay nombres vacíos cerca de: :attribute',
             '*.codorganismo.required' => 'Hay organismos vacíos cerca de: :attribute',
             '*.codorganismo.exists' => 'No existen organismos con el código: :input cerca de: :attribute ',
@@ -42,7 +44,11 @@ class EntidadImport implements ToCollection, WithHeadingRow
         foreach ($collection as $row) {
             entidad::create([
                 'codREU' => $row['codreu'],
+                'codNIT' => $row['codnit'],
                 'name' => $row['nombre'],
+                'siglas' => $row['siglas'],
+                'dpa' => $row['dpa'],
+                'direccion' => $row['direccion'],
                 'org_id' => organismo::where('codigo', $row['codorganismo'])->get()[0]->id,
                 'osde_id' => osde::where('codigo', $row['codosde'])->get()[0]->id
             ]);

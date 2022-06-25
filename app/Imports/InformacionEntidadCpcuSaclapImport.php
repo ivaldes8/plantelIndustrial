@@ -91,7 +91,14 @@ class InformacionEntidadCpcuSaclapImport implements ToCollection, WithHeadingRow
                     $data->indicador_id = $indicador ? indicador::where('desc', $indicador)->get()[0]->id : null;
                     $data->cpcu_id = $codigo === 'Cpcu' ? cpcu::where('codigo', $row['producto'])->get()[0]->id : null;
                     $data->saclap_id = $codigo === 'Saclap' ? saclap::where('codigo', $row['producto'])->get()[0]->id : null;
-                    $data->entidad_id = $row['entidad'] ? entidad::where('codREU', $row['entidad'])->get()[0]->id : null;
+                    if(count(entidad::where('codREU', $row['entidad'])->get()) > 0) {
+                        $data->entidad_id = $row['entidad'] ? entidad::where('codREU', $row['entidad'])->get()[0]->id : null;
+                    } else if(count(entidad::where('codNIT', $row['entidad'])->get()) > 0){
+                        $data->entidad_id = $row['entidad'] ? entidad::where('codNIT', $row['entidad'])->get()[0]->id : null;
+                    } else {
+                        $data->entidad_id =  null;
+                    }
+
                     $data->save();
                 }
             }

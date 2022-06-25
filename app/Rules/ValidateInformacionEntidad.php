@@ -34,9 +34,9 @@ class ValidateInformacionEntidad implements Rule
         if(!$value){
             return true;
         }
-        $entidad = entidad::where('codREU', $value)->get();
-
-        if(count($entidad) > 0){
+        $entidadREU = entidad::where('codREU', $value)->get();
+        $entidadNIT = entidad::where('codNIT', $value)->get();
+        if(count($entidadREU) > 0 || count($entidadNIT) > 0){
             return true;
         }
     }
@@ -48,6 +48,6 @@ class ValidateInformacionEntidad implements Rule
      */
     public function message()
     {
-        return 'El codigo REU :input no se encuentra asociado a ninguna entidad en la base de datos cerca de: :attribute.';
+        return 'El código REU o NIT :input no se encuentra asociado a ninguna entidad en la base de datos cerca de: :attribute.';
     }
 }
