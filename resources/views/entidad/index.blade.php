@@ -46,7 +46,7 @@
                         <tbody>
                             @if (count($entidad) < 1)
                                 <tr>
-                                    <td class="text-center" colspan="10">No se encontraron entidades</td>
+                                    <td class="text-center" colspan="16">No se encontraron entidades</td>
                                 </tr>
                             @else
                                 @foreach ($entidad as $item)

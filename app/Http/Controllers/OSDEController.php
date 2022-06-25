@@ -42,11 +42,9 @@ class OSDEController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required',
-            'siglas' => 'required',
             'codigo' => 'required'
         ], [
             'name.required' => 'Este campo es requerido',
-            'siglas.required' => 'Este campo es requerido',
             'codigo.required' => 'Este campo es requerido'
         ]);
 
@@ -92,11 +90,9 @@ class OSDEController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required',
-            'siglas' => 'required',
             'codigo' => 'required'
         ], [
             'name.required' => 'Este campo es requerido',
-            'siglas.required' => 'Este campo es requerido',
             'codigo.required' => 'Este campo es requerido'
         ]);
 

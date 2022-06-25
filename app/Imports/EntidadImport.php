@@ -23,8 +23,8 @@ class EntidadImport implements ToCollection, WithHeadingRow
         $collection = LazyCollection::make($rows);
 
         Validator::make($collection->toArray(), [
-            '*.codreu' => 'required|unique:entidads',
-            '*.codnit' => 'unique:entidads',
+            '*.codreu' => 'required|unique:entidads,codREU',
+            '*.codnit' => 'unique:entidads,codNIT',
             '*.nombre' => 'required',
             '*.codorganismo' => 'required|exists:organismos,codigo',
             '*.codosde' => 'required|exists:osdes,codigo',
@@ -49,8 +49,8 @@ class EntidadImport implements ToCollection, WithHeadingRow
                 'siglas' => $row['siglas'],
                 'dpa' => $row['dpa'],
                 'direccion' => $row['direccion'],
-                'codFormOrg' => $row['codFormOrg'],
-                'formOrg' => $row['formOrg'],
+                'codFormOrg' => $row['codformorg'],
+                'formOrg' => $row['formorg'],
                 'org_id' => organismo::where('codigo', $row['codorganismo'])->get()[0]->id,
                 'osde_id' => osde::where('codigo', $row['codosde'])->get()[0]->id
             ]);

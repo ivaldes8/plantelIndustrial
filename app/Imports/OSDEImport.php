@@ -24,16 +24,14 @@ class OSDEImport implements ToCollection, WithHeadingRow
 
         Validator::make($collection->toArray(), [
             '*.codigo' => 'required|unique:osdes',
-            '*.nombre' => 'required',
-            '*.siglas' => 'required'
+            '*.nombre' => 'required'
 
         ],
         [
             '*.codigo.unique' => 'El código :input ya se encuentra en la base de datos',
             '*.codigo.required' => 'Hay códigos vacíos cerca de: :attribute',
             '*.codigo.required' => 'Hay códigos vacíos cerca de: :attribute',
-            '*.nombre.required' => 'Hay nombres vacíos cerca de: :attribute',
-            '*.siglas.required' => 'Hay siglas vacías cerca de: :attribute'
+            '*.nombre.required' => 'Hay nombres vacíos cerca de: :attribute'
         ])->validate();
 
         foreach ($collection as $row) {
