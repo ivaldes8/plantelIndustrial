@@ -20,8 +20,52 @@ class EntidadController extends Controller
      */
     public function index()
     {
-        $entidad = entidad::paginate(10);
-        return view('entidad.index',compact('entidad'));
+        $query = entidad::query();
+
+        $query->when(request()->input('name'), function($q) {
+            return $q->where('name', 'like', '%'.request()->input('name').'%');
+        });
+
+        $query->when(request()->input('dpa'), function($q) {
+            return $q->where('dpa', 'like', '%'.request()->input('dpa').'%');
+        });
+
+        $query->when(request()->input('siglas'), function($q) {
+            return $q->where('siglas', 'like', '%'.request()->input('siglas').'%');
+        });
+
+        $query->when(request()->input('direccion'), function($q) {
+            return $q->where('direccion', 'like', '%'.request()->input('direccion').'%');
+        });
+
+        $query->when(request()->input('codREU'), function($q) {
+            return $q->where('codREU', 'like', '%'.request()->input('codREU').'%');
+        });
+
+        $query->when(request()->input('codNIT'), function($q) {
+            return $q->where('codNIT', 'like', '%'.request()->input('codNIT').'%');
+        });
+
+        $query->when(request()->input('codFormOrg'), function($q) {
+            return $q->where('codFormOrg', 'like', '%'.request()->input('codFormOrg').'%');
+        });
+
+        $query->when(request()->input('formOrg'), function($q) {
+            return $q->where('formOrg', 'like', '%'.request()->input('formOrg').'%');
+        });
+
+        $query->when(request()->input('org_id'), function($q) {
+            return $q->where('org_id', request()->input('org_id'));
+        });
+
+        $query->when(request()->input('osde_id'), function($q) {
+            return $q->where('osde_id', request()->input('osde_id'));
+        });
+
+        $entidad = $query->paginate(50);
+        $organismos = organismo::all();
+        $osdes = osde::all();
+        return view('entidad.index',compact('entidad','organismos', 'osdes'));
     }
 
     /**
